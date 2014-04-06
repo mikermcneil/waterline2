@@ -86,12 +86,30 @@ describe('ORM', function () {
     });
 
 
-    it('should work w/ valid real-world usage', function (done) {
-      orm.transaction([User, Pet, Location], function start (User, Pet, Location, cb) {
+    it('should work w/ valid usage', function (done) {
+      orm.transaction([Pet], function start (Pet, cb) {
         cb();
       }).exec(function finish (err) {
         done(err);
       });
     });
+
+    it('should work w/ some more complex, real-world-ish usage', function (done) {
+      orm.transaction([User, Pet, Location], function start (User, Pet, Location, cb) {
+        setTimeout(cb, 50);
+      }).exec(function finish (err) {
+        done(err);
+      });
+    });
+
+
+    it('should work when we give it everything we\'ve got', function (done) {
+      orm.transaction([Pet, User, Location, Purchase], function start (Pet, User, Location, Purchase, cb) {
+        setTimeout(cb, 150);
+      }).exec(function finish (err) {
+        done(err);
+      });
+    });
+
   });
 });
