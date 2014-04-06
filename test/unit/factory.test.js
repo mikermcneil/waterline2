@@ -5,7 +5,9 @@
 var assert = require('assert');
 var _ = require('lodash');
 var Waterline = require('../../');
-var ORM = require('../../lib/ORM');
+
+// Helpers
+var isORM = require('../helpers/isORM');
 
 
 describe('Waterline', function () {
@@ -19,7 +21,7 @@ describe('Waterline', function () {
 
     it('should construct a valid ORM with models, adapters, and databases', function () {
       var orm = Waterline();
-      checkValidityOfORM(orm);
+      assert(isORM(orm));
     });
 
     it('should allow ontology to be passed in as arrays', function () {
@@ -28,7 +30,7 @@ describe('Waterline', function () {
         models: [],
         databases: []
       });
-      checkValidityOfORM(orm);
+      assert(isORM(orm));
     });
 
     it('should allow ontology to be passed in as arrays', function () {
@@ -37,7 +39,7 @@ describe('Waterline', function () {
         models: [{identity: 'user'}],
         databases: [{identity: 'gregs Mysql db'}]
       });
-      checkValidityOfORM(orm);
+      assert(isORM(orm));
     });
 
     it('should allow ontology to be passed in as plain objects', function () {
@@ -46,7 +48,7 @@ describe('Waterline', function () {
         models: {},
         databases: {}
       });
-      checkValidityOfORM(orm);
+      assert(isORM(orm));
     });
 
     it('should allow ontology to be passed in as plain objects', function () {
@@ -61,7 +63,7 @@ describe('Waterline', function () {
           'gregs Mysql db': {}
         }
       });
-      checkValidityOfORM(orm);
+      assert(isORM(orm));
 
       assert.doesNotThrow(function () {
         assert(orm.models[0].identity === 'user');
@@ -73,16 +75,3 @@ describe('Waterline', function () {
   });
 });
 
-
-
-/**
- * Test helper
- * @param  {ORM?}  orm
- */
-function checkValidityOfORM(orm) {
-  assert(typeof orm === 'object');
-  assert(orm instanceof ORM);
-  assert(_.isArray(orm.models));
-  assert(_.isArray(orm.databases));
-  assert(_.isArray(orm.adapters));
-}
