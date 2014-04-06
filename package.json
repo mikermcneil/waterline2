@@ -1,0 +1,15 @@
+{
+  "name": "waterline2",
+  "version": "0.0.0",
+  "description": "Proposed impl. for next-gen of waterline",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [
+    "waterline",
+    "sails"
+  ],
+  "author": "Mike McNeil",
+  "license": "MIT"
+}
