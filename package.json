@@ -11,5 +11,9 @@
     "sails"
   ],
   "author": "Mike McNeil",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "node-noop": "0.0.1",
+    "lodash": "^2.4.1"
+  }
 }
