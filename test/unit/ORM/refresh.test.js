@@ -21,12 +21,10 @@ describe('ORM', function () {
     });
 
     it('should work w/ a few models', function () {
-      orm.identifyModel('User', {
-        attributes: {}
-      });
+      orm.identifyModel('User');
       var schema = orm.refresh();
       assert(typeof schema === 'object');
-      console.log(schema);
     });
+
   });
 });
