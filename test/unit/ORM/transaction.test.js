@@ -32,12 +32,11 @@ describe('ORM', function () {
 
     it('should NOT work w/ INVALID usage');
 
-    it('should work w/ most minimal valid usage', function (cb) {
-      orm.transaction([], function (cb) {
-        console.log(arguments);
+    it('should work w/ most minimal valid usage', function (done) {
+      orm.transaction([], function start (cb) {
         cb();
-      }).exec(function (err) {
-        cb();
+      }).exec(function finish (err) {
+        done(err);
       });
     });
   });
