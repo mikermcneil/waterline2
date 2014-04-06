@@ -2,7 +2,7 @@
   "name": "waterline2",
   "version": "0.0.0",
   "description": "Proposed impl. for next-gen of waterline",
-  "main": "lib/index.js",
+  "main": "index.js",
   "scripts": {
     "test": "mocha"
   },
