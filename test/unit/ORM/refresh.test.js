@@ -36,11 +36,21 @@ describe('ORM', function () {
       assert(typeof schema.weaving === 'object');
     });
 
-    it('should work when databases are added', function () {
+    it('should work when databases and adapters are added', function () {
+
+      var schema;
+
       orm.identifyDatabase('some mysql somewhere');
+      schema = orm.refresh();
+      assert(typeof schema === 'object');
+      assert(typeof schema.foo === 'object');
+      assert(typeof schema.bar === 'object');
+      assert(typeof schema.baz === 'object');
+      assert(typeof schema.bazket === 'object');
+      assert(typeof schema.weaving === 'object');
 
-      var schema = orm.refresh();
-
+      orm.identifyAdapter('sails-mysql');
+      schema = orm.refresh();
       assert(typeof schema === 'object');
       assert(typeof schema.foo === 'object');
       assert(typeof schema.bar === 'object');
