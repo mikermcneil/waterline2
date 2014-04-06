@@ -15,17 +15,18 @@ describe('ORM', function () {
       orm = new ORM();
     });
 
-    // it('should exist and work w/ naive usage', function () {
-    //   var ontology = orm.refresh();
-    //   assert(typeof ontology === 'object');
-    // });
+    it('should exist and work w/ naive usage', function () {
+      var schema = orm.refresh();
+      assert(typeof schema === 'object');
+    });
 
     it('should work w/ a few models', function () {
       orm.identifyModel('User', {
         attributes: {}
       });
-      var ontology = orm.refresh();
-      assert(typeof ontology === 'object');
+      var schema = orm.refresh();
+      assert(typeof schema === 'object');
+      console.log(schema);
     });
   });
 });
