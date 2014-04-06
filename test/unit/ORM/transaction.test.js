@@ -30,7 +30,46 @@ describe('ORM', function () {
       assert(typeof orm.transaction === 'function');
     });
 
-    it('should NOT work w/ INVALID usage');
+    it('should NOT work w/ INVALID usage', function () {
+
+      var User = _.find(orm.models, {identity: 'user'});
+
+      // Need to specify an array of Models
+      assert.throws(function () {
+        orm.transaction();
+      });
+      assert.throws(function () {
+        orm.transaction(function(){});
+      });
+      assert.throws(function () {
+        orm.transaction(User, function(){});
+      });
+
+
+      // Need to specify a transaction function
+      assert.throws(function () {
+        orm.transaction([]);
+      });
+      assert.throws(function () {
+        orm.transaction(User);
+      });
+      assert.throws(function () {
+        orm.transaction([User]);
+      });
+
+
+      // Strings don't work
+      assert.throws(function () {
+        orm.transaction(['User']);
+      });
+      assert.throws(function () {
+        orm.transaction('User', function(){});
+      });
+      assert.throws(function () {
+        orm.transaction(['User'], function(){});
+      });
+
+    });
 
     it('should work w/ most minimal valid usage', function (done) {
       orm.transaction([], function start (cb) {
