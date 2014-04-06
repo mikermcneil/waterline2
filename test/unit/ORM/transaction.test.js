@@ -11,6 +11,8 @@ describe('ORM', function () {
   describe('transaction', function () {
 
     var orm;
+    var User, Pet, Purchase, Location;
+
     before(function () {
       orm = new ORM();
 
@@ -22,6 +24,12 @@ describe('ORM', function () {
       orm.identifyDatabase('extremely enterprise thing');
 
       orm.refresh();
+
+      // Expose models via closure to make testing easier
+      User = _.find(orm.models, {identity: 'user'});
+      Pet = _.find(orm.models, {identity: 'pet'});
+      Purchase = _.find(orm.models, {identity: 'purchase'});
+      Location = _.find(orm.models, {identity: 'location'});
     });
 
 
@@ -31,8 +39,6 @@ describe('ORM', function () {
     });
 
     it('should NOT work w/ INVALID usage', function () {
-
-      var User = _.find(orm.models, {identity: 'user'});
 
       // Need to specify an array of Models
       assert.throws(function () {
@@ -73,6 +79,15 @@ describe('ORM', function () {
 
     it('should work w/ most minimal valid usage', function (done) {
       orm.transaction([], function start (cb) {
+        cb();
+      }).exec(function finish (err) {
+        done(err);
+      });
+    });
+
+
+    it('should work w/ valid real-world usage', function (done) {
+      orm.transaction([User, Pet, Location], function start (User, Pet, Location, cb) {
         cb();
       }).exec(function finish (err) {
         done(err);
