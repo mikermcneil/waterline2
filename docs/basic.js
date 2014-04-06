@@ -19,8 +19,9 @@ Pet.update();
 Pet.destroy();
 
 // "Deferred" methods
-someDeferredThing.exec();
+someDeferredThing.exec(function foo (err, records) { ... });
 // deferred things in Waterline are promises.  See promises.js.
+someDeferredThing.stream().pipe(foo);
 
 // Query methods
 query.where();
