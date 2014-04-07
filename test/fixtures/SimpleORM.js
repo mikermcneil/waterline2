@@ -28,6 +28,12 @@ var DEFAULT_ONTOLOGY = {
   },
   adapters: {
     'wl-pretend': {
+      describe: function (modelID, cb) {
+        cb(null, {
+          attributes: {},
+          database: 'default'
+        });
+      },
       find: function (criteria, cb) { cb('not a real adapter'); }
     }
   }
