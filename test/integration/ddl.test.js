@@ -34,13 +34,13 @@ describe('integration', function () {
       it('should not fail when using .exec() syntax', function (done) {
         db.describe('user').exec(done);
       });
-      // it('should not fail when using promise syntax', function (done) {
-      //   db.describe()
-      //   .then(function (results) {
-      //     done();
-      //   })
-      //   .error(done);
-      // });
+      // // it('should not fail when using promise syntax', function (done) {
+      // //   db.describe()
+      // //   .then(function (results) {
+      // //     done();
+      // //   })
+      // //   .error(done);
+      // // });
       it('should send back a valid schema description', function (done) {
         db.describe('user', function (err, schema) {
           if (err) return done(err);
