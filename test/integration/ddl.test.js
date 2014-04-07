@@ -63,8 +63,7 @@ describe('integration', function () {
         model.describe().exec(done);
       });
       it('should not fail when using promise syntax', function (done) {
-        model.describe()
-        .then(function (results) {
+        model.describe().then(function (results) {
           done();
         })
         .error(done);
