@@ -27,6 +27,33 @@ describe('integration', function () {
 
     describe('db.describe()', function () {
       it('should exist', function () {
+        assert(typeof db.describe === 'function');
+      });
+      it('should not fail when using callback syntax', function (done) {
+        db.describe('user', done);
+      });
+      it('should not fail when using .exec() syntax', function (done) {
+        db.describe('user').exec(done);
+      });
+      // // it('should not fail when using promise syntax', function (done) {
+      // //   model.describe()
+      // //   .then(function (results) {
+      // //     done();
+      // //   })
+      // //   .error(done);
+      // // });
+      it('should send back a valid schema description', function (done) {
+        db.describe('user', function (err, schema) {
+          if (err) return done(err);
+          assert(typeof schema === 'object');
+          assert(typeof schema.attributes === 'object');
+          return done();
+        });
+      });
+    });
+
+    describe('model.describe()', function () {
+      it('should exist', function () {
         assert(typeof model.describe === 'function');
       });
       it('should not fail when using callback syntax', function (done) {
@@ -46,9 +73,7 @@ describe('integration', function () {
         model.describe(function (err, schema) {
           if (err) return done(err);
           assert(typeof schema === 'object');
-
-          // TODO: test that schema is in proper format
-
+          assert(typeof schema.attributes === 'object');
           return done();
         });
       });
