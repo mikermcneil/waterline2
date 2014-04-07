@@ -28,7 +28,7 @@ var DEFAULT_ONTOLOGY = {
   },
   adapters: {
     'wl-pretend': {
-      describe: function (modelID, cb) {
+      describe: function (db, modelID, cb) {
         cb(null, {
           attributes: {},
           database: 'default'
