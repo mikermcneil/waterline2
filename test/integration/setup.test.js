@@ -14,7 +14,7 @@ var isModel = require('../helpers/isModel');
 
 
 describe('integration', function () {
-  describe('ORM', function () {
+  describe('ORM setup', function () {
 
     it('should not fail w/ normal, declarative usage', function () {
 
@@ -36,7 +36,13 @@ describe('integration', function () {
           }
         }
       });
+
+
+      // Schema is valid:
       assert(isORM(orm));
+      assert( isAdapter (_.find(orm.adapters, { identity: 'wl-pretend' })), 'adapter is missing or invalid' );
+      assert( isDatabase(_.find(orm.databases, { identity: 'default' })), 'database is missing or invalid' );
+      assert( isModel   (_.find(orm.models, { identity: 'user' })), 'model is missing or invalid' );
     });
 
 
@@ -54,7 +60,6 @@ describe('integration', function () {
       orm.identifyAdapter('wl-pretend', {
         find: function (criteria, cb) { cb('not a real adapter'); }
       });
-      orm.refresh();
 
       // Schema is valid:
       assert(isORM(orm));
