@@ -12,7 +12,9 @@ var q = new Query({
   operations: {
     method: 'find',
     from: 'foo',
-    where: { id: 1 }
+    where: {
+      id: { in: [1] }
+    }
   }
 });
 var r = q.exec(function(err, results) {
