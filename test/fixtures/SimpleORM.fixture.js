@@ -22,7 +22,12 @@ var DEFAULT_ONTOLOGY = {
     },
     person: {
       database: 'withData',
-      attributes: {}
+      attributes: {
+        id: { type: 'integer' },
+        name: { type: 'string' },
+        dad: { type: 'Person' },
+        friends: { type: 'Person[]' }
+      }
     }
   },
   databases: {
@@ -36,17 +41,10 @@ var DEFAULT_ONTOLOGY = {
   adapters: {
     'wl-memory': {
       find: function (criteria, cb) {
-        console.log('whee');
-        // TODO: use Adapter.wrap instead of all this nonsense
-        return orm.query({
-          operations: _.cloneDeep(criteria)
-        }, function pseudoAdapter() {
-          var WLFilter = require('waterline-criteria');
-          var stubdata = require('./dataset.fixture');
-          var results = WLFilter(criteria.from, stubdata, criteria).results;
-          console.log('criteria:',criteria, 'results:',results);
-          return cb(null, results);
-        });
+        var WLFilter = require('waterline-criteria');
+        var stubdata = require('./person.dataset.fixture');
+        var results = WLFilter(stubdata, criteria).results;
+        return cb(null, results);
       }
     },
     'wl-pretend': {
