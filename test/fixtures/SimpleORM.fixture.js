@@ -42,8 +42,11 @@ var DEFAULT_ONTOLOGY = {
     'wl-memory': {
       find: function (criteria, cb) {
         var WLFilter = require('waterline-criteria');
-        var stubdata = require('./person.dataset.fixture');
-        var results = WLFilter(stubdata, criteria).results;
+        var stubdata = {
+          person: require('./person.dataset.fixture'),
+          cat: require('./cat.dataset.fixture')
+        };
+        var results = WLFilter(criteria.from, stubdata, criteria).results;
         return cb(null, results);
       }
     },
