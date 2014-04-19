@@ -13,11 +13,18 @@ var q = new Query({
     method: 'find',
     from: 'foo',
     where: {
-      id: { in: [1] }
+      id: [1,2]
+    },
+    select: {
+      // name: true,
+      id: true
     }
   }
 });
 var r = q.exec(function(err, results) {
   if (err) return console.error('Error:\n', err);
-  else console.log('Results:\n', results);
+  else {
+    console.log('Searched:',q);
+    console.log('Results:\n', results);
+  }
 });
