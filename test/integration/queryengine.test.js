@@ -1,28 +1,22 @@
-var ORM = require('../../lib/ORM');
+var SimpleORMFixture = require('../fixtures/SimpleORM.fixture');
 
-var orm = new ORM({
-  models: {
-    foo: {}
-  }
-});
+
+var orm = SimpleORMFixture();
 
 var q = orm.query({
-  orm: orm,
   operations: {
-    method: 'find',
-    from: 'foo',
     where: {
       id: [1,2]
     },
     select: {
       // name: true,
-      id: true
+      // id: true
     }
   }
 });
 
 var r = q.exec(function(err, results) {
-  if (err) return console.error('Error:\n', err);
+  if (err) return console.error(err);
   else {
     console.log('Searched:',q);
     console.log('Results:\n', results);
