@@ -23,7 +23,11 @@ describe('query engine', function () {
 
     it('should be usable directly via orm.query()', function (cb) {
       q.exec(function(err, results) {
-        if (err) throw err;
+        if (err) {
+          // console.log(err);
+          // console.log('**********\n',err.stack);
+          throw err;
+        }
         else {
           cb();
           // console.log('Searched:',q);
