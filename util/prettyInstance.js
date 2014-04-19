@@ -11,11 +11,12 @@ var util = require('util');
  * Display a formatted version of the specified instance.
  * Used by other classes in Waterline.
  *
- * @param  {[type]} instance  [description]
- * @param  {[type]} toDisplay [description]
- * @return {[type]}           [description]
+ * @param  {[type]} instance
+ * @param  {[type]} toDisplay   (optional)
+ * @param  {[type]} givenLabel  (optional)
+ * @return {String}
  */
-module.exports = function prettyInstance (instance, toDisplay) {
+module.exports = function prettyInstance (instance, toDisplay, givenLabel) {
   var ticks = function (n) {
     r='';
     for (var i=0;i<n;i++) {
@@ -24,12 +25,14 @@ module.exports = function prettyInstance (instance, toDisplay) {
     return r;
   };
 
-  toDisplay = (toDisplay || instance);
-  if (typeof toDisplay !== 'string') {
+  if (toDisplay && typeof toDisplay !== 'string') {
     toDisplay = util.inspect(toDisplay, false, null);
   }
+  else if (!toDisplay) {
+    toDisplay = instance;
+  }
 
-  var label = '['+instance.constructor.name+']';
+  var label = '['+(givenLabel || instance.constructor.name)+']';
   return util.format(
     '%s%s%s\n'+
     '%s\n'+
