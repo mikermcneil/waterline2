@@ -1,4 +1,18 @@
 
+// Note about columnName etc. in Query Engine:
+//
+// We don't have to worry about custom columnNames
+// and tableNames here, because we're using standard
+// Waterline query syntax to talk to the adapter,
+// which normalizes everything.
+// Additionally, the `keys` object in the operations
+// tree has already been normalized with the correct
+// primary key and/or foreign keys for each model.
+//
+
+
+////////////////////////////////////////////////////////////////
+
 // `hasOne` Subqueries
 //
 
