@@ -28,6 +28,14 @@ var DEFAULT_ONTOLOGY = {
         dad: { type: 'Person' },
         friends: { type: 'Person[]' }
       }
+    },
+    cat: {
+      database: 'withData',
+      attributes: {
+        id: {type: 'integer'},
+        numEars: {type: 'integer'},
+        name: { type: 'string' }
+      }
     }
   },
   databases: {
