@@ -1,3 +1,11 @@
+/**
+ * Module dependencies
+ */
+
+var util = require('util');
+
+
+
 
 /**
  * Display a formatted version of the specified instance.
