@@ -1,13 +1,12 @@
 var ORM = require('../../lib/ORM');
-var Query = require('../../lib/Query');
-
 
 var orm = new ORM({
   models: {
     foo: {}
   }
 });
-var q = new Query({
+
+var q = orm.query({
   orm: orm,
   operations: {
     method: 'find',
@@ -21,6 +20,7 @@ var q = new Query({
     }
   }
 });
+
 var r = q.exec(function(err, results) {
   if (err) return console.error('Error:\n', err);
   else {
