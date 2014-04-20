@@ -13,12 +13,10 @@
   "author": "Mike McNeil",
   "license": "MIT",
   "dependencies": {
-    "node-noop": "0.0.1",
-    "lodash": "^2.4.1",
-    "terminus": "^1.0.9",
-    "waterline-schema": "^0.1.7",
-    "merge-defaults": "^0.1.0",
-    "async": "^0.7.0",
-    "waterline-criteria": "^0.10.3"
+    "lodash": "~2.4.1",
+    "waterline-schema": "~0.1.7",
+    "merge-defaults": "~0.1.0",
+    "async": "~0.7.0",
+    "waterline-criteria": "~0.10.3"
   }
 }
