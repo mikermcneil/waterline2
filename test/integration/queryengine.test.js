@@ -51,7 +51,9 @@ describe('query engine', function () {
             name: true,
             id: true,
             petCat: {
-              name: true
+              select: {
+                name: true
+              }
             }
           }
         }
@@ -85,7 +87,9 @@ describe('query engine', function () {
             name: true,
             id: true,
             petCat: {
-              name: true
+              select: {
+                name: true
+              }
             }
           }
         }
@@ -109,8 +113,10 @@ describe('query engine', function () {
             name: true,
             id: true,
             petOfCats: {
-              id: true,
-              name: true
+              select: {
+                id: true,
+                name: true
+              }
             }
           }
         }
