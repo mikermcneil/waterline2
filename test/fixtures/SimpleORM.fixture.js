@@ -35,7 +35,8 @@ module.exports = function SimpleORM (ontology) {
           name: { type: 'string' },
           dad: { type: 'json' },
           friends: { type: 'array' },
-          petCat: { model: 'cat' }
+          petCat: { model: 'cat' },
+          petOfCats: { collection: 'cat', via: 'petHuman' }
         }
       },
       cat: {
@@ -43,7 +44,10 @@ module.exports = function SimpleORM (ontology) {
         attributes: {
           id: {type: 'integer', primaryKey: true},
           numEars: {type: 'integer'},
-          name: { type: 'string' }
+          name: { type: 'string' },
+          petHuman: { model: 'person' },
+          owners: { collection: 'person', via: 'petCat' }
+          // casualHumanFriends: { collection: 'person' }
         }
       }
     },
