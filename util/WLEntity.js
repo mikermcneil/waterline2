@@ -125,7 +125,6 @@ WLEntity.identifier = function (things, Thing) {
 
     definition.orm = this;
     this[things].push(new Thing(definition));
-    this.refresh();
     return this;
   };
 };

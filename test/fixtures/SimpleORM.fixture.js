@@ -31,16 +31,17 @@ module.exports = function SimpleORM (ontology) {
       person: {
         database: 'withData',
         attributes: {
-          id: { type: 'integer' },
+          id: { type: 'integer', primaryKey: true },
           name: { type: 'string' },
-          dad: { type: 'Person' },
-          friends: { type: 'Person[]' }
+          dad: { type: 'json' },
+          friends: { type: 'array' },
+          petCat: { model: 'cat' }
         }
       },
       cat: {
         database: 'withData',
         attributes: {
-          id: {type: 'integer'},
+          id: {type: 'integer', primaryKey: true},
           numEars: {type: 'integer'},
           name: { type: 'string' }
         }
