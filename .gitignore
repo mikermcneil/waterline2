@@ -7,3 +7,4 @@ node_modules
 browser/*.js
 browser/*.js.gz
 browser/*.min.js
+.DS_Store
