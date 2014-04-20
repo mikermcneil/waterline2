@@ -108,9 +108,6 @@ WLEntity.thesaurus = function (thing) {
  */
 WLEntity.identifier = function (things, Thing) {
 
-  // Will hold an inline getter we build for convenience
-  var get;
-
   /**
    * @param  {[type]} identity   [description]
    * @param  {[type]} definition [description]
@@ -120,20 +117,10 @@ WLEntity.identifier = function (things, Thing) {
   return function (identity, definition) {
     definition = WLEntity.normalize(identity, definition);
 
-    // The first time the identifier runs, build a getter
-    // and bind it to the appropriate `this` context.
-    if (!get) {
-      get = WLEntity.getter(things);
-      get = _.bind(get, this);
-    }
-
     // If another Thing already exists amongst these `things`
-    // with the specified `identity`, throw an error.
-    if ( get(definition.identity) ) {
-      var reason = require('util').format(
-      'Another %s already exists with that identity (%s)',
-      Thing.name, identity);
-      throw new WLError(reason);
+    // with the specified identity, overwrite it.
+    if (_.find(this[things], { identity: definition.identity })) {
+      _.remove(this[things], { identity: definition.identity });
     }
 
     definition.orm = this;

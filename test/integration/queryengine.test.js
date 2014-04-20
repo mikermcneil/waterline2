@@ -5,6 +5,7 @@ describe('query engine', function () {
 
   var orm = SimpleORMFixture();
 
+
   describe('a Query', function () {
 
     var q = orm.query({
@@ -20,8 +21,8 @@ describe('query engine', function () {
       }
     });
 
-
     it('should be usable directly via orm.query()', function (cb) {
+
       q.exec(function(err, results) {
         if (err) {
           // console.log(err);
