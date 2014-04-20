@@ -6,7 +6,6 @@ var util = require('util');
 
 
 
-
 /**
  * Display a formatted version of the specified instance.
  * Used by other classes in Waterline.
@@ -16,6 +15,7 @@ var util = require('util');
  * @param  {[type]} givenLabel  (optional)
  * @return {String}
  */
+
 module.exports = function prettyInstance (instance, toDisplay, givenLabel) {
   var ticks = function (n) {
     r='';
