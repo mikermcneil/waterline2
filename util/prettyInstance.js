@@ -29,7 +29,7 @@ module.exports = function prettyInstance (instance, toDisplay, givenLabel) {
     toDisplay = util.inspect(toDisplay, false, null);
   }
   else if (!toDisplay) {
-    toDisplay = instance;
+    toDisplay = util.inspect(instance, {customInspect: false});
   }
 
   var label = '['+(givenLabel || instance.constructor.name)+']';
