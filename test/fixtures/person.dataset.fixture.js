@@ -1,4 +1,5 @@
 module.exports = [{
+  petCat: 1,
   friends: [{
     id: 100,
     name: 'friendfoo',
