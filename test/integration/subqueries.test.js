@@ -12,7 +12,7 @@ describe('query engine', function () {
   describe('subqueries', function () {
 
     it('should work with a 1.N model association', function (cb) {
-      orm.query({
+      var q = orm.query({
         operations: {
           from: 'person',
           where: {
@@ -31,12 +31,14 @@ describe('query engine', function () {
             }
           }
         }
-      }).exec(function(err, results) {
+      });
+      console.log(q);
+      q.exec(function(err, results) {
         if (err) throw err;
         assert(results.get('cat'));
         assert(results.get('person'));
+        console.log(results);
         assert(_.where(results.get('cat'), {name: 'Randy'}).length === 1);
-        // console.log(results);
         cb();
       });
     });
