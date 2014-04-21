@@ -36,14 +36,45 @@ describe('query engine', function () {
         assert(results.get('cat'));
         assert(results.get('person'));
         assert(_.where(results.get('cat'), {name: 'Randy'}).length === 1);
-        console.log(results);
+        // console.log(results);
         cb();
       });
     });
 
 
 
-    it('should work with a N.1 collection association');
+    it('should work with a N.1 collection association', function (cb) {
+      var q = orm.query({
+        operations: {
+          from: 'person',
+          where: {
+            id: [1,2],
+            petOfCats: {
+              name: { contains: 'dempsey' }
+            }
+          },
+          select: {
+            name: true,
+            id: true,
+            petOfCats: {
+              select: {
+                name: true
+              }
+            }
+          }
+        }
+      });
+
+      console.log(q);
+      q.exec(function(err, results) {
+        if (err) throw err;
+        assert(results.get('cat'));
+        assert(results.get('person'));
+        // assert(_.where(results.get('cat'), {name: 'Randy'}).length === 1);
+        console.log(results);
+        cb();
+      });
+    });
 
   });
 

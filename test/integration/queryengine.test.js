@@ -27,8 +27,8 @@ describe('query engine', function () {
 
       q.exec(function(err, results) {
         if (err) throw err;
-        console.log('Searched:',q);
-        console.log('Results:\n', results);
+        // console.log('Searched:',q);
+        // console.log('Results:\n', results);
         cb();
       });
     });
@@ -124,7 +124,7 @@ describe('query engine', function () {
         if (err) throw err;
         assert(results.get('cat'));
         assert(results.get('person'));
-        console.log('Results:\n', results);
+        // console.log('Results:\n', results);
         cb();
       });
     });
