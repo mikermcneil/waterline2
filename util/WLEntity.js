@@ -124,7 +124,13 @@ WLEntity.identifier = function (things, Thing) {
     }
 
     definition.orm = this;
-    this[things].push(new Thing(definition));
+    var newThing = new Thing(definition);
+    this[things].push(newThing);
+
+    // Refresh the ORM to ensure the new entity is hooked up nicely
+    // (if it fails, it will fail silently------ for now...)
+    this.refresh();
+
     return this;
   };
 };
