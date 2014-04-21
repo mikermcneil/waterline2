@@ -65,13 +65,13 @@ describe('query engine', function () {
         }
       });
 
-      console.log(q);
+      // console.log(q);
       q.exec(function(err, results) {
         if (err) throw err;
         assert(results.get('cat'));
         assert(results.get('person'));
-        // assert(_.where(results.get('cat'), {name: 'Randy'}).length === 1);
-        console.log(results);
+        assert(_.where(results.get('cat'), {name: 'Dempsey the Cat'}).length === 1);
+        // console.log(results);
         cb();
       });
     });
