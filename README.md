@@ -2,17 +2,184 @@
 
 > rewrite
 
-## Goals
+## Usage
+
+```sh
+$ node
+```
+
+```js
+var Waterline = require('./');
+```
+
+
+
+## Instantiate ORM(s)
+
+Simple:
+
+```js
+var orm1 = Waterline();
+
+console.log(orm1);
+
+//------[ORM]------
+// • 0 model(s)
+// • 0 database(s)
+// • 0 adapter(s)
+//-----------------
+```
+
+
+
+
+By specifying an object of arrays of definition objects:
+
+```js
+var orm2 = Waterline({
+  models: [{ identity: 'parakeet'}]
+});
+
+console.log(orm2);
+
+//------[ORM]------
+// • 1 model(s)
+// • 0 database(s)
+// • 0 adapter(s)
+//-----------------
+
+```
+
+
+
+By specifying an object of objects of definition objects:
+
+```js
+var orm3 = Waterline({
+  models: {
+    werewolf: {},
+    parakeet: {
+      attributes: {}
+    },
+    pustule: {},
+    automobile: {}
+  },
+  databases: { myFooDb: {} },
+  adapters: { 'wl-myfoo': {} }
+});
+
+
+console.log(orm3);
+
+//------[ORM]------
+// • 4 model(s)
+// • 1 database(s)
+// • 1 adapter(s)
+//-----------------
+
+// In this case, each set of definitions is converted into an array
+// of instantiated Waterline entities, inferring the `identity` from the key name.
+// i.e., orm3.models[0].identity === 'werewolf'
+
+```
+
+
+## Working with models, databases, adapters at runtime
+
+
+##### Get your models
+
+```js
+
+console.log(orm3.models);
+
+/*
+[ ------[Model <werewolf>]------
+  { attributes: {} }
+  ------------------------------,
+  ------[Model <parakeet>]------
+  { attributes: {} }
+  ------------------------------,
+  ------[Model <pustule>]------
+  { attributes: {} }
+  -----------------------------,
+  ------[Model <automobile>]------
+  { attributes: {} }
+  -------------------------------- ]
+  */
+  
+
+// Or get an individual model:
+var Parakeet = orm3.model('parakeet');
+
+// This is basically the same as doing:
+// _.find(orm3.models, { identity: 'parakeet' });
+
+console.log(Parakeet);
+/*
+------[Model <parakeet>]------
+  { attributes: {} }
+  ------------------------------
+*/
+```
+
+##### Get your databases or adapters
+
+```js
+orm3.databases;
+/*
+[ ------[Database <myFooDb>]------
+  { identity: 'myFooDb' }
+  -------------------------------- ]
+*/
+
+var MyFooDb = orm.adapter('myFooDb');
+
+orm3.adapters;
+
+/*
+[ ------[Adapter <wl-myfoo>]------
+  { identity: 'wl-myfoo' }
+  -------------------------------- ]
+*/
+
+// Or get an individual adapter:
+var MyFooAdapter = orm.adapter('wl-myfoo');
+```
+
+##### Identify a new model, database, or adapter
+```js
+orm3.identifyModel('pickle');
+orm3.identifyDatabase('ram');
+orm3.identifyAdapter('sails-memory');
+```
+
+##### "Forget" a model, database or adapter
+```js
+orm3.forgetModel('werewolf');
+orm3.fogetDatabase('myFooDb');
+orm3.forgetAdapter('wl-myfoo');
+```
+
+
+
+## Everything Else
+
+See the source code.  Play around with it, have a good time you know
+
+
+## Contributing
+
+#### Goals
 
 + Better support client-side usage and relevant requirements:
   + Lightweight
   + Fewer dependencies (but holy shit we have to keep lodash)
 + Conform to/establish a standard that can be used in other languages.
 + Improve nomenclature / overloaded terminology.
++ Lots of other things- TODO: expand this section
 
-> TODO: expand this section
-
-## Timeline
+#### Timeline
 
 We'll see how this goes.  Who knows?  Maybe early-mid 2015 or maybe never- depends.  But I wanted to jot down the ideas now rather than letting them fester.
 
