@@ -86,6 +86,11 @@ console.log(orm3);
 
 ## Working with models, databases, adapters at runtime
 
+When entities are **changed** at runtime, you should use the _methods_ below. Otherwise, you can change `yourOrm.models`, `yourOrm.adapters`, etc. directly, just be sure and call `yourOrm.refresh()` afterwards.
+
+> **NOTE:**
+>
+> This does not do any adapter-level data migration- it simply cleans up any events, etc.  It could be eliminated as a necessary step in the future (and use getters and setters instead), but I think it's better to make this sort of thing explicit.
 
 ##### Get your models
 
@@ -133,8 +138,11 @@ orm3.databases;
   -------------------------------- ]
 */
 
-var MyFooDb = orm.adapter('myFooDb');
+var MyFooDb = orm.database('myFooDb');
+```
 
+
+```
 orm3.adapters;
 
 /*
@@ -148,10 +156,13 @@ var MyFooAdapter = orm.adapter('wl-myfoo');
 ```
 
 ##### Identify a new model, database, or adapter
+
+Will override what's already there if something else exists w/ the same identity.
+
 ```js
-orm3.identifyModel('pickle');
-orm3.identifyDatabase('ram');
-orm3.identifyAdapter('sails-memory');
+orm3.identifyModel('pickle', {});
+orm3.identifyDatabase('ram', {});
+orm3.identifyAdapter('sails-memory', {});
 ```
 
 ##### "Forget" a model, database or adapter
