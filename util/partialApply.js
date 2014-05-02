@@ -1,3 +1,4 @@
+'use strict';
 /**
  * Module dependencies
  */
@@ -18,7 +19,7 @@ var _ = require('lodash');
  * @return {Function}
  */
 
-module.exports = function partialApply (fn, args) {
+module.exports = function partialApply(fn, args) {
   return _.partial.apply(null, [fn].concat(args));
 };
 

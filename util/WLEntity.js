@@ -1,3 +1,4 @@
+'use strict';
 /**
  * Module dependencies
  */
@@ -34,7 +35,7 @@ WLEntity.toObject = function (array) {
   return _.reduce(array, function (memo, item) {
     // Skip items w/o an identity
     if (!item.identity) return memo;
-    memo[identity] = item.identity;
+    memo[item.identity] = item.identity;
     return memo;
   }, {});
 };

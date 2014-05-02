@@ -1,3 +1,4 @@
+'use strict';
 /**
  * Module dependencies
  */
@@ -16,11 +17,11 @@ var util = require('util');
  * @return {String}
  */
 
-module.exports = function prettyInstance (instance, toDisplay, givenLabel) {
+module.exports = function prettyInstance(instance, toDisplay, givenLabel) {
   var ticks = function (n) {
-    r='';
+    var r = '';
     for (var i=0;i<n;i++) {
-      r+='-';
+      r += '-';
     }
     return r;
   };
