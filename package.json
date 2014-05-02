@@ -13,10 +13,13 @@
   "author": "Mike McNeil",
   "license": "MIT",
   "dependencies": {
-    "lodash": "~2.4.1",
-    "waterline-schema": "~0.1.7",
-    "merge-defaults": "~0.1.0",
     "async": "~0.7.0",
-    "waterline-criteria": "~0.10.3"
+    "lodash": "~2.4.1",
+    "merge-defaults": "~0.1.0",
+    "waterline-criteria": "~0.10.3",
+    "waterline-schema": "~0.1.7"
+  },
+  "devDependencies": {
+    "bluebird": "1.2.4"
   }
 }
