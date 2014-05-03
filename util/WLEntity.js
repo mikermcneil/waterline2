@@ -1,4 +1,5 @@
 'use strict';
+
 /**
  * Module dependencies
  */
@@ -105,17 +106,18 @@ WLEntity.thesaurus = function (thing) {
 /**
  * @param  {[type]} things [description]
  * @param  {[type]} Thing  [description]
- * @return {[type]}        [description]
+ * @return {Function}
  */
 WLEntity.identifier = function (things, Thing) {
 
   /**
+   * @this {ORM}
    * @param  {[type]} identity   [description]
    * @param  {[type]} definition [description]
    * @return {[type]}            [description]
    * @api private
    */
-  return function (identity, definition) {
+  return function _identifyThing (identity, definition) {
     definition = WLEntity.normalize(identity, definition);
 
     // If another Thing already exists amongst these `things`
@@ -139,33 +141,35 @@ WLEntity.identifier = function (things, Thing) {
 
 /**
  * @param  {[type]} things [description]
- * @return {[type]}        [description]
+ * @return {Function}
  * @api private
  */
 WLEntity.forgetter = function (things) {
 
   /**
+   * @this {ORM}
    * @param  {[type]} identity [description]
    * @return {[type]}          [description]
    */
-  return function (identity) {
+  return function _forgetThing (identity) {
     _.remove(this[things], { identity: identity });
     return this;
   };
 };
 
 /**
- * @param  {[type]} things [description]
- * @return {[type]}        [description]
+ * @param  {[type]} things
+ * @return {Function}
  * @api private
  */
 WLEntity.getter = function (things) {
 
   /**
+   * @this {ORM}
    * @param  {[type]} identity [description]
    * @return {[type]}          [description]
    */
-  return function (identity) {
+  return function _getThing (identity) {
     return _.find(this[things], { identity: identity });
   };
 };
