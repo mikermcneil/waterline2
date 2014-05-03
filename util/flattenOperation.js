@@ -1,3 +1,4 @@
+'use strict';
 /**
  * Module dependencies
  */
@@ -10,7 +11,7 @@ var _ = require('lodash');
  */
 module.exports = function flattenOperation(operation) {
   return _.reduce(operation, function (memo, subObj, key) {
-    if (!_.isObject(subObj) || _.contains(['where','select','sort','from','skip','limit'],key)) {
+    if (!_.isObject(subObj) || _.contains(['where','select','sort','from','skip','limit'], key)) {
       memo[key] = subObj;
     }
     return memo;
