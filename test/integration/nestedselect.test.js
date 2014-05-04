@@ -23,8 +23,9 @@ describe('integration', function () {
       .exec(function (err, expected) {
         if (err) return done(err);
 
-        // console.log('Expected:',expected,'\n------------------------\n');
+        console.log('Expected:',expected,'\n*************~~~~~**************\n\n\n\n\n');
 
+        var q =
         Person.find({
           where: { id: [1,2] },
           select: {
@@ -32,8 +33,10 @@ describe('integration', function () {
             name: true,
             email: true,
             petCat: {
-              id: true,
-              name: true
+              select: {
+                id: true,
+                name: true
+              }
             }
           }
         })
@@ -41,7 +44,7 @@ describe('integration', function () {
           if (err) return done(err);
 
           // console.log('Vs:', persons);
-
+          console.log(q.cache);
           assert.equal(persons.length, expected.length, require('util').format('Unexpected number of top-level results (expected %d, got %d)', expected.length, persons.length));
           done();
         });
