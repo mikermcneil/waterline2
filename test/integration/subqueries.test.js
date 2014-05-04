@@ -36,12 +36,12 @@ describe('integration', function () {
             }
           }
         });
-        console.log(q);
+        // console.log(q);
         q.exec(function(err, results) {
           if (err) throw err;
           assert(q.cache.get('cat'));
           assert(q.cache.get('person'));
-          console.log('========>',q.cache);
+          // console.log('========>',q.cache);
           assert(_.where(q.cache.get('cat'), {name: 'Randy'}).length === 1);
           cb();
         });
@@ -71,13 +71,13 @@ describe('integration', function () {
           }
         });
 
-        console.log(q);
+        // console.log(q);
         q.exec(function(err, results) {
           if (err) throw err;
           assert(q.cache.get('cat'));
           assert(q.cache.get('person'));
           assert(_.where(q.cache.get('cat'), {name: 'Dempsey the Cat'}).length === 1);
-          console.log(q.cache);
+          // console.log(q.cache);
           cb();
         });
       });

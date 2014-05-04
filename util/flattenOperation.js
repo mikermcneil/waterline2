@@ -15,13 +15,13 @@ module.exports = function flattenOperation(operation) {
     var isFlat = !_.isObject(subObj) || _.isArray(subObj);
     // isFlat = isFlat || (_.isObject(subObj) && _.contains(['where','select','sort','from','skip','limit'], key)
 
-    console.log('isFlat?', key, subObj, '=>', isFlat);
+    // console.log('isFlat?', key, subObj, '=>', isFlat);
     if (isFlat) {
       memo[key] = subObj;
     }
     return memo;
   }, {});
-  console.log('FLATTENED', operation,'into:',flattenedOp);
+  // console.log('FLATTENED', operation,'into:',flattenedOp);
   return flattenedOp;
 };
 
