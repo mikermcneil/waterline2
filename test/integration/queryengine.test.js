@@ -69,15 +69,16 @@ describe('query engine', function () {
         // console.log('Searched:',q);
         // console.log('Results:\n', results);
 
-        assert(results.get('cat'));
-        assert(results.get('person'));
+        assert(q.cache.get('cat'));
+        assert(q.cache.get('person'));
         cb();
       });
     });
 
 
     it('should work with a 1.N model association', function (cb) {
-      orm.query({
+
+      var q = orm.query({
         operations: {
           from: 'person',
           where: {
@@ -95,15 +96,15 @@ describe('query engine', function () {
         }
       }).exec(function(err, results) {
         if (err) throw err;
-        assert(results.get('cat'));
-        assert(results.get('person'));
-
+        assert(q.cache.get('cat'));
+        assert(q.cache.get('person'));
         cb();
       });
     });
 
     it('should work with a N.1 collection association', function (cb) {
-      orm.query({
+
+      var q = orm.query({
         operations: {
           from: 'person',
           where: {
@@ -122,8 +123,8 @@ describe('query engine', function () {
         }
       }).exec(function(err, results) {
         if (err) throw err;
-        assert(results.get('cat'));
-        assert(results.get('person'));
+        assert(q.cache.get('cat'));
+        assert(q.cache.get('person'));
         // console.log('Results:\n', results);
         cb();
       });

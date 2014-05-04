@@ -62,13 +62,15 @@ module.exports = function SimpleORM (ontology) {
     adapters: {
       'wl-memory': {
         find: function (criteria, cb) {
-          var WLFilter = require('waterline-criteria');
-          var stubdata = {
-            person: require('./person.dataset.fixture'),
-            cat: require('./cat.dataset.fixture')
-          };
-          var results = WLFilter(criteria.from, stubdata, criteria).results;
-          return cb(null, results);
+          setTimeout(function () {
+            var WLFilter = require('waterline-criteria');
+            var stubdata = {
+              person: require('./person.dataset.fixture'),
+              cat: require('./cat.dataset.fixture')
+            };
+            var results = WLFilter(criteria.from, stubdata, criteria).results;
+            return cb(null, results);
+          }, 0);
         }
       },
       'wl-pretend': {
@@ -78,7 +80,11 @@ module.exports = function SimpleORM (ontology) {
             database: 'default'
           });
         },
-        find: function (criteria, cb) { cb('not a real adapter'); }
+        find: function (criteria, cb) {
+          setTimeout(function () {
+            cb('not a real adapter');
+          }, 0);
+        }
       }
     }
   };
@@ -89,7 +95,11 @@ module.exports = function SimpleORM (ontology) {
 
 
 
-// Run some sanity checks if this is mocha
+/**
+ * This is a self-testing fixture.
+ * Runs some sanity checks (if this is mocha)
+ */
+
 if (typeof describe !== 'undefined') {
   describe('fixtures', function () {
     describe('SimpleORM()', function () {
