@@ -211,8 +211,13 @@ var x = {
     id: true,
     name: true,
     friends: {
-      id: true,
-      name: true
+      select: {
+        id: true,
+        name: true
+      },
+      limit: 5,
+      skip: 0,
+      sort: 'popularity DESC'
     }
   }
 };
