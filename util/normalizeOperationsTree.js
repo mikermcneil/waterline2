@@ -221,3 +221,54 @@ var x = {
     }
   }
 };
+
+
+
+
+
+
+return;
+
+// Test 1:
+//
+var orm = (require('./test/fixtures/SimpleORM.fixture'))();
+var q = orm.model('person').find({
+  where: {
+    petCat: { whose: {id: 1} }
+  },
+  select: {
+    id: true,
+    name: true,
+    email: true,
+    petCat: {
+      id: true
+    }
+  }
+});
+q.log();
+
+// setTimeout(function () {
+//   q.cache;
+// });
+
+
+
+
+// Test 2:
+//
+
+var orm = (require('./test/fixtures/SimpleORM.fixture'))();
+var q = orm.model('person').find({
+  where: {
+    petOfCats: { whose: {id: 1} }
+  },
+  select: {
+    id: true,
+    name: true,
+    email: true,
+    petOfCats: {
+      id: true
+    }
+  }
+});
+q.log();
