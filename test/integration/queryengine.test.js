@@ -135,3 +135,88 @@ describe('query engine', function () {
 
 
 });
+
+
+
+
+
+
+
+return;
+
+////////////////////////////////////////////////////////////////////////
+///
+/// ||    TODO: turn these into proper tests later-
+/// \/    (currently i'm just running them in the node repl)
+////////////////////////////////////////////////////////////////////////
+
+
+// Test 1:
+//
+var orm = (require('./test/fixtures/SimpleORM.fixture'))();
+var q = orm.model('person').find({
+  where: {
+    petCat: { whose: {id: 1} }
+  },
+  select: {
+    id: true,
+    name: true,
+    email: true,
+    petCat: {
+      id: true
+    }
+  }
+});
+q.log();
+
+// setTimeout(function () {
+//   q.cache;
+// });
+
+
+
+
+// Test 2:
+//
+
+var orm = (require('./test/fixtures/SimpleORM.fixture'))();
+var q = orm.model('person').find({
+  where: {
+    petOfCats: { whose: {id: 1} }
+  },
+  select: {
+    id: true,
+    name: true,
+    email: true,
+    petOfCats: {}
+  }
+});
+q.log();
+
+
+// Test 3:
+//
+
+var orm = (require('./test/fixtures/SimpleORM.fixture'))();
+var q = orm.model('person').find({
+  where: {
+    petOfCats: { whose: {id: 3} }
+  },
+  select: {
+    id: true,
+    name: true,
+    email: true,
+    petCat: {
+      select: {
+        id: true
+      }
+    },
+    petOfCats: {
+      select: {
+        id: true,
+        name: true
+      }
+    }
+  }
+});
+q.log();

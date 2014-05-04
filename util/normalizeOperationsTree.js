@@ -194,79 +194,31 @@ module.exports = normalizeOperationsTree;
 
 // Example ops for reference:
 // (people over 40 who have at least two (but no more than three) friends under 30)
-var x = {
-  from: 'person',
-  where: {
-    age: { '>': 40 },
-    friends: {
-      min: 2,
-      max: 3,
-      whose: {
-        age: { '<': 30 }
-      }
-    }
-  },
+// var x = {
+//   from: 'person',
+//   where: {
+//     age: { '>': 40 },
+//     friends: {
+//       min: 2,
+//       max: 3,
+//       whose: {
+//         age: { '<': 30 }
+//       }
+//     }
+//   },
 
-  select: {
-    id: true,
-    name: true,
-    friends: {
-      select: {
-        id: true,
-        name: true
-      },
-      limit: 5,
-      skip: 0,
-      sort: 'popularity DESC'
-    }
-  }
-};
+//   select: {
+//     id: true,
+//     name: true,
+//     friends: {
+//       select: {
+//         id: true,
+//         name: true
+//       },
+//       limit: 5,
+//       skip: 0,
+//       sort: 'popularity DESC'
+//     }
+//   }
+// };
 
-
-
-
-
-
-return;
-
-// Test 1:
-//
-var orm = (require('./test/fixtures/SimpleORM.fixture'))();
-var q = orm.model('person').find({
-  where: {
-    petCat: { whose: {id: 1} }
-  },
-  select: {
-    id: true,
-    name: true,
-    email: true,
-    petCat: {
-      id: true
-    }
-  }
-});
-q.log();
-
-// setTimeout(function () {
-//   q.cache;
-// });
-
-
-
-
-// Test 2:
-//
-
-var orm = (require('./test/fixtures/SimpleORM.fixture'))();
-var q = orm.model('person').find({
-  where: {
-    petOfCats: { whose: {id: 1} }
-  },
-  select: {
-    id: true,
-    name: true,
-    email: true,
-    petOfCats: {}
-  }
-});
-q.log();
