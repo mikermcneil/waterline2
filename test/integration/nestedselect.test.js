@@ -18,16 +18,15 @@ describe('integration', function () {
       var Person = orm.model('person');
 
       Person.find({
-        where: {
-          id: [1,2]
-        }
+        where: { id: [1,2] }
       })
       .exec(function (err, expected) {
         if (err) return done(err);
 
-        // console.log('Expected:',expected);
+        // console.log('Expected:',expected,'\n------------------------\n');
 
         Person.find({
+          where: { id: [1,2] },
           select: {
             id: true,
             name: true,
@@ -43,7 +42,7 @@ describe('integration', function () {
 
           // console.log('Vs:', persons);
 
-          assert.equal(persons.length, expected.length, require('util').inspect('Unexpected number of top-level results (%d)', persons.length));
+          assert.equal(persons.length, expected.length, require('util').format('Unexpected number of top-level results (expected %d, got %d)', expected.length, persons.length));
           done();
         });
 
