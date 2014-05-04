@@ -266,10 +266,7 @@ var q = orm.model('person').find({
     id: true,
     name: true,
     email: true,
-    petOfCats: {
-      id: true,
-      name: true
-    }
+    petOfCats: {}
   }
 });
 q.log();
