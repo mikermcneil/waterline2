@@ -267,7 +267,8 @@ var q = orm.model('person').find({
     name: true,
     email: true,
     petOfCats: {
-      id: true
+      id: true,
+      name: true
     }
   }
 });
