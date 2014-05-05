@@ -15,4 +15,9 @@ module.exports = [{
   numEars: 1.9,
   petHuman: 2,
   id: 3
+},
+{
+  name: 'Fluffy',
+  numEars: 0,
+  id: 4
 }];

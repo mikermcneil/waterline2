@@ -52,5 +52,6 @@ module.exports = [{
   },
   name: 'baz',
   email: 'baz@hotmail.com',
-  id: 3
+  id: 3,
+  petCat: 4
 }];
