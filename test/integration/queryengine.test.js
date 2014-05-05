@@ -200,7 +200,75 @@ q.log();
 var orm = (require('./test/fixtures/SimpleORM.fixture'))();
 var q = orm.model('person').find({
   where: {
+    petOfCats: { whose: {name: 'randy' } }
+  },
+  select: {
+    id: true,
+    name: true,
+    email: true,
+    petCat: {
+      select: {
+        id: true,
+        name: true
+      }
+    },
+    petOfCats: {
+      select: {
+        id: true,
+        name: true
+      }
+    }
+  }
+});
+q.log();
+
+
+
+
+
+// Test 4:
+//
+
+var orm = (require('./test/fixtures/SimpleORM.fixture'))();
+var q = orm.model('person').find({
+  where: {
     petOfCats: { whose: {name: ['randy', 'fluffy'] } }
+  },
+  select: {
+    id: true,
+    name: true,
+    email: true,
+    petCat: {
+      select: {
+        id: true,
+        name: true
+      }
+    },
+    petOfCats: {
+      select: {
+        id: true,
+        name: true
+      }
+    }
+  }
+});
+q.log();
+
+
+
+
+// Test 5:
+//
+
+var orm = (require('./test/fixtures/SimpleORM.fixture'))();
+var q = orm.model('person').find({
+  where: {
+    petOfCats: { whose: {name: ['randy', 'fluffy'] } },
+    petCat: {
+      whose: {
+        name: 'danger'
+      }
+    }
   },
   select: {
     id: true,
