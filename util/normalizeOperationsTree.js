@@ -85,6 +85,14 @@ function normalizeWhereTree (whereTree) {
       throw new WLUsageError('Invalid operations syntax in query. Should not specify modifiers (e.g. `where` or `limit`) inside of a `where` clause.  To do a nested `where` (i.e. subquery) on an association, use the `whose`, `min`, and/or `max` subquery modifiers.');
     }
 
+    // Check if the subtree contains any subattribute modifiers
+    var subattrModifiers = _.intersection(SUBATTR_MODS, Object.keys(sub));
+    // If it does, get out, it's ok.
+    if (subattrModifiers.length) {
+      memo[attrName] = sub;
+      return memo;
+    }
+
     // Check if the subtree contains any subquery modifiers
     var subqueryModifiers = _.intersection(SUBQUERY_MODS, Object.keys(sub));
 

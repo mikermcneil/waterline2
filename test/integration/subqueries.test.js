@@ -76,7 +76,7 @@ describe('integration', function () {
           if (err) throw err;
           assert(q.cache.get('cat'));
           assert(q.cache.get('person'));
-          assert(_.where(q.cache.get('cat'), {name: 'Dempsey the Cat'}).length === 1);
+          assert.equal(_.where(q.cache.get('cat'), {name: 'Dempsey the Cat'}).length, 1, 'expected exactly one cat named "Dempsey the Cat" but got '+_.where(q.cache.get('cat'), {name: 'Dempsey the Cat'}).length);
           // console.log(q.cache);
           cb();
         });
