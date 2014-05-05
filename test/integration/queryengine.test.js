@@ -259,6 +259,7 @@ q.log();
 
 // Test 5:
 //
+// expected-> []
 
 var orm = (require('./test/fixtures/SimpleORM.fixture'))();
 var q = orm.model('person').find({
@@ -267,6 +268,78 @@ var q = orm.model('person').find({
     petCat: {
       whose: {
         name: 'danger'
+      }
+    }
+  },
+  select: {
+    id: true,
+    name: true,
+    email: true,
+    petCat: {
+      select: {
+        id: true,
+        name: true
+      }
+    },
+    petOfCats: {
+      select: {
+        id: true,
+        name: true
+      }
+    }
+  }
+});
+q.log();
+
+
+
+// Test 6:
+//
+// expected-> []
+
+var orm = (require('./test/fixtures/SimpleORM.fixture'))();
+var q = orm.model('person').find({
+  where: {
+    petOfCats: { whose: {name: ['fluffy'] } },
+    petCat: {
+      whose: {
+        name: 'fluffy'
+      }
+    }
+  },
+  select: {
+    id: true,
+    name: true,
+    email: true,
+    petCat: {
+      select: {
+        id: true,
+        name: true
+      }
+    },
+    petOfCats: {
+      select: {
+        id: true,
+        name: true
+      }
+    }
+  }
+});
+q.log();
+
+
+
+// Test 7:
+//
+// expected -> [3] (person w/ id===3)
+
+var orm = (require('./test/fixtures/SimpleORM.fixture'))();
+var q = orm.model('person').find({
+  where: {
+    petOfCats: { whose: {name: {contains: 'bailey'} } },
+    petCat: {
+      whose: {
+        name: 'fluffy'
       }
     }
   },
