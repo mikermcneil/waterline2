@@ -200,7 +200,7 @@ q.log();
 var orm = (require('./test/fixtures/SimpleORM.fixture'))();
 var q = orm.model('person').find({
   where: {
-    petOfCats: { whose: {name: 'randy'} }
+    petOfCats: { whose: {name: ['randy', 'fluffy'] } }
   },
   select: {
     id: true,
