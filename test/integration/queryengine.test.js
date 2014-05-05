@@ -206,11 +206,12 @@ var q = orm.model('person').find({
     id: true,
     name: true,
     email: true,
-    // petCat: {
-    //   select: {
-    //     id: true
-    //   }
-    // },
+    petCat: {
+      select: {
+        id: true,
+        name: true
+      }
+    },
     petOfCats: {
       select: {
         id: true,
