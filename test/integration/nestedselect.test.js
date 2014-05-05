@@ -23,7 +23,7 @@ describe('integration', function () {
       .exec(function (err, expected) {
         if (err) return done(err);
 
-        // console.log('Expected:',expected,'\n*************~~~~~**************\n\n\n\n\n');
+        console.log('Expected:',expected,'\n*************~~~~~**************\n\n\n\n\n');
 
         var q =
         Person.find({
