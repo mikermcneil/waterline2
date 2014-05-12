@@ -2,16 +2,17 @@
  * Test dependencies
  */
 
-var SimpleORMFixture = require('../fixtures/PeopleAndTheirCats/orm.fixture');
 var assert = require('assert');
 var _ = require('lodash');
 
 
+// fixtures
+var PeopleAndTheirCats = require('../fixtures/PeopleAndTheirCats');
 
 describe('integration', function () {
   describe('nested select query', function () {
 
-    var orm = SimpleORMFixture();
+    var orm = PeopleAndTheirCats();
 
     it('should return all of the expected parent results', function (done) {
 

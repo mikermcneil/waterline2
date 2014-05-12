@@ -9,7 +9,7 @@ var Waterline = require('../../');
 
 
 // fixtures
-var SimpleORM = require('../fixtures/PeopleAndTheirCats/orm.fixture');
+var PeopleAndTheirCats = require('../fixtures/PeopleAndTheirCats');
 
 
 describe('integration', function () {
@@ -20,7 +20,7 @@ describe('integration', function () {
     var orm, db, model;
 
     before(function () {
-      orm = SimpleORM();
+      orm = PeopleAndTheirCats();
       db = _(orm.databases).first();
       model = _(orm.models).first();
     });

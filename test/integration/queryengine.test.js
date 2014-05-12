@@ -1,11 +1,13 @@
-var SimpleORMFixture = require('../fixtures/PeopleAndTheirCats/orm.fixture');
 var assert = require('assert');
 
+
+// fixtures
+var PeopleAndTheirCats = require('../fixtures/PeopleAndTheirCats');
 
 
 describe('query engine', function () {
 
-  var orm = SimpleORMFixture();
+  var orm = PeopleAndTheirCats();
 
 
   describe('a simple Query', function () {
@@ -153,7 +155,7 @@ return;
 
 // Test 1:
 //
-var orm = (require('./test/fixtures/SimpleORM.fixture'))();
+var orm = PeopleAndTheirCats();
 var q = orm.model('person').find({
   where: {
     petCat: { whose: {id: 1} }
@@ -179,7 +181,7 @@ q.log();
 // Test 2:
 //
 
-var orm = (require('./test/fixtures/SimpleORM.fixture'))();
+var orm = PeopleAndTheirCats();
 var q = orm.model('person').find({
   where: {
     petOfCats: { whose: {id: 1} }
@@ -197,7 +199,7 @@ q.log();
 // Test 3:
 //
 
-var orm = (require('./test/fixtures/SimpleORM.fixture'))();
+var orm = PeopleAndTheirCats();
 var q = orm.model('person').find({
   where: {
     petOfCats: { whose: {name: 'randy' } }
@@ -229,7 +231,7 @@ q.log();
 // Test 4:
 //
 
-var orm = (require('./test/fixtures/SimpleORM.fixture'))();
+var orm = PeopleAndTheirCats();
 var q = orm.model('person').find({
   where: {
     petOfCats: { whose: {name: ['randy', 'fluffy'] } }
@@ -261,7 +263,7 @@ q.log();
 //
 // expected-> []
 
-var orm = (require('./test/fixtures/SimpleORM.fixture'))();
+var orm = PeopleAndTheirCats();
 var q = orm.model('person').find({
   where: {
     petOfCats: { whose: {name: ['randy', 'fluffy'] } },
@@ -297,7 +299,7 @@ q.log();
 //
 // expected-> []
 
-var orm = (require('./test/fixtures/SimpleORM.fixture'))();
+var orm = PeopleAndTheirCats();
 var q = orm.model('person').find({
   where: {
     petOfCats: { whose: {name: ['fluffy'] } },
@@ -333,7 +335,7 @@ q.log();
 //
 // expected -> [3] (person w/ id===3)
 
-var orm = (require('./test/fixtures/SimpleORM.fixture'))();
+var orm = PeopleAndTheirCats();
 var q = orm.model('person').find({
   where: {
     petOfCats: { whose: {name: {contains: 'bailey'} } },

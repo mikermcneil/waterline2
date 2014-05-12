@@ -2,15 +2,17 @@
  * Test dependencies
  */
 
-var SimpleORMFixture = require('../fixtures/PeopleAndTheirCats/orm.fixture');
 var assert = require('assert');
 var _ = require('lodash');
+
+// fixtures
+var PeopleAndTheirCats = require('../fixtures/PeopleAndTheirCats');
 
 
 describe('integration', function () {
   describe('query engine', function () {
 
-    var orm = SimpleORMFixture();
+    var orm = PeopleAndTheirCats();
 
 
     describe('subqueries', function () {
