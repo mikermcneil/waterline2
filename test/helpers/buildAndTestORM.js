@@ -2,6 +2,8 @@
  * Module dependencies
  */
 
+var assert = require('assert');
+var _ = require('lodash');
 var Waterline = require('root-require')('./');
 
 
@@ -25,18 +27,6 @@ module.exports = function buildAndTestORM (ontology, fixtureName) {
   // (if this is mocha, runs some quick sanity checks)
   if (typeof describe !== 'undefined') {
 
-    /**
-     * Module dependencies
-     */
-    var assert = require('assert');
-    var _ = require('lodash');
-    var rootrequire = require('root-require');
-
-    var isORM = rootrequire('./test/helpers/isORM');
-    var isAdapter = rootrequire('./test/helpers/isAdapter');
-    var isDatabase = rootrequire('./test/helpers/isDatabase');
-    var isModel = rootrequire('./test/helpers/isModel');
-
 
     /**
      * Tests
@@ -44,13 +34,13 @@ module.exports = function buildAndTestORM (ontology, fixtureName) {
     describe('fixtures', function () {
       describe(require('util').format('Waterline(%s)',fixtureName), function () {
         it('should return a sane, valid ORM instance', function () {
-          assert(isORM(orm));
+          assert(Waterline.ORM.isORM(orm));
         });
 
         it('should return a properly configured ontology in that ORM instance', function () {
-          assert( isAdapter (_.find(orm.adapters, { identity: 'wl-pretend' })), 'adapter is missing or invalid' );
-          assert( isDatabase(_.find(orm.databases, { identity: 'default' })), 'database is missing or invalid' );
-          assert( isModel   (_.find(orm.models, { identity: 'user' })), 'model is missing or invalid' );
+          assert( Waterline.Adapter.isAdapter (_.find(orm.adapters, { identity: 'wl-pretend' })), 'adapter is missing or invalid' );
+          assert( Waterline.Database.isDatabase (_.find(orm.databases, { identity: 'default' })), 'database is missing or invalid' );
+          assert( Waterline.Model.isModel   (_.find(orm.models, { identity: 'user' })), 'model is missing or invalid' );
         });
       });
     });

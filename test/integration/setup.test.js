@@ -4,13 +4,7 @@
 
 var assert = require('assert');
 var _ = require('lodash');
-var Waterline = require('../../');
-
-// helpers
-var isORM = require('../helpers/isORM');
-var isAdapter = require('../helpers/isAdapter');
-var isDatabase = require('../helpers/isDatabase');
-var isModel = require('../helpers/isModel');
+var Waterline = require('root-require')('./');
 
 
 describe('integration', function () {
@@ -39,10 +33,10 @@ describe('integration', function () {
 
 
       // Schema is valid:
-      assert(isORM(orm));
-      assert( isAdapter (_.find(orm.adapters, { identity: 'wl-pretend' })), 'adapter is missing or invalid' );
-      assert( isDatabase(_.find(orm.databases, { identity: 'default' })), 'database is missing or invalid' );
-      assert( isModel   (_.find(orm.models, { identity: 'user' })), 'model is missing or invalid' );
+      assert( Waterline.ORM.isORM(orm) );
+      assert( Waterline.Adapter.isAdapter   (_.find(orm.adapters, { identity: 'wl-pretend' })), 'adapter is missing or invalid' );
+      assert( Waterline.Database.isDatabase (_.find(orm.databases, { identity: 'default' })), 'database is missing or invalid' );
+      assert( Waterline.Model.isModel       (_.find(orm.models, { identity: 'user' })), 'model is missing or invalid' );
     });
 
 
@@ -62,10 +56,10 @@ describe('integration', function () {
       });
 
       // Schema is valid:
-      assert(isORM(orm));
-      assert( isAdapter (_.find(orm.adapters, { identity: 'wl-pretend' })), 'adapter is missing or invalid' );
-      assert( isDatabase(_.find(orm.databases, { identity: 'default' })), 'database is missing or invalid' );
-      assert( isModel   (_.find(orm.models, { identity: 'user' })), 'model is missing or invalid' );
+      assert( Waterline.ORM.isORM(orm) );
+      assert( Waterline.Adapter.isAdapter   (_.find(orm.adapters, { identity: 'wl-pretend' })), 'adapter is missing or invalid' );
+      assert( Waterline.Database.isDatabase (_.find(orm.databases, { identity: 'default' })), 'database is missing or invalid' );
+      assert( Waterline.Model.isModel       (_.find(orm.models, { identity: 'user' })), 'model is missing or invalid' );
     });
 
   });

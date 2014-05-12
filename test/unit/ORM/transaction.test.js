@@ -3,8 +3,8 @@
  */
 
 var assert = require('assert');
-var ORM = require('../../../lib/ORM');
 var _ = require('lodash');
+var ORM = require('../../../lib/ORM');
 
 
 describe('ORM', function () {
