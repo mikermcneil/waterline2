@@ -204,7 +204,14 @@ See the source code.  Play around with it, have a good time you know
 
 ## Contributing
 
-#### Goals
+#### Short-term Roadmap
+
+1. Finish the query engine so we can pull it into Waterline v0.x.x.
+2. Build shim that will allow Waterline v0.x.x to use the query engine.
+3. Build shim that will allow Waterline v0.x.x adapters to work transparently with WL2.
+4. Finish robust transaction support so we can pull it into Waterline v0.x.x.
+
+#### Broad Goals
 
 + Better support client-side usage and relevant requirements:
   + Lightweight
