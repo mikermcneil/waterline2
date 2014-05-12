@@ -41,7 +41,7 @@ describe('integration', function () {
           if (err) throw err;
           assert(q.cache.get('cat'));
           assert(q.cache.get('person'));
-          console.log('========>',q.cache);
+          // console.log('========>',q.cache);
           assert(_.where(q.cache.get('cat'), {name: 'Randy'}).length === 1);
           cb();
         });
