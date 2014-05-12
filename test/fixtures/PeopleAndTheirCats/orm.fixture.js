@@ -4,14 +4,15 @@
 
 var _ = require('lodash');
 _.defaults = require('merge-defaults');
+var rootrequire = require('root-require');
 var assert = require('assert');
-var Waterline = require('../..');
+var WLFilter = require('waterline-criteria');
 
-// helpers
-var isORM = require('../helpers/isORM');
-var isAdapter = require('../helpers/isAdapter');
-var isDatabase = require('../helpers/isDatabase');
-var isModel = require('../helpers/isModel');
+var Waterline = rootrequire('./');
+var isORM = rootrequire('./test/helpers/isORM');
+var isAdapter = rootrequire('./test/helpers/isAdapter');
+var isDatabase = rootrequire('./test/helpers/isDatabase');
+var isModel = rootrequire('./test/helpers/isModel');
 
 
 
@@ -63,7 +64,6 @@ module.exports = function SimpleORM (ontology) {
       'wl-memory': {
         find: function (criteria, cb) {
           setTimeout(function () {
-            var WLFilter = require('waterline-criteria');
             var stubdata = {
               person: require('./person.dataset.fixture'),
               cat: require('./cat.dataset.fixture')

@@ -20,6 +20,7 @@
     "waterline-schema": "~0.1.7"
   },
   "devDependencies": {
-    "bluebird": "1.2.4"
+    "bluebird": "1.2.4",
+    "root-require": "^0.3.1"
   }
 }

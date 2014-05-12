@@ -1,4 +1,4 @@
-var SimpleORMFixture = require('../fixtures/SimpleORM.fixture');
+var SimpleORMFixture = require('../fixtures/PeopleAndTheirCats/orm.fixture');
 var assert = require('assert');
 
 
