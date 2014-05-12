@@ -112,7 +112,7 @@ console.log(orm3.models);
   { attributes: {} }
   -------------------------------- ]
   */
-  
+
 
 // Or get an individual model:
 var Parakeet = orm3.model('parakeet');
@@ -173,6 +173,29 @@ orm3.forgetAdapter('wl-myfoo');
 ```
 
 
+## Advanced
+
+### Constructors
+
+So needless to say, you can always instantiate an ORM and a model, then grab the model instance and get its `.constructor`.  Same thing for Database, Adapter, and the ORM constructor itself.  But Waterline also exposes these at the top level for you:
+
+```js
+new Waterline.Model();
+new Waterline.Database();
+new Waterline.Adapter();
+new Waterline.ORM();
+```
+
+### Qualifier methods
+
+Waterline also provides some static methods for checking whether some input is an instantiated model, database, etc.:
+
+```js
+Waterline.Model.isModel( someMysteriousThing );
+Waterline.Database.isDatabase( someMysteriousThing );
+Waterline.Adapter.isAdapter( someMysteriousThing );
+Waterline.ORM.isORM( someMysteriousThing );
+```
 
 ## Everything Else
 
