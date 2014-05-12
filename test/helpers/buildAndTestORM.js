@@ -6,6 +6,8 @@ var Waterline = require('root-require')('./');
 
 
 /**
+ * buildAndTestORM()
+ *
  * Helper factory that uses the provided ontolgoy definition
  * to instantiate, test, and return an ORM instance.
  *
@@ -14,7 +16,7 @@ var Waterline = require('root-require')('./');
  * @return {ORM}
  */
 
-module.exports = function buildORMFixture (ontology, fixtureName) {
+module.exports = function buildAndTestORM (ontology, fixtureName) {
 
   // Build ORM using provided ontology.
   var orm = Waterline(ontology);

@@ -4,7 +4,7 @@
 
 var rootrequire = require('root-require');
 
-var ORMFactory = rootrequire('./test/helpers/buildORMFixture');
+var buildAndTestORM = rootrequire('./test/helpers/buildAndTestORM');
 var buildDef_PretendAdapter = rootrequire('./test/fixtures/PretendAdapter.fixture');
 var buildDef_CatPersonAdapter = require('./CatPersonAdapter.fixture');
 
@@ -15,9 +15,9 @@ var buildDef_CatPersonAdapter = require('./CatPersonAdapter.fixture');
  * @return {ORM}
  */
 
-module.exports = function buildORMFixture () {
+module.exports = function PeopleAndTheirCats () {
 
-  return ORMFactory({
+  return buildAndTestORM({
     models: {
       user: {
         database: 'default',
