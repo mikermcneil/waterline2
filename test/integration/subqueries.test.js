@@ -44,7 +44,9 @@ describe('integration', function () {
           assert(q.cache.get('cat'));
           assert(q.cache.get('person'));
           // console.log('========>',q.cache);
-          assert(_.where(q.cache.get('cat'), {name: 'Randy'}).length === 1);
+
+          var catsNamedRandyInCache = _.where(q.cache.get('cat'), {id: 1});
+          assert.equal(catsNamedRandyInCache.length, 1, 'expected exactly 1 cat in the cache named randy (id:1) but got '+catsNamedRandyInCache.length);
           cb();
         });
       });
@@ -78,7 +80,8 @@ describe('integration', function () {
           if (err) throw err;
           assert(q.cache.get('cat'));
           assert(q.cache.get('person'));
-          assert.equal(_.where(q.cache.get('cat'), {name: 'Dempsey the Cat'}).length, 1, 'expected exactly one cat named "Dempsey the Cat" but got '+_.where(q.cache.get('cat'), {name: 'Dempsey the Cat'}).length);
+          var catsNamedDempseyInCache = _.where(q.cache.get('cat'), {id: 3});
+          assert.equal(catsNamedDempseyInCache.length, 1, 'expected exactly one cat named "Dempsey the Cat" (id:3) but got '+catsNamedDempseyInCache.length);
           // console.log(q.cache);
           cb();
         });

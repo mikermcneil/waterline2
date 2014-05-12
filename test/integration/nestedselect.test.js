@@ -25,7 +25,7 @@ describe('integration', function () {
       .exec(function (err, expected) {
         if (err) return done(err);
 
-        // console.log('Expected:',expected,'\n*************~~~~~**************\n\n\n\n\n');
+        console.log('Expected:',expected,'\n*************~~~~~**************\n\n\n\n\n');
 
         var q =
         Person.find({
@@ -45,8 +45,9 @@ describe('integration', function () {
         .exec(function (err, persons) {
           if (err) return done(err);
 
+          console.log('Vs:');
           // console.log('Vs:', persons);
-          // console.log(q.cache);
+          console.log(q.cache);
           assert.equal(persons.length, expected.length, require('util').format('Unexpected number of top-level results (expected %d, got %d)', expected.length, persons.length));
 
           // Ensure proper number of nested things came back
