@@ -23,5 +23,14 @@ Waterline.Model    = require('./lib/Model');
 Waterline.Database = require('./lib/Database');
 Waterline.Adapter  = require('./lib/Adapter');
 
+// Exposes errors
+Waterline.WLError            = require('./lib/WLError');
+Waterline.WLUsageError       = require('./lib/WLError/WLUsageError');
+Waterline.WLValidationError  = require('./lib/WLError/WLValidationError');
+
+// Synonyms
+Waterline.Error              = Waterline.WLError;
+Waterline.UsageError         = Waterline.WLUsageError;
+Waterline.ValidationError    = Waterline.WLValidationError;
 
 module.exports = Waterline;
