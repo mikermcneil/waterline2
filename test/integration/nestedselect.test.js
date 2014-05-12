@@ -48,6 +48,11 @@ describe('integration', function () {
           // console.log('Vs:', persons);
           // console.log(q.cache);
           assert.equal(persons.length, expected.length, require('util').format('Unexpected number of top-level results (expected %d, got %d)', expected.length, persons.length));
+
+          // Ensure proper number of nested things came back
+          // (numEars=3 should not match ANY)
+          assert.equal(q.cache.get('cat').length, 1);
+
           done();
         });
 
@@ -73,7 +78,7 @@ describe('integration', function () {
         });
       });
 
-      it('should return expected nested results', function (done) {
+      it('should return expected number of top-level AND nested results', function (done) {
         var q =
         Person.find({
           where: { id: [1,2] },
@@ -95,9 +100,12 @@ describe('integration', function () {
         .exec(function (err, persons) {
           if (err) return done(err);
 
-          // console.log('Vs:', persons);
-          // console.log(q.cache);
+          // Ensure proper number of top-level results came back
           assert.equal(persons.length, expected.length, require('util').format('Unexpected number of top-level results (expected %d, got %d)', expected.length, persons.length));
+
+          // Ensure proper number of nested things came back
+          // (numEars=3 should not match ANY)
+          assert.equal(q.cache.get('cat').length,0);
           done();
         });
       });
