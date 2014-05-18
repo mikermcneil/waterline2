@@ -19,8 +19,11 @@
     "waterline-criteria": "~0.10.3",
     "waterline-schema": "~0.1.7"
   },
+  "optionalDependencies": {
+    "node-switchback": "~0.1.0",
+    "bluebird": "1.2.4"
+  },
   "devDependencies": {
-    "bluebird": "1.2.4",
-    "root-require": "^0.3.1"
+    "root-require": "~0.3.1"
   }
 }
