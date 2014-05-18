@@ -13,12 +13,33 @@ var WLUsageError = require('../lib/WLError/WLUsageError');
  * normalizeOperationsTree()
  *
  * @param  {Object} operationsTree
+ * @param  {ORM} orm              [required for non-object, primary key usage in WHERE clause]
  * @return {Object}
  * @api private
  */
-function normalizeOperationsTree (operationsTree) {
+function normalizeOperationsTree (operationsTree, orm) {
 
   // console.log('Attempting to normalize operationsTree:', operationsTree);
+
+  // Ensure `operationsTree` is an object
+  if (!_.isObject(operationsTree)) {
+
+    // If not an object, try to interpret some meaning out of it
+    if (operationsTree === false) {
+      operationsTree = { where: false };
+    }
+    // If true, null or undefined, interpret this as an empty object
+    // (i.e. find all the things)
+    else if (operationsTree === undefined || operationsTree === null || operationsTree === true) {
+      operationsTree = { where: {} };
+    }
+    // Otherwise, assume it represents a desired primary key value:
+    else {
+      var desiredPkValue = operationsTree;
+      operationsTree = { where: desiredPkValue };
+    }
+  }
+
 
   // Check if the tree contains any operations modifiers
   var operationModifiers = _.intersection(OPERATION_MODS, Object.keys(operationsTree));
@@ -40,6 +61,14 @@ function normalizeOperationsTree (operationsTree) {
     skip: 0,
     sort: {}
   });
+
+
+  // As soon as possible, store the target model for this query in this variable.
+  // It may be accessed via closure scope throughout this normalization utility.
+  var targetModel;
+  if (operationsTree.from && orm) {
+    targetModel = orm.model(operationsTree.from);
+  }
 
 
   // Now recursively normalize the other bits
@@ -65,6 +94,29 @@ function normalizeOperationsTree (operationsTree) {
  * @return {[type]}           [description]
  */
 function normalizeWhereTree (whereTree) {
+
+  // Handle the non-object case in where criteria (`false`)
+  // Short-circuit
+  if (!_.isObject(whereTree) && whereTree === false) {
+    return false;
+  }
+  // Since its not a criteria object, the `whereTree` value must represent a
+  // desired primary key value.  If we were able to definitively infer a model
+  // at some point when parsing this query, we should use its primary key to
+  // build the appropriate criteria object.
+  else if (!_.isObject(whereTree) && targetModel) {
+    var desiredPkValue = whereTree;
+    var assumedWhereCriteria = {};
+    assumedWhereCriteria[targetModel.primaryKey] = desiredPkValue;
+    return assumedWhereCriteria;
+  }
+  // If we're at a loss, and no ORM was passed in, throw an error
+  // (this is safe because the only way that woudl happen is in the event of
+  //  a serious bug, or if this normalization module was being used independently,
+  //  in which case a thrown error is the most conventional/descriptive strategy.)
+  else if (!_.isObject(whereTree)) {
+    throw new WLUsageError('Could not parse/normalize part of the `where` criteria: '+util.inspect(whereTree));
+  }
 
   // Check if this level of the tree contains any operations modifiers
   var operationModifiers = _.intersection(OPERATION_MODS, Object.keys(whereTree));
