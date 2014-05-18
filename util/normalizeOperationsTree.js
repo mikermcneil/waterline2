@@ -64,7 +64,6 @@ function normalizeOperationsTree (operationsTree, orm) {
 
 
   // As soon as possible, store the target model for this query in this variable.
-  // It may be accessed via closure scope throughout this normalization utility.
   var targetModel;
   if (operationsTree.from && orm) {
     targetModel = orm.model(operationsTree.from);
@@ -75,7 +74,7 @@ function normalizeOperationsTree (operationsTree, orm) {
   return _.reduce(operationsTree, function (memo, sub, key) {
 
     if (key === 'where') {
-      memo.where = normalizeWhereTree(sub);
+      memo.where = normalizeWhereTree(sub, targetModel);
     }
     else if (key === 'select') {
       memo.select = normalizeSelectTree(sub);
@@ -89,11 +88,12 @@ function normalizeOperationsTree (operationsTree, orm) {
 
 
 /**
- * [normalizeWhereTree description]
- * @param  {[type]} whereTree [description]
- * @return {[type]}           [description]
+ *
+ * @param  {*} whereTree
+ * @param  {Model} targetModel   [optional- but required for certain usages]
+ * @return {Object|false}
  */
-function normalizeWhereTree (whereTree) {
+function normalizeWhereTree (whereTree, targetModel) {
 
   // Handle the non-object case in where criteria (`false`)
   // Short-circuit
