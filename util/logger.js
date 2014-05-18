@@ -16,8 +16,7 @@ module.exports = {
    * @param  {[type]} warning [description]
    */
   warn: function (warning) {
-    console.error('Warning:');
-    console.error(warning);
+    console.error('Warning:',warning);
   },
 
 

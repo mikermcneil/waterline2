@@ -18,6 +18,8 @@ var WLUsageError = require('../lib/WLError/WLUsageError');
  */
 function normalizeOperationsTree (operationsTree) {
 
+  // console.log('Attempting to normalize operationsTree:', operationsTree);
+
   // Check if the tree contains any operations modifiers
   var operationModifiers = _.intersection(OPERATION_MODS, Object.keys(operationsTree));
 
