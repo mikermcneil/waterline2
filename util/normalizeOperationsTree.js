@@ -100,6 +100,14 @@ function normalizeWhereTree (whereTree, targetModel) {
   if (!_.isObject(whereTree) && whereTree === false) {
     return false;
   }
+  // If true, null or undefined, interpret this as an empty object
+  // (i.e. find all the things)
+  else if (!_.isObject(whereTree) &&
+    (whereTree === undefined || whereTree === null || whereTree === true)
+  ) {
+    whereTree = {};
+    return whereTree;
+  }
   // Since its not a criteria object, the `whereTree` value must represent a
   // desired primary key value.  If we were able to definitively infer a model
   // at some point when parsing this query, we should use its primary key to
