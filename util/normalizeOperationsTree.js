@@ -6,7 +6,7 @@ var util = require('util');
 var _ = require('lodash');
 _.defaults = require('merge-defaults');
 var WLUsageError = require('../lib/WLError/WLUsageError');
-
+var $$ = require('./CONSTANTS');
 
 
 /**
@@ -42,7 +42,7 @@ function normalizeOperationsTree (operationsTree, orm) {
 
 
   // Check if the tree contains any operations modifiers
-  var operationModifiers = _.intersection(OPERATION_MODS, Object.keys(operationsTree));
+  var operationModifiers = _.intersection($$.OPERATION_MODS, Object.keys(operationsTree));
 
   // If it doesn't, we'll assume all of the keys belong to a "WHERE"
   if (!operationModifiers.length) {
@@ -127,7 +127,7 @@ function normalizeWhereTree (whereTree, targetModel) {
   }
 
   // Check if this level of the tree contains any operations modifiers
-  var operationModifiers = _.intersection(OPERATION_MODS, Object.keys(whereTree));
+  var operationModifiers = _.intersection($$.OPERATION_MODS, Object.keys(whereTree));
   if (operationModifiers.length) {
     throw new WLUsageError('Invalid operations syntax in query. Should not specify modifiers (e.g. `where` or `limit`) inside of a `where` clause.  To do a nested `where` (i.e. subquery) on an association, use the `whose`, `min`, and/or `max` subquery modifiers.');
   }
@@ -142,13 +142,13 @@ function normalizeWhereTree (whereTree, targetModel) {
     }
 
     // Check if the subtree contains any operations modifiers
-    var operationModifiers = _.intersection(OPERATION_MODS, Object.keys(sub));
+    var operationModifiers = _.intersection($$.OPERATION_MODS, Object.keys(sub));
     if (operationModifiers.length) {
       throw new WLUsageError('Invalid operations syntax in query. Should not specify modifiers (e.g. `where` or `limit`) inside of a `where` clause.  To do a nested `where` (i.e. subquery) on an association, use the `whose`, `min`, and/or `max` subquery modifiers.');
     }
 
     // Check if the subtree contains any subattribute modifiers
-    var subattrModifiers = _.intersection(SUBATTR_MODS, Object.keys(sub));
+    var subattrModifiers = _.intersection($$.SUBATTR_MODS, Object.keys(sub));
     // If it does, get out, it's ok.
     if (subattrModifiers.length) {
       memo[attrName] = sub;
@@ -156,7 +156,7 @@ function normalizeWhereTree (whereTree, targetModel) {
     }
 
     // Check if the subtree contains any subquery modifiers
-    var subqueryModifiers = _.intersection(SUBQUERY_MODS, Object.keys(sub));
+    var subqueryModifiers = _.intersection($$.SUBQUERY_MODS, Object.keys(sub));
 
     // If it doesn't, we'll assume all of the keys belong to a "WHOSE", with "MIN:1"
     if (!subqueryModifiers.length) {
@@ -192,7 +192,7 @@ function normalizeWhereTree (whereTree, targetModel) {
 function normalizeSelectTree (selectTree) {
 
   // Check if this level of the tree contains any operations modifiers
-  var operationModifiers = _.intersection(OPERATION_MODS, Object.keys(selectTree));
+  var operationModifiers = _.intersection($$.OPERATION_MODS, Object.keys(selectTree));
   if (operationModifiers.length) {
     throw new WLUsageError('Invalid operations syntax in query. Should not specify modifiers (e.g. `where` or `limit`) inside of a `select` clause.  However, you _can_ use these modifiers within an _association_ of a `select` clause.  For example: {select: { name: true, pet: { where: { age: { ">": 12 } } } } }');
   }
@@ -207,7 +207,7 @@ function normalizeSelectTree (selectTree) {
     }
 
     // Check if the subtree contains any operations modifiers
-    var operationModifiers = _.intersection(OPERATION_MODS, Object.keys(sub));
+    var operationModifiers = _.intersection($$.OPERATION_MODS, Object.keys(sub));
 
     // If it doesn't, we'll assume all of the keys belong to another "SELECT"
     if (!operationModifiers.length) {
@@ -223,24 +223,6 @@ function normalizeSelectTree (selectTree) {
   }, {});
 
 }
-
-
-
-// Operation clause flags:
-var OPERATION_MODS = ['where','select','sort','from','skip','limit'];
-
-// Predicate modifiers
-var PREDICATE_MODS = ['or'];
-
-// Subquery modifiers
-var SUBQUERY_MODS = ['whose', 'min', 'max'];
-
-// Sub-attribute modifiers
-var SUBATTR_MODS = [
-  'contains', 'startsWith', 'endsWith',
-  'in',
-  'lessThan', 'greaterThan', 'equals', 'not', '!', '!=', '>', '<', '>=', '<='
-];
 
 
 
