@@ -13,19 +13,13 @@ var $$ = require('./CONSTANTS');
  * normalizeOperationsTree()
  *
  * @required    {Object} operationsTree
- * @optional    {ORM} orm              [required for non-object, primary key usage in WHERE clause]
+ * @optional    {Model} targetModel    [required for non-object, primary key usage in WHERE clause, e.g. `where: [3]`]
  * @optional <- {Object} flags         [optional obj of flags that this method sets for use by caller]
  *
  * @return {Object}
  * @api private
  */
-function normalizeOperationsTree (operationsTree, orm, flags) {
-
-  // Default `flags`
-  if (flags) {
-    flags.numSubqueries = 0;
-    flags.numJoins = 0;
-  }
+function normalizeOperationsTree (operationsTree, targetModel, flags) {
 
   // console.log('Attempting to normalize operationsTree:', operationsTree);
 
@@ -71,13 +65,6 @@ function normalizeOperationsTree (operationsTree, orm, flags) {
   });
 
 
-  // As soon as possible, store the target model for this query in this variable.
-  var targetModel;
-  if (operationsTree.from && orm) {
-    targetModel = orm.model(operationsTree.from);
-  }
-
-
   // Now recursively normalize the other bits
   return _.reduce(operationsTree, function (memo, sub, key) {
 
@@ -85,7 +72,7 @@ function normalizeOperationsTree (operationsTree, orm, flags) {
       memo.where = normalizeWhereTree(sub, targetModel, flags);
     }
     else if (key === 'select') {
-      memo.select = normalizeSelectTree(sub, flags);
+      memo.select = normalizeSelectTree(sub, targetModel, flags);
     }
     else {
       memo[key] = sub;
@@ -98,8 +85,8 @@ function normalizeOperationsTree (operationsTree, orm, flags) {
 /**
  *
  * @param  {*} whereTree
- * @param  {Model} targetModel   [optional- but required for certain usages]
- * @optional <- {Model} flags
+ * @optional  {Model} targetModel   [optional- but required for certain usages]
+ * @optional <- {Object} flags
  * @return {Object|false}
  */
 function normalizeWhereTree (whereTree, targetModel, flags) {
@@ -184,8 +171,14 @@ function normalizeWhereTree (whereTree, targetModel, flags) {
       // Increment numSubqueries
       if (flags) { flags.numSubqueries++; }
 
+      // Try to determine the `subQueryModel`
+      var subQueryModel;
+      if (targetModel && sub.from && targetModel.orm) {
+        subQueryModel = targetModel.orm.model(sub.from);
+      }
+
       // Take recursive step
-      sub.whose = normalizeWhereTree(sub.whose);
+      sub.whose = normalizeWhereTree(sub.whose, subQueryModel, flags);
     }
     if (sub.min) {
       // TODO: validate MIN
@@ -207,10 +200,11 @@ function normalizeWhereTree (whereTree, targetModel, flags) {
 /**
  * [normalizeSelectTree description]
  * @param  {[type]} selectTree [description]
- * @optional <- {Model} flags
+ * @optional  {Model} targetModel   [optional- but required for certain usages]
+ * @optional <- {Object} flags
  * @return {[type]}            [description]
  */
-function normalizeSelectTree (selectTree, flags) {
+function normalizeSelectTree (selectTree, targetModel, flags) {
 
   // Check if this level of the tree contains any operations modifiers
   var operationModifiers = _.intersection($$.OPERATION_MODS, Object.keys(selectTree));
@@ -238,9 +232,16 @@ function normalizeSelectTree (selectTree, flags) {
     // Increment numJoins
     if (flags) { flags.numJoins++; }
 
+    // Try to determine the `joinModel`
+    // TODO: use targetModel's schema to infer the `from`, or better yet, define a model method that returns the related model, given the name of an association
+    var joinModel;
+    if (targetModel && sub.from && targetModel.orm) {
+      joinModel = targetModel.orm.model(sub.from);
+    }
+
     // Now jump back into a recursive normalization
     // (sub-selects are actually full operations trees)
-    sub = normalizeOperationsTree(sub);
+    sub = normalizeOperationsTree(sub, joinModel, flags);
 
     memo[attrName] = sub;
     return memo;
