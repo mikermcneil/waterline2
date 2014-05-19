@@ -3,23 +3,23 @@
  */
 
 var assert = require('assert');
-var QueryCache = require('root-require')('./lib/Query/engine/QueryCache');
+var QueryHeap = require('root-require')('./lib/Query/engine/QueryCache');
 var ORM = require('root-require')('./lib/ORM');
 
 
-describe('QueryCache', function () {
-  describe('constructor', function () {
+describe('QueryHeap', function () {
+  describe('.constructor', function () {
     var cache;
 
-    it('should construct a QueryCache', function () {
-      cache = new QueryCache({
+    it('should construct a QueryHeap', function () {
+      cache = new QueryHeap({
         orm: new ORM()
       });
     });
 
-    it('should refuse to construct a QueryCache if no valid `orm` option is passed in', function () {
+    it('should refuse to construct a QueryHeap if no valid `orm` option is passed in', function () {
       assert.throws(function () {
-        cache = new QueryCache();
+        cache = new QueryHeap();
       });
     });
 

@@ -8,7 +8,7 @@ var ORM = require('../../../lib/ORM');
 
 
 describe('ORM', function () {
-  describe('transaction', function () {
+  describe('.prototype.transaction()', function () {
 
     var orm;
     var User, Pet, Purchase, Location;

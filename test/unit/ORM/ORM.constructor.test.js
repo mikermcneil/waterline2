@@ -8,7 +8,7 @@ var ORM = require('../../../lib/ORM');
 
 
 describe('ORM', function () {
-  describe('constructor', function () {
+  describe('.constructor', function () {
     var orm;
 
     it('should construct an ORM', function () {

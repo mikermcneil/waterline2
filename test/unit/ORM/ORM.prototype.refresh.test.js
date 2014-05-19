@@ -8,7 +8,7 @@ var ORM = require('../../../lib/ORM');
 
 
 describe('ORM', function () {
-  describe('refresh', function () {
+  describe('.prototype.refresh()', function () {
 
     var orm;
     before(function () {
