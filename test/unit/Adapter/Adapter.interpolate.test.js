@@ -5,7 +5,7 @@
 var assert = require('assert');
 var Adapter = require('root-require')('lib/Adapter');
 var Deferred = require('root-require')('lib/Deferred');
-var WLUsageError = require('root-require')('lib/WLUsageError');
+var WLUsageError = require('root-require')('lib/WLError/WLUsageError');
 
 
 
