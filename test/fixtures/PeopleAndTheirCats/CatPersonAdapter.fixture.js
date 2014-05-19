@@ -21,7 +21,7 @@ module.exports = function build_CatPersonAdapter() {
 
     apiVersion: '2.0.0',
 
-    find: function (criteria, cb) {
+    find: function (db, cid, criteria, cb) {
       assert(
         typeof criteria === 'object',
         '"criteria" argument should exist, and be an object- instead got:\n'+util.inspect(criteria)

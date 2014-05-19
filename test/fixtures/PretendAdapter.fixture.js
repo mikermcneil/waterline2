@@ -13,7 +13,7 @@ module.exports = function build_PretendAdapter () {
         database: 'default'
       });
     },
-    find: function (criteria, cb) {
+    find: function (db, cid, criteria, cb) {
       setTimeout(function () {
         cb('not a real adapter');
       }, 0);
