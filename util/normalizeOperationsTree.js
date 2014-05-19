@@ -12,12 +12,20 @@ var $$ = require('./CONSTANTS');
 /**
  * normalizeOperationsTree()
  *
- * @param  {Object} operationsTree
- * @param  {ORM} orm              [required for non-object, primary key usage in WHERE clause]
+ * @required    {Object} operationsTree
+ * @optional    {ORM} orm              [required for non-object, primary key usage in WHERE clause]
+ * @optional <- {Object} flags         [optional obj of flags that this method sets for use by caller]
+ *
  * @return {Object}
  * @api private
  */
-function normalizeOperationsTree (operationsTree, orm) {
+function normalizeOperationsTree (operationsTree, orm, flags) {
+
+  // Default `flags`
+  if (flags) {
+    flags.numSubqueries = 0;
+    flags.numJoins = 0;
+  }
 
   // console.log('Attempting to normalize operationsTree:', operationsTree);
 
@@ -74,10 +82,10 @@ function normalizeOperationsTree (operationsTree, orm) {
   return _.reduce(operationsTree, function (memo, sub, key) {
 
     if (key === 'where') {
-      memo.where = normalizeWhereTree(sub, targetModel);
+      memo.where = normalizeWhereTree(sub, targetModel, flags);
     }
     else if (key === 'select') {
-      memo.select = normalizeSelectTree(sub);
+      memo.select = normalizeSelectTree(sub, flags);
     }
     else {
       memo[key] = sub;
@@ -91,9 +99,10 @@ function normalizeOperationsTree (operationsTree, orm) {
  *
  * @param  {*} whereTree
  * @param  {Model} targetModel   [optional- but required for certain usages]
+ * @optional <- {Model} flags
  * @return {Object|false}
  */
-function normalizeWhereTree (whereTree, targetModel) {
+function normalizeWhereTree (whereTree, targetModel, flags) {
 
   // Handle the non-object case in where criteria (`false`)
   // Short-circuit
@@ -171,6 +180,11 @@ function normalizeWhereTree (whereTree, targetModel) {
 
     // Now validate/normalize subquery modifier subtrees
     if (sub.whose) {
+
+      // Increment numSubqueries
+      if (flags) { flags.numSubqueries++; }
+
+      // Take recursive step
       sub.whose = normalizeWhereTree(sub.whose);
     }
     if (sub.min) {
@@ -193,9 +207,10 @@ function normalizeWhereTree (whereTree, targetModel) {
 /**
  * [normalizeSelectTree description]
  * @param  {[type]} selectTree [description]
+ * @optional <- {Model} flags
  * @return {[type]}            [description]
  */
-function normalizeSelectTree (selectTree) {
+function normalizeSelectTree (selectTree, flags) {
 
   // Check if this level of the tree contains any operations modifiers
   var operationModifiers = _.intersection($$.OPERATION_MODS, Object.keys(selectTree));
@@ -219,6 +234,9 @@ function normalizeSelectTree (selectTree) {
     if (!operationModifiers.length) {
       sub = {select: sub};
     }
+
+    // Increment numJoins
+    if (flags) { flags.numJoins++; }
 
     // Now jump back into a recursive normalization
     // (sub-selects are actually full operations trees)
