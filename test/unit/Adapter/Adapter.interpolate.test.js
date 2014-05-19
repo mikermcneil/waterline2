@@ -3,7 +3,10 @@
  */
 
 var assert = require('assert');
+var util = require('util');
 var Adapter = require('root-require')('lib/Adapter');
+var Database = require('root-require')('lib/Database');
+var Model = require('root-require')('lib/Model');
 var Deferred = require('root-require')('lib/Deferred');
 var WLUsageError = require('root-require')('lib/WLError/WLUsageError');
 
@@ -21,6 +24,9 @@ describe('Adapter', function() {
       var someEntity;
       before(function buildSomeEntity() {
         someEntity = {
+
+          identity: 'somemodel',
+
           fooBridge: Adapter.interpolate({
             method: 'foo',
             usage: [{
@@ -28,13 +34,34 @@ describe('Adapter', function() {
               type: 'function',
               optional: true
             }],
-            adapterUsage: ['Database', 'Model', 'callback']
+            adapterUsage: {
+              '>= 2.0.0': ['callback'],
+              '*': ['Database', 'Model', 'callback']
+            }
           }),
 
           getAdapter: function() {
-            return {
-              foo: function(cb) { cb(); }
-            };
+            return new Adapter({
+              identity: 'someAdapter',
+              apiVersion: '1.0.0',
+              foo: function(cb) {
+                assert(arguments.length === ['Database', 'Model', 'callback'].length);
+                assert(arguments[0] instanceof Database, 'Unexpected arguments in adapter method: '+util.inspect(arguments));
+                assert(arguments[1] instanceof Model, 'Unexpected arguments in adapter method: '+util.inspect(arguments));
+                assert(typeof arguments[2] === 'function', 'Unexpected arguments in adapter method: '+util.inspect(arguments));
+                arguments[2]();
+              }
+            });
+          },
+          getDatabase: function () {
+            return new Database({
+              identity: 'someDatabase',
+            });
+          },
+          getModel: function () {
+            return new Model({
+              identity: this.identity
+            });
           }
         };
       });
