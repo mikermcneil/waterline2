@@ -1,6 +1,9 @@
 /**
  * Module dependencies
  */
+
+var util = require('util');
+var assert = require('assert');
 var WLFilter = require('waterline-criteria');
 
 
@@ -18,6 +21,9 @@ module.exports = function build_CatPersonAdapter() {
     waterlineVersion: '~2.0.0',
 
     find: function (criteria, cb) {
+      assert(typeof criteria === 'object', '"criteria" argument should exist, and be an object- instead got:'+util.inspect(criteria));
+      assert(typeof cb === 'function', '"callback" argument should exist, and be a function- instead got:'+util.inspect(cb));
+
       var heap = {
         person: require('./person.dataset.fixture'),
         cat: require('./cat.dataset.fixture')
