@@ -141,14 +141,20 @@ function normalizeWhereTree (whereTree, targetModel) {
       return memo;
     }
 
+    var subKeys = Object.keys(sub);
+
     // Check if the subtree contains any operations modifiers
-    var operationModifiers = _.intersection($$.OPERATION_MODS, Object.keys(sub));
+    // But ignore any operations modifiers with are ALSO subquery modifiers (e.g. min, max)
+    var operationModifiers = _(subKeys)
+      .intersection ( $$.OPERATION_MODS )
+      .difference   ( $$.SUBQUERY_MODS  )
+      .valueOf();
     if (operationModifiers.length) {
-      throw new WLUsageError('Invalid operations syntax in query. Should not specify modifiers (e.g. `where` or `limit`) inside of a `where` clause.  To do a nested `where` (i.e. subquery) on an association, use the `whose`, `min`, and/or `max` subquery modifiers.');
+      throw new WLUsageError('Invalid operations syntax in query. Should not specify operations modifiers (e.g. `where` or `limit`) inside of a `where` clause.  To do a nested `where` (i.e. subquery) on an association, use the `whose`, `min`, and/or `max` subquery modifiers.');
     }
 
     // Check if the subtree contains any subattribute modifiers
-    var subattrModifiers = _.intersection($$.SUBATTR_MODS, Object.keys(sub));
+    var subattrModifiers = _.intersection($$.SUBATTR_MODS, subKeys);
     // If it does, get out, it's ok.
     if (subattrModifiers.length) {
       memo[attrName] = sub;
@@ -156,7 +162,7 @@ function normalizeWhereTree (whereTree, targetModel) {
     }
 
     // Check if the subtree contains any subquery modifiers
-    var subqueryModifiers = _.intersection($$.SUBQUERY_MODS, Object.keys(sub));
+    var subqueryModifiers = _.intersection($$.SUBQUERY_MODS, subKeys);
 
     // If it doesn't, we'll assume all of the keys belong to a "WHOSE", with "MIN:1"
     if (!subqueryModifiers.length) {

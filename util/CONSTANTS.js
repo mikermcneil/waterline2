@@ -7,7 +7,11 @@
 module.exports = {
 
   // Operation clause flags:
-  OPERATION_MODS: ['where', 'select', 'sort', 'from', 'skip', 'limit'],
+  OPERATION_MODS: [
+    'where', 'select', 'sort', 'from', 'skip', 'limit',
+    'count', 'sum', 'average', 'min', 'max',
+    'groupBy'
+  ],
 
   // Predicate modifiers
   PREDICATE_MODS: ['or'],
