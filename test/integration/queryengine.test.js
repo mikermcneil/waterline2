@@ -71,8 +71,8 @@ describe('query engine', function () {
         // console.log('Searched:',q);
         // console.log('Results:\n', results);
 
-        assert(q.cache.get('cat'));
-        assert(q.cache.get('person'));
+        assert(q.heap.get('cat'));
+        assert(q.heap.get('person'));
         cb();
       });
     });
@@ -98,8 +98,8 @@ describe('query engine', function () {
         }
       }).exec(function(err, results) {
         if (err) throw err;
-        assert(q.cache.get('cat'));
-        assert(q.cache.get('person'));
+        assert(q.heap.get('cat'));
+        assert(q.heap.get('person'));
         cb();
       });
     });
@@ -125,8 +125,8 @@ describe('query engine', function () {
         }
       }).exec(function(err, results) {
         if (err) throw err;
-        assert(q.cache.get('cat'));
-        assert(q.cache.get('person'));
+        assert(q.heap.get('cat'));
+        assert(q.heap.get('person'));
         // console.log('Results:\n', results);
         cb();
       });
@@ -172,7 +172,7 @@ var q = orm.model('person').find({
 q.log();
 
 // setTimeout(function () {
-//   q.cache;
+//   q.heap;
 // });
 
 

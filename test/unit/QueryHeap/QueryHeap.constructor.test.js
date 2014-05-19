@@ -3,44 +3,44 @@
  */
 
 var assert = require('assert');
-var QueryHeap = require('root-require')('./lib/Query/engine/QueryCache');
+var QueryHeap = require('root-require')('./lib/Query/engine/QueryHeap');
 var ORM = require('root-require')('./lib/ORM');
 
 
 describe('QueryHeap', function () {
   describe('.constructor', function () {
-    var cache;
+    var heap;
 
     it('should construct a QueryHeap', function () {
-      cache = new QueryHeap({
+      heap = new QueryHeap({
         orm: new ORM()
       });
     });
 
     it('should refuse to construct a QueryHeap if no valid `orm` option is passed in', function () {
       assert.throws(function () {
-        cache = new QueryHeap();
+        heap = new QueryHeap();
       });
     });
 
     it('should have non-enumerable property: `orm`', function () {
-      assert(!cache.propertyIsEnumerable('orm'));
+      assert(!heap.propertyIsEnumerable('orm'));
     });
 
     it('should have non-enumerable property: `_models`', function () {
-      assert(!cache.propertyIsEnumerable('_models'));
+      assert(!heap.propertyIsEnumerable('_models'));
     });
 
     it('should have a `get()` method', function () {
-      assert(typeof cache.get === 'function');
+      assert(typeof heap.get === 'function');
     });
 
     it('should have a `push()` method', function () {
-      assert(typeof cache.push === 'function');
+      assert(typeof heap.push === 'function');
     });
 
     it('should have a `wipe()` method', function () {
-      assert(typeof cache.wipe === 'function');
+      assert(typeof heap.wipe === 'function');
     });
 
 

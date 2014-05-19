@@ -47,12 +47,12 @@ describe('integration', function () {
 
           console.log('Vs:');
           // console.log('Vs:', persons);
-          console.log(q.cache);
+          console.log(q.heap);
           assert.equal(persons.length, expected.length, require('util').format('Unexpected number of top-level results (expected %d, got %d)', expected.length, persons.length));
 
           // Ensure proper number of nested things came back
           // (numEars=3 should not match ANY)
-          assert.equal(q.cache.get('cat').length, 1);
+          assert.equal(q.heap.get('cat').length, 1);
 
           done();
         });
@@ -106,7 +106,7 @@ describe('integration', function () {
 
           // Ensure proper number of nested things came back
           // (numEars=3 should not match ANY)
-          assert.equal(q.cache.get('cat').length,0);
+          assert.equal(q.heap.get('cat').length,0);
           done();
         });
       });
