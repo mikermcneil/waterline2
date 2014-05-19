@@ -21,15 +21,14 @@ module.exports = function build_CatPersonAdapter() {
     waterlineVersion: '~2.0.0',
 
     find: function (criteria, cb) {
-      assert(typeof criteria === 'object', '"criteria" argument should exist, and be an object- instead got:'+util.inspect(criteria));
-      assert(typeof cb === 'function', '"callback" argument should exist, and be a function- instead got:'+util.inspect(cb));
+      assert(typeof criteria === 'object', '"criteria" argument should exist, and be an object- instead got:\n'+util.inspect(criteria));
+      assert(typeof cb === 'function', '"callback" argument should exist, and be a function- instead got:\n'+util.inspect(cb));
 
-      var heap = {
-        person: require('./person.dataset.fixture'),
-        cat: require('./cat.dataset.fixture')
-      };
-      setTimeout(function () {
-        var results = WLFilter(criteria.from, heap, criteria).results;
+      setTimeout(function afterSimulatedLookupDelay () {
+        var results = WLFilter(criteria.from, {
+          person: require('./person.dataset.fixture'),
+          cat: require('./cat.dataset.fixture')
+        }, criteria).results;
         return cb(null, results);
       }, 0);
     }
