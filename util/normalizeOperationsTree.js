@@ -219,6 +219,11 @@ function normalizeSelectTree (selectTree, targetModel, flags) {
       $memo[attrName] = true;
       return $memo;
     }, {});
+
+    // TODO: can probably return early here as an optimization
+    //
+    // (saves O(|Qπ|) iterations of the loop below, where `Qπ` is the set
+    // of attributes in the query's select clause)
   }
 
   // Now loop through each attribute/association
