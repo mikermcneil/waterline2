@@ -212,6 +212,15 @@ function normalizeSelectTree (selectTree, targetModel, flags) {
     throw new WLUsageError('Invalid operations syntax in query. Should not specify modifiers (e.g. `where` or `limit`) inside of a `select` clause.  However, you _can_ use these modifiers within an _association_ of a `select` clause.  For example: {select: { name: true, pet: { where: { age: { ">": 12 } } } } }');
   }
 
+  // If the select tree is an empty object, interpret that to mean "all attributes"
+  // (only possible if `targetModel` was passed in)
+  if (targetModel && _.isEqual(selectTree, {}) || selectTree === '*') {
+    selectTree = _.reduce(targetModel.attributes, function ($memo, def, attrName){
+      $memo[attrName] = true;
+      return $memo;
+    }, {});
+  }
+
   // Now loop through each attribute/association
   return _.reduce(selectTree, function (memo, sub, attrName) {
 
