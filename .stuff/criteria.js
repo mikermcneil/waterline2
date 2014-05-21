@@ -269,6 +269,7 @@ function normalizeSelectTree (selectTree, targetModel, flags) {
     if (flags) { flags.numJoins++; }
 
     // Try to determine the `joinModel`
+    // TODO: use targetModel's schema to infer the `from`, or better yet, define a model method that returns the related model, given the name of an association
     var joinModel;
     if (targetModel && sub.from && targetModel.orm) {
       joinModel = targetModel.orm.model(sub.from);
@@ -326,6 +327,16 @@ module.exports = normalizeCriteria;
 
 
 
+
+
+
+
+
+
+
+
+
+
 // ------------------------------------------------------------------------------------
 // Example criteria object for reference:
 //
@@ -362,3 +373,29 @@ module.exports = normalizeCriteria;
 //   }
 // };
 
+
+
+/**
+ * Return a copy of `obj` with all keys that exist in the
+ * `synonymTable` (case-insensitive) replaced with their
+ * synonyms.
+ *
+ * The normalization will run repeatedly until it cannot find
+ * a suitable synonym, then use the last matching synonym for the key.
+ * If the MAX_DEPTH is exceeded, or no synonym was matched at all, the key
+ * will simply be omitted.
+ *
+ * @param  {[type]} obj          [description]
+ * @param  {[type]} synonymTable [description]
+ * @return {[type]}              [description]
+ */
+function resolveKeySynonyms (obj, synonymTable) {
+
+  var LOWERCASE_SYNONYMS = withLowercasedKeys(obj);
+
+  return _.reduce(obj, function ($memo, val, key) {
+    var resolvedKey = LOWERCASE_SYNONYMS[key.toLowerCase()];
+    $memo[resolvedKey] = val;
+    return $memo;
+  }, {});
+}
