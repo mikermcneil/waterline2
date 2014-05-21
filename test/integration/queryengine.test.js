@@ -13,7 +13,7 @@ describe('query engine', function () {
   describe('a simple Query', function () {
 
     var q = orm.query({
-      operations: {
+      criteria: {
         from: 'person',
         where: {
           id: [1,2]
@@ -44,7 +44,7 @@ describe('query engine', function () {
 
     it('should be usable directly via orm.query()', function (cb) {
       var q = orm.query({
-        operations: {
+        criteria: {
           from: 'person',
           where: {
             id: [1,2]
@@ -81,7 +81,7 @@ describe('query engine', function () {
     it('should work with a 1.N model association', function (cb) {
 
       var q = orm.query({
-        operations: {
+        criteria: {
           from: 'person',
           where: {
             id: [1,2]
@@ -107,7 +107,7 @@ describe('query engine', function () {
     it('should work with a N.1 collection association', function (cb) {
 
       var q = orm.query({
-        operations: {
+        criteria: {
           from: 'person',
           where: {
             id: [1,2]
