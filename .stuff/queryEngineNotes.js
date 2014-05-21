@@ -404,3 +404,90 @@
 //     }
 //   }
 // }];
+
+
+
+
+
+
+
+
+
+User.find({
+  where: {
+    pets: {
+      whose: {
+        name: 'scruffy'
+      },
+      min: 1
+    }
+  },
+
+  select: {
+    id: true,
+    name: true,
+    friends: {
+      select: {
+        id: true
+      },
+      where: {}
+    },
+    relatives: {
+      select: {
+        id: true
+      }
+    },
+    mom: {
+      select: {
+        id: true,
+        mom: {
+          id: true
+        },
+        pets: {
+          id: true
+        }
+      }
+    },
+    // pets: {
+    //   select: {
+    //     id: true,
+    //     name: true
+    //   },
+    //   where: {
+    //     name: { contains: 'sc' }
+    //   },
+    //   limit: 30,
+    //   sort: {
+    //     name: 1
+    //   }
+    // }
+    _pets_users: {
+      select: {
+        id: true,
+        pet: {
+          select: {
+            id: true,
+            name: true
+          },
+          where: {
+            name: { contains: 'sc' }
+          }
+        },
+        user: true
+      }
+    }
+    // where: {
+    //   pet: {
+    //     whose: {
+    //       id: [],
+    //       name: { contains: 'sc' }
+    //     }
+    //   }
+    // }
+  }
+});
+
+
+
+
+
