@@ -17,7 +17,7 @@ var WLError = require('../lib/WLError');
  * module provides helpful methods for any classes, instances,
  * or sets of such which key off of an `identity` property.
  *
- * (currently most useful for Models, Adapters, and Databases)
+ * (currently most useful for Models, Adapters, and Datastores)
  */
 function WLEntity () {
 

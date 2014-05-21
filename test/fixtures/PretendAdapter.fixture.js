@@ -10,7 +10,7 @@ module.exports = function build_PretendAdapter () {
     describe: function (db, modelID, cb) {
       cb(null, {
         attributes: {},
-        database: 'default'
+        datastore: 'default'
       });
     },
     find: function (db, cid, criteria, cb) {

@@ -36,11 +36,11 @@ describe('ORM', function () {
       assert(typeof schema.weaving === 'object');
     });
 
-    it('should work when databases and adapters are added', function () {
+    it('should work when datastores and adapters are added', function () {
 
       var schema;
 
-      orm.identifyDatabase('some mysql somewhere');
+      orm.identifyDatastore('some mysql somewhere');
       schema = orm.refresh();
       assert(typeof schema === 'object');
       assert(typeof schema.foo === 'object');
@@ -89,11 +89,11 @@ describe('ORM', function () {
       assert(!schema2.weaving);
     });
 
-    it('shouldn\'t blow up with ONLY databases', function () {
+    it('shouldn\'t blow up with ONLY datastores', function () {
       orm = new ORM();
-      orm.identifyDatabase('some mysql somewhere');
-      orm.identifyDatabase('some postgresql somewhere', {});
-      orm.identifyDatabase({identity: 'some folder somewhere'});
+      orm.identifyDatastore('some mysql somewhere');
+      orm.identifyDatastore('some postgresql somewhere', {});
+      orm.identifyDatastore({identity: 'some folder somewhere'});
 
       var schema = orm.refresh();
       assert(typeof schema === 'object');
@@ -101,9 +101,9 @@ describe('ORM', function () {
 
     it('shouldn\'t blow up with ONLY adapters', function () {
       orm = new ORM();
-      orm.identifyDatabase('sails-mysql');
-      orm.identifyDatabase('sails-disk', {});
-      orm.identifyDatabase({ identity: 'sails-postgresql' });
+      orm.identifyDatastore('sails-mysql');
+      orm.identifyDatastore('sails-disk', {});
+      orm.identifyDatastore({ identity: 'sails-postgresql' });
 
       var schema = orm.refresh();
       assert(typeof schema === 'object');

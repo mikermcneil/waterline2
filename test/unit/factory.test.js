@@ -16,7 +16,7 @@ describe('Waterline', function () {
       });
     });
 
-    it('should construct a valid ORM with models, adapters, and databases', function () {
+    it('should construct a valid ORM with models, adapters, and datastores', function () {
       var orm = Waterline();
       assert(Waterline.ORM.isORM(orm));
     });
@@ -25,7 +25,7 @@ describe('Waterline', function () {
       var orm = Waterline({
         adapters: [],
         models: [],
-        databases: []
+        datastores: []
       });
       assert(Waterline.ORM.isORM(orm));
     });
@@ -34,7 +34,7 @@ describe('Waterline', function () {
       var orm = Waterline({
         adapters: [{identity: 'sails-mysql'}],
         models: [{identity: 'user'}],
-        databases: [{identity: 'gregs Mysql db'}]
+        datastores: [{identity: 'gregs Mysql db'}]
       });
       assert(Waterline.ORM.isORM(orm));
     });
@@ -43,7 +43,7 @@ describe('Waterline', function () {
       var orm = Waterline({
         adapters: {},
         models: {},
-        databases: {}
+        datastores: {}
       });
       assert(Waterline.ORM.isORM(orm));
     });
@@ -56,7 +56,7 @@ describe('Waterline', function () {
         models: {
           user: {}
         },
-        databases: {
+        datastores: {
           'gregs Mysql db': {}
         }
       });
@@ -64,7 +64,7 @@ describe('Waterline', function () {
 
       assert.doesNotThrow(function () {
         assert(orm.models[0].identity === 'user');
-        assert(orm.databases[0].identity === 'gregs Mysql db');
+        assert(orm.datastores[0].identity === 'gregs Mysql db');
         assert(orm.adapters[0].identity === 'sails-mysql');
       });
     });

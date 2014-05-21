@@ -20,11 +20,11 @@ module.exports = function PeopleAndTheirCats () {
   return buildAndTestORM({
     models: {
       user: {
-        database: 'default',
+        datastore: 'default',
         attributes: {}
       },
       person: {
-        database: 'withData',
+        datastore: 'withData',
         attributes: {
           id: { type: 'integer', primaryKey: true },
           name: { type: 'string' },
@@ -35,7 +35,7 @@ module.exports = function PeopleAndTheirCats () {
         }
       },
       cat: {
-        database: 'withData',
+        datastore: 'withData',
         attributes: {
           id: {type: 'integer', primaryKey: true},
           numEars: {type: 'integer'},
@@ -45,7 +45,7 @@ module.exports = function PeopleAndTheirCats () {
         }
       }
     },
-    databases: {
+    datastores: {
       default: {
         adapter: 'wl-pretend'
       },

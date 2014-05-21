@@ -21,7 +21,7 @@ describe('ORM', function () {
       orm.identifyModel('Purchase');
       orm.identifyModel('Location');
 
-      orm.identifyDatabase('extremely enterprise thing');
+      orm.identifyDatastore('extremely enterprise thing');
 
       orm.refresh();
 

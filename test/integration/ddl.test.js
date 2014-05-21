@@ -21,7 +21,7 @@ describe('integration', function () {
 
     before(function () {
       orm = PeopleAndTheirCats();
-      db = _(orm.databases).first();
+      db = _(orm.datastores).first();
       model = _(orm.models).first();
     });
 

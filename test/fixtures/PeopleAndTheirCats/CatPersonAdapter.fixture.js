@@ -31,8 +31,8 @@ module.exports = function build_CatPersonAdapter() {
         '"criteria" argument SHOULD NOT be an instance of Model- but it was:\n'+util.inspect(criteria)
       );
       assert(
-        !(criteria instanceof rootrequire('lib/Database')),
-        '"criteria" argument SHOULD NOT be an instance of Database- but it was:\n'+util.inspect(criteria)
+        !(criteria instanceof rootrequire('lib/Datastore')),
+        '"criteria" argument SHOULD NOT be an instance of Datastore- but it was:\n'+util.inspect(criteria)
       );
       assert(
         typeof cb === 'function',

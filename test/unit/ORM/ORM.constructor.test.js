@@ -15,9 +15,9 @@ describe('ORM', function () {
       orm = new ORM();
     });
 
-    it('should have models, and adapters, and databases', function () {
+    it('should have models, and adapters, and datastores', function () {
       assert(orm.adapters);
-      assert(orm.databases);
+      assert(orm.datastores);
       assert(orm.models);
     });
   });

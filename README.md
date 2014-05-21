@@ -25,7 +25,7 @@ console.log(orm1);
 
 //------[ORM]------
 // • 0 model(s)
-// • 0 database(s)
+// • 0 datastore(s)
 // • 0 adapter(s)
 //-----------------
 ```
@@ -44,7 +44,7 @@ console.log(orm2);
 
 //------[ORM]------
 // • 1 model(s)
-// • 0 database(s)
+// • 0 datastore(s)
 // • 0 adapter(s)
 //-----------------
 
@@ -64,7 +64,7 @@ var orm3 = Waterline({
     pustule: {},
     automobile: {}
   },
-  databases: { myFooDb: {} },
+  datastores: { myFooDb: {} },
   adapters: { 'wl-myfoo': {} }
 });
 
@@ -73,7 +73,7 @@ console.log(orm3);
 
 //------[ORM]------
 // • 4 model(s)
-// • 1 database(s)
+// • 1 datastore(s)
 // • 1 adapter(s)
 //-----------------
 
@@ -84,7 +84,7 @@ console.log(orm3);
 ```
 
 
-## Working with models, databases, adapters at runtime
+## Working with models, datastores, adapters at runtime
 
 When entities are **changed** at runtime, you should use the _methods_ below. Otherwise, you can change `yourOrm.models`, `yourOrm.adapters`, etc. directly, just be sure and call `yourOrm.refresh()` afterwards.
 
@@ -128,17 +128,17 @@ console.log(Parakeet);
 */
 ```
 
-##### Get your databases or adapters
+##### Get your datastores or adapters
 
 ```js
-orm3.databases;
+orm3.datastores;
 /*
-[ ------[Database <myFooDb>]------
+[ ------[Datastore <myFooDb>]------
   { identity: 'myFooDb' }
   -------------------------------- ]
 */
 
-var MyFooDb = orm.database('myFooDb');
+var MyFooDb = orm.datastore('myFooDb');
 ```
 
 
@@ -155,20 +155,20 @@ orm3.adapters;
 var MyFooAdapter = orm.adapter('wl-myfoo');
 ```
 
-##### Identify a new model, database, or adapter
+##### Identify a new model, datastore, or adapter
 
 Will override what's already there if something else exists w/ the same identity.
 
 ```js
 orm3.identifyModel('pickle', {});
-orm3.identifyDatabase('ram', {});
+orm3.identifyDatastore('ram', {});
 orm3.identifyAdapter('sails-memory', {});
 ```
 
-##### "Forget" a model, database or adapter
+##### "Forget" a model, datastore or adapter
 ```js
 orm3.forgetModel('werewolf');
-orm3.fogetDatabase('myFooDb');
+orm3.fogetDatastore('myFooDb');
 orm3.forgetAdapter('wl-myfoo');
 ```
 
@@ -177,22 +177,22 @@ orm3.forgetAdapter('wl-myfoo');
 
 ### Constructors
 
-So needless to say, you can always instantiate an ORM and a model, then grab the model instance and get its `.constructor`.  Same thing for Database, Adapter, and the ORM constructor itself.  But Waterline also exposes these at the top level for you:
+So needless to say, you can always instantiate an ORM and a model, then grab the model instance and get its `.constructor`.  Same thing for Datastore, Adapter, and the ORM constructor itself.  But Waterline also exposes these at the top level for you:
 
 ```js
 new Waterline.Model();
-new Waterline.Database();
+new Waterline.Datastore();
 new Waterline.Adapter();
 new Waterline.ORM();
 ```
 
 ### Qualifier methods
 
-Waterline also provides some static methods for checking whether some input is an instantiated model, database, etc.:
+Waterline also provides some static methods for checking whether some input is an instantiated model, datastore, etc.:
 
 ```js
 Waterline.Model.isModel( someMysteriousThing );
-Waterline.Database.isDatabase( someMysteriousThing );
+Waterline.Datastore.isDatastore( someMysteriousThing );
 Waterline.Adapter.isAdapter( someMysteriousThing );
 Waterline.ORM.isORM( someMysteriousThing );
 ```

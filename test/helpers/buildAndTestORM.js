@@ -39,7 +39,7 @@ module.exports = function buildAndTestORM (ontology, fixtureName) {
 
         it('should return a properly configured ontology in that ORM instance', function () {
           assert( Waterline.Adapter.isAdapter (_.find(orm.adapters, { identity: 'wl-pretend' })), 'adapter is missing or invalid' );
-          assert( Waterline.Database.isDatabase (_.find(orm.databases, { identity: 'default' })), 'database is missing or invalid' );
+          assert( Waterline.Datastore.isDatastore (_.find(orm.datastores, { identity: 'default' })), 'datastore is missing or invalid' );
           assert( Waterline.Model.isModel   (_.find(orm.models, { identity: 'user' })), 'model is missing or invalid' );
         });
       });

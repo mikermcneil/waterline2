@@ -5,7 +5,7 @@
 var assert = require('assert');
 var util = require('util');
 var Adapter = require('root-require')('lib/Adapter');
-var Database = require('root-require')('lib/Database');
+var Datastore = require('root-require')('lib/Datastore');
 var Model = require('root-require')('lib/Model');
 var Deferred = require('root-require')('lib/Deferred');
 var WLUsageError = require('root-require')('lib/WLError/WLUsageError');
@@ -36,7 +36,7 @@ describe('Adapter', function() {
             }],
             adapterUsage: {
               '>= 2.0.0': ['callback'],
-              '*': ['Database', 'Model', 'callback']
+              '*': ['Datastore', 'Model', 'callback']
             }
           }),
 
@@ -45,17 +45,17 @@ describe('Adapter', function() {
               identity: 'someAdapter',
               apiVersion: '1.0.0',
               foo: function(cb) {
-                assert(arguments.length === ['Database', 'Model', 'callback'].length);
-                assert(arguments[0] instanceof Database, 'Unexpected arguments in adapter method: '+util.inspect(arguments));
+                assert(arguments.length === ['Datastore', 'Model', 'callback'].length);
+                assert(arguments[0] instanceof Datastore, 'Unexpected arguments in adapter method: '+util.inspect(arguments));
                 assert(arguments[1] instanceof Model, 'Unexpected arguments in adapter method: '+util.inspect(arguments));
                 assert(typeof arguments[2] === 'function', 'Unexpected arguments in adapter method: '+util.inspect(arguments));
                 arguments[2]();
               }
             });
           },
-          getDatabase: function () {
-            return new Database({
-              identity: 'someDatabase',
+          getDatastore: function () {
+            return new Datastore({
+              identity: 'someDatastore',
             });
           },
           getModel: function () {

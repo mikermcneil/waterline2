@@ -15,11 +15,11 @@ describe('integration', function () {
       var orm = Waterline({
         models: {
           user: {
-            database: 'default',
+            datastore: 'default',
             attributes: {}
           }
         },
-        databases: {
+        datastores: {
           default: {
             adapter: 'wl-pretend'
           }
@@ -35,7 +35,7 @@ describe('integration', function () {
       // Schema is valid:
       assert( Waterline.ORM.isORM(orm) );
       assert( Waterline.Adapter.isAdapter   (_.find(orm.adapters, { identity: 'wl-pretend' })), 'adapter is missing or invalid' );
-      assert( Waterline.Database.isDatabase (_.find(orm.databases, { identity: 'default' })), 'database is missing or invalid' );
+      assert( Waterline.Datastore.isDatastore (_.find(orm.datastores, { identity: 'default' })), 'datastore is missing or invalid' );
       assert( Waterline.Model.isModel       (_.find(orm.models, { identity: 'user' })), 'model is missing or invalid' );
     });
 
@@ -45,10 +45,10 @@ describe('integration', function () {
 
       var orm = Waterline();
       orm.identifyModel('User', {
-        database: 'default',
+        datastore: 'default',
         attributes: {}
       });
-      orm.identifyDatabase('default', {
+      orm.identifyDatastore('default', {
         adapter: 'wl-pretend'
       });
       orm.identifyAdapter('wl-pretend', {
@@ -58,7 +58,7 @@ describe('integration', function () {
       // Schema is valid:
       assert( Waterline.ORM.isORM(orm) );
       assert( Waterline.Adapter.isAdapter   (_.find(orm.adapters, { identity: 'wl-pretend' })), 'adapter is missing or invalid' );
-      assert( Waterline.Database.isDatabase (_.find(orm.databases, { identity: 'default' })), 'database is missing or invalid' );
+      assert( Waterline.Datastore.isDatastore (_.find(orm.datastores, { identity: 'default' })), 'datastore is missing or invalid' );
       assert( Waterline.Model.isModel       (_.find(orm.models, { identity: 'user' })), 'model is missing or invalid' );
     });
 
