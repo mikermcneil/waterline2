@@ -165,12 +165,16 @@ WLEntity.forgetter = function (things) {
 WLEntity.getter = function (things) {
 
   /**
+   * Case-insensitive identity-based lookup.
+   *
    * @this {ORM}
    * @param  {[type]} identity [description]
    * @return {[type]}          [description]
    */
   return function _getThing (identity) {
-    return _.find(this[things], { identity: identity });
+    return _.find(this[things], function (thing) {
+      return thing.identity.toLowerCase() === identity.toLowerCase();
+    });
   };
 };
 
