@@ -5,6 +5,9 @@
 var assert = require('assert');
 var _ = require('lodash');
 var ORM = require('../../../lib/ORM');
+var WLEntity = require('../../../util/WLEntity');
+
+
 
 
 describe('ORM', function () {
@@ -26,10 +29,10 @@ describe('ORM', function () {
       orm.refresh();
 
       // Expose models via closure to make testing easier
-      User = _.find(orm.models, {identity: 'user'});
-      Pet = _.find(orm.models, {identity: 'pet'});
-      Purchase = _.find(orm.models, {identity: 'purchase'});
-      Location = _.find(orm.models, {identity: 'location'});
+      User = orm.model('user');
+      Pet = orm.model('pet');
+      Purchase = orm.model('purchase');
+      Location = orm.model('location');
     });
 
 

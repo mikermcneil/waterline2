@@ -79,8 +79,11 @@ WLEntity.normalize = function (identity, definition) {
   definition = definition || {};
 
   // Apply `identity` argument to definition, if relevant
-  if (identity) {
-    identity = identity.toLowerCase();
+  if (identity && typeof identity === 'string') {
+    // Make sure the first letter is lower-cased
+    // (Note that this may be adapted eventually to lowercase all
+    // characters, since lookups are case-insensitive anyway)
+    identity = identity.substr(0,1).toUpperCase() + identity.substr(1);
     definition.identity = identity;
   }
 
@@ -118,13 +121,12 @@ WLEntity.identifier = function (things, Thing) {
    * @api private
    */
   return function _identifyThing (identity, definition) {
+
     definition = WLEntity.normalize(identity, definition);
 
     // If another Thing already exists amongst these `things`
     // with the specified identity, overwrite it.
-    if (_.find(this[things], { identity: definition.identity })) {
-      _.remove(this[things], { identity: definition.identity });
-    }
+    _.bind(WLEntity.forgetter(things), this)(definition.identity);
 
     definition.orm = this;
     var newThing = new Thing(definition);
@@ -152,7 +154,9 @@ WLEntity.forgetter = function (things) {
    * @return {[type]}          [description]
    */
   return function _forgetThing (identity) {
-    _.remove(this[things], { identity: identity });
+    _.reject(this[things], function (thing) {
+      return thing.identity.toLowerCase() === identity.toLowerCase();
+    });
     return this;
   };
 };
@@ -177,6 +181,7 @@ WLEntity.getter = function (things) {
     });
   };
 };
+
 
 
 

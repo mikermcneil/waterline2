@@ -57,12 +57,18 @@ describe('integration', function () {
 
       // Schema is valid:
       assert( Waterline.ORM.isORM(orm) );
-      assert( Waterline.Adapter.isAdapter   (_.find(orm.adapters, { identity: 'wl-pretend' })), 'adapter is missing or invalid' );
-      assert( Waterline.Datastore.isDatastore (_.find(orm.datastores, { identity: 'default' })), 'datastore is missing or invalid' );
-      assert( Waterline.Model.isModel       (_.find(orm.models, { identity: 'user' })), 'model is missing or invalid' );
+      assert( Waterline.Adapter.isAdapter     (_.find(orm.adapters, _matchesIdentity('wl-pretend'))), 'adapter is missing or invalid' );
+      assert( Waterline.Datastore.isDatastore (_.find(orm.datastores, _matchesIdentity('default'))), 'datastore is missing or invalid' );
+      assert( Waterline.Model.isModel         (_.find(orm.models, _matchesIdentity('user'))), 'model is missing or invalid' );
     });
 
   });
 });
 
 
+
+function _matchesIdentity(identity){
+  return function (thing) {
+    return thing.identity.toLowerCase() === identity.toLowerCase();
+  };
+}
