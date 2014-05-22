@@ -31,7 +31,48 @@ module.exports = function PeopleAndTheirCats () {
           dad: { type: 'json' },
           friends: { type: 'array' },
           petCat: { model: 'cat' },
-          petOfCats: { collection: 'cat', via: 'petHuman' }
+          petOfCats: {
+            // current way:
+            collection: 'cat',
+            via: 'petHuman',
+
+            // Ideas:
+
+            // Array of foreign keys:
+            // collection: 'Cat',
+            // via: 'Cat.petHuman', // or link: 'Cat.petHuman',
+            // aid: '_somecolumnnameforarrayofcatpks',
+            // type: 'integer[]',
+
+            // -OR-
+
+            // Custom junction collection
+            // (this is the default, if `junction` and `type` are omitted)
+            // collection: 'Cat',
+            // via: 'Cat.petHuman',
+            // junction: {
+            //   identity: 'person.petofcats',
+            //   cid: 'person_petOfCats<->petHuman_person',
+            //   attributes: {
+            //     id: {
+            //       type: 'integer',
+            //       primaryKey: true,
+            //       aid: '_somecolumnnameforpk'
+            //     },
+            //     cat: {
+            //       model: 'Cat',
+            //       type: 'integer',
+            //       aid: '_somecolumnnameforcat'
+            //     },
+            //     person: {
+            //       model: 'Person',
+            //       type: 'integer',
+            //       aid: '_somecolumnnameforperson'
+            //     }
+            //   }
+            // }
+
+          }
         }
       },
       cat: {

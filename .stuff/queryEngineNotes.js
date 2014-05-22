@@ -413,7 +413,10 @@
 
 
 
-User.find({
+orm.query({
+
+  from: 'user',
+
   where: {
     pets: {
       whose: {
@@ -448,42 +451,24 @@ User.find({
         }
       }
     },
-    // pets: {
-    //   select: {
-    //     id: true,
-    //     name: true
-    //   },
-    //   where: {
-    //     name: { contains: 'sc' }
-    //   },
-    //   limit: 30,
-    //   sort: {
-    //     name: 1
-    //   }
-    // }
-    _pets_users: {
+    pets: {
       select: {
+        '*': true,
         id: true,
-        pet: {
-          select: {
-            id: true,
-            name: true
-          },
-          where: {
-            name: { contains: 'sc' }
-          }
-        },
-        user: true
+        name: true,
+        bestPetFriends: {
+          select: {},
+          where: {}
+        }
+      },
+      where: {
+        name: { contains: 'sc' }
+      },
+      limit: 30,
+      sort: {
+        name: 1
       }
-    }
-    // where: {
-    //   pet: {
-    //     whose: {
-    //       id: [],
-    //       name: { contains: 'sc' }
-    //     }
-    //   }
-    // }
+    },
   }
 });
 
@@ -491,3 +476,60 @@ User.find({
 
 
 
+
+
+pets: {
+  from: 'pets',
+  junction: '',
+  select: {
+    id: true,
+    name: true,
+    bestPetFriends: {
+      select: {},
+      where: {}
+    }
+  },
+  where: {
+    name: { contains: 'sc' }
+  },
+  limit: 30,
+  sort: {
+    name: 1
+  }
+},
+
+
+// MySQL
+pets: {
+  junction: 'users_pets_junction',
+  select: {
+    id: true,
+    pet: {
+      from: 'pet',
+      select: {
+        id: true,
+        name: true
+      },
+      where: {
+        name: { contains: 'sc' }
+      }
+    },
+    user: true
+  }
+  // No need for WHERE here because `pets` is nested inside of parent
+}
+
+
+
+// Mongo
+pets: {
+  from: 'pet',
+  select: {
+    id: true,
+    name: true
+  },
+  where: {
+    name: { contains: 'sc' }
+  }
+  // No need for WHERE here because `pets` is nested inside of parent
+}
