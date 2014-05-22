@@ -83,7 +83,7 @@ WLEntity.normalize = function (identity, definition) {
     // Make sure the first letter is lower-cased
     // (Note that this may be adapted eventually to lowercase all
     // characters, since lookups are case-insensitive anyway)
-    identity = identity.substr(0,1).toUpperCase() + identity.substr(1);
+    identity = identity.substr(0,1).toLowerCase() + identity.substr(1);
     definition.identity = identity;
   }
 
