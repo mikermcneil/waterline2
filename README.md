@@ -206,19 +206,43 @@ See the source code.  Play around with it, have a good time you know
 
 #### Short-term Roadmap
 
-1. Finish the query engine so we can pull it into Waterline v0.x.x.
-2. Build shim that will allow Waterline v0.x.x to use the query engine.
-3. Build shim that will allow Waterline v0.x.x adapters to work transparently with WL2.
-4. Finish robust transaction support so we can pull it into Waterline v0.x.x.
+1. ~~Finish the query engine so we can pull it into Waterline v0.x.x.~~
+2. ~~Build shim that will allow Waterline v0.x.x to use the query engine.~~
+3. ~~Build shim that will allow Waterline v0.x.x adapters to work transparently with WL2.~~
+4. Finish making many-to-many associations work
+5. Finish robust transaction support so we can pull it into Waterline v0.x.x.
 
 #### Broad Goals
 
++ Pluggable/optional promise support
++ Pluggable/optional switchback support
++ Pluggable/optional logger
++ Emit 'error' events on the `orm` instance on uncatchable errors (i.e. when there's no callback)
++ Emit 'warning' events on the `orm` instance when we want to pass information back to the user about a near-error we recovered from (or something she might not expect to happen w/ usage normalization/validation)
 + Better support client-side usage and relevant requirements:
   + Lightweight
   + Fewer dependencies (but holy shit we have to keep lodash)
 + Conform to/establish a standard that can be used in other languages.
 + Improve nomenclature / overloaded terminology.
-+ Lots of other things- TODO: expand this section
++ Transactions and optimistic locking (in RecordCollection)
+
+#### DDL/migrations
+
++ Possibility to modify ontology at runtime-- everything is adjusted when you run `orm.refresh()`
++ Includes adding dynamically configured databases
++ Expose explicit`.migrate()` usage
++ Make junction strategies (for n<-->m and n-->m associations) configurable at the adapter level (i.e. associations in the schema are really just Queries).  Maybe even at the Query level (i.e. custom joins)
+
+#### Criteria cursor
+
++ Allows for `whose`-style subqueries (SELECT * FROM foo WHERE (SELECT * FROM bar WHERE ...))
++ Allows for proper populate..where..limit..skip..sort..select support
++ Can be shared by finders, update, AND destroy
++ Update can accept a values object, OR a map function
+
+
+
+
 
 #### Timeline
 
