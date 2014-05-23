@@ -5,7 +5,8 @@
 var assert = require('assert');
 var _ = require('lodash');
 var ORM = require('../../../lib/ORM');
-var WLEntity = require('../../../util/WLEntity');
+
+var WLEntity = require('root-require')('standalone/WLEntity');
 
 
 

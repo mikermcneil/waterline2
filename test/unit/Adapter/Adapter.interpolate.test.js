@@ -7,8 +7,9 @@ var util = require('util');
 var Adapter = require('root-require')('lib/Adapter');
 var Datastore = require('root-require')('lib/Datastore');
 var Model = require('root-require')('lib/Model');
-var Deferred = require('root-require')('lib/Deferred');
-var WLUsageError = require('root-require')('lib/WLError/WLUsageError');
+var Deferred = require('root-require')('standalone/Deferred');
+
+var WLUsageError = require('root-require')('standalone/WLError/WLUsageError');
 
 
 

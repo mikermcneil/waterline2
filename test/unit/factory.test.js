@@ -4,7 +4,7 @@
 
 var assert = require('assert');
 var _ = require('lodash');
-var Waterline = require('../../');
+var Waterline = require('root-require')('');
 
 
 describe('Waterline', function () {

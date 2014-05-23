@@ -5,7 +5,8 @@
  */
 
 var _ = require('lodash');
-var WLError = require('../lib/WLError');
+
+var WLError = require('root-require')('standalone/WLError');
 
 
 

@@ -3,8 +3,8 @@
  */
 
 var assert = require('assert');
-var QueryHeap = require('root-require')('./lib/Query/engine/QueryHeap');
-var ORM = require('root-require')('./lib/ORM');
+var ORM = require('root-require')('lib/ORM');
+var QueryHeap = require('root-require')('lib/Query/engine/QueryHeap');
 
 
 describe('QueryHeap', function () {

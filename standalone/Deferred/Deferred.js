@@ -7,9 +7,10 @@ var EventEmitter = require('events').EventEmitter;
 var ReadableStream = require('stream').Readable;
 var _ = require('lodash');
 _.defaults = require('merge-defaults');
-var DEFAULT_LOG = require('../../util/logger');
-_.partialApply = require('../../util/partialApply');
-var WLUsageError = require('../WLError/WLUsageError');
+
+var DEFAULT_LOG = require('root-require')('standalone/logger');
+_.partialApply = require('root-require')('standalone/partialApply');
+var WLUsageError = require('root-require')('standalone/WLError/WLUsageError');
 
 
 /**
