@@ -1,3 +1,10 @@
+# Association Rules
+
+> Or, "How do we allow for fully customizable, adapter-agnostic join strategies in Waterline?"
+>
+> See http://en.wikipedia.org/wiki/Association_rule_learning for context.
+
+
 
 /////////////////
 //////     //////
@@ -74,8 +81,10 @@ E.g., here is the desired output, expressed in lisp:
 So then the goal of an association rule should be to modify the criteria in
 some particular way, without needing to know the free variable's (X) value.
 
+> See http://en.wikipedia.org/wiki/Association_rule_learning#Apriori_algorithm
 
 Fortunately, this can be concisely expressed in JavaScript using closure scope:
+
 
 ```js
 function associationRule(subcriteria) {
@@ -173,4 +182,5 @@ an association rule "preset".
 We'll stop this discussion here, since these preset strategies are not crucial for the first phase of
 development, but it is an interesting thing to reflect on towards the goal of completely declarative,
 implementation-agnostic data retrieval algorithms.
+
 
