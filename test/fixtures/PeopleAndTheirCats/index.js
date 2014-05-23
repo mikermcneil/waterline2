@@ -5,7 +5,7 @@
 var rootrequire = require('root-require');
 
 var buildAndTestORM = rootrequire('./test/helpers/buildAndTestORM');
-var buildDef_PretendAdapter = rootrequire('./test/fixtures/PretendAdapter.fixture');
+var buildDef_PretendAdapter = require('./PretendAdapter.fixture');
 var buildDef_CatPersonAdapter = require('./CatPersonAdapter.fixture');
 
 
