@@ -1,4 +1,4 @@
-'use strict';
+// 'use strict';
 
 /**
  * Module dependencies
@@ -168,6 +168,7 @@ WLEntity.forgetter = function (things) {
  */
 WLEntity.getter = function (things) {
 
+
   /**
    * Case-insensitive identity-based lookup.
    *
@@ -182,6 +183,18 @@ WLEntity.getter = function (things) {
   };
 };
 
+
+/**
+ * Returns whether the specified object (`obj`) is an instance
+ * of the constructor in the current `this` context.
+ *
+ * @param  {this?} obj
+ * @return {Boolean}
+ * @static
+ */
+WLEntity.qualifier = function isInstanceOfMe (obj) {
+  return typeof obj === 'object' && obj instanceof this;
+};
 
 
 
