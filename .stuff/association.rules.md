@@ -1,3 +1,10 @@
+# Association Rules
+
+> Or, "How do we allow for fully customizable, adapter-agnostic join strategies in Waterline?"
+>
+> See http://en.wikipedia.org/wiki/Association_rule_learning for context.
+
+
 
 /////////////////
 //////     //////
