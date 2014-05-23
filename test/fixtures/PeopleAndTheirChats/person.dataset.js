@@ -1,3 +1,9 @@
+/**
+ * person.dataset
+ *
+ * @type {Array}
+ */
+
 module.exports = [{
   name: 'Melissa',
   email: 'melissa@hotmail.com',
