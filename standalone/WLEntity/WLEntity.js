@@ -20,9 +20,8 @@ var WLError = require('root-require')('standalone/WLError');
  *
  * (currently most useful for Models, Adapters, and Datastores)
  */
-function WLEntity () {
+function WLEntity () {}
 
-}
 
 
 /**
@@ -63,8 +62,8 @@ WLEntity.toArray = function (obj) {
  * Serialize a single entity `definition` and, optionally,
  * its `identity` into a standard POJO.
  *
- * @param  {[type]} identity   [description]
- * @param  {[type]} definition [description]
+ * @param  {String} identity
+ * @param  {Object} definition
  * @return {Object}
  * @api private
  */
@@ -108,17 +107,18 @@ WLEntity.thesaurus = function (thing) {
 
 
 /**
- * @param  {[type]} things [description]
- * @param  {[type]} Thing  [description]
+ * #WLEntity.identifier()
+ *
+ * @param  {String}   things    [e.g. "models" or "junctions" or "adapters"]
+ * @param  {WLEntity} Thing     [e.g. Model or Junction or Adapter]
  * @return {Function}
  */
 WLEntity.identifier = function (things, Thing) {
 
   /**
-   * @this {ORM}
-   * @param  {[type]} identity   [description]
-   * @param  {[type]} definition [description]
-   * @return {[type]}            [description]
+   * @param  {String} identity
+   * @param  {Object} definition
+   * @return {WLEntity}
    * @api private
    */
   return function _identifyThing (identity, definition) {
@@ -131,6 +131,7 @@ WLEntity.identifier = function (things, Thing) {
 
     definition.orm = this;
     var newThing = new Thing(definition);
+    // console.log(this,things);
     this[things].push(newThing);
 
     // Refresh the ORM to ensure the new entity is hooked up nicely
@@ -143,16 +144,15 @@ WLEntity.identifier = function (things, Thing) {
 
 
 /**
- * @param  {[type]} things [description]
+ * @param  {String}   things    [e.g. "models" or "junctions" or "adapters"]
  * @return {Function}
  * @api private
  */
 WLEntity.forgetter = function (things) {
 
   /**
-   * @this {ORM}
-   * @param  {[type]} identity [description]
-   * @return {[type]}          [description]
+   * @param  {String} identity
+   * @return {WLEntity}
    */
   return function _forgetThing (identity) {
     _.reject(this[things], function (thing) {
@@ -163,7 +163,7 @@ WLEntity.forgetter = function (things) {
 };
 
 /**
- * @param  {[type]} things
+ * @param  {String}   things    [e.g. "models" or "junctions" or "adapters"]
  * @return {Function}
  * @api private
  */
@@ -173,9 +173,8 @@ WLEntity.getter = function (things) {
   /**
    * Case-insensitive identity-based lookup.
    *
-   * @this {ORM}
-   * @param  {[type]} identity [description]
-   * @return {[type]}          [description]
+   * @param  {String} identity
+   * @return {WLEntity}
    */
   return function _getThing (identity) {
     return _.find(this[things], function (thing) {
@@ -185,15 +184,31 @@ WLEntity.getter = function (things) {
 };
 
 
+
+/**
+ * Return a getter or identifier.
+ *
+ * @param  {String} things
+ * @param  {WLEntity} Thing
+ * @return {[type]}        [description]
+ */
+WLEntity.accessor = function (things, Thing) {
+  return function _getOrIdentifyThing ( /* identity [definition] */ ) {
+    if (arguments[1]) return WLEntity.identifier(things, Thing).apply(this, Array.prototype.slice.call(arguments));
+    else return WLEntity.getter(things).apply(this, Array.prototype.slice.call(arguments));
+  };
+};
+
+
 /**
  * Returns whether the specified object (`obj`) is an instance
  * of the constructor in the current `this` context.
  *
- * @param  {this?} obj
+ * @param  {WLEntity?} obj
  * @return {Boolean}
  * @static
  */
-WLEntity.qualifier = function isInstanceOfMe (obj) {
+WLEntity.qualifier = function isInstance (obj) {
   return typeof obj === 'object' && obj instanceof this;
 };
 
