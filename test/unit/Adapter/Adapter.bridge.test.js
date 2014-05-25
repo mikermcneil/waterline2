@@ -14,10 +14,10 @@ var WLUsageError = require('root-require')('standalone/WLError/WLUsageError');
 
 
 describe('Adapter', function() {
-  describe('.interpolate()', function() {
+  describe('.bridge()', function() {
 
     it('should exist', function() {
-      assert(typeof Adapter.interpolate === 'function');
+      assert(typeof Adapter.bridge === 'function');
     });
 
     describe('its return value (bridge fn)', function() {
@@ -28,7 +28,7 @@ describe('Adapter', function() {
 
           identity: 'somemodel',
 
-          fooBridge: Adapter.interpolate({
+          fooBridge: Adapter.bridge({
             method: 'foo',
             usage: [{
               label: 'callback',
