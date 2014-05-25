@@ -2,7 +2,7 @@
  * Module dependencies
  */
 
-var WLFilter = require('waterline-criteria');
+var WLTransform = require('waterline-criteria');
 
 
 // The `db` variable holds all of the databases
@@ -14,7 +14,7 @@ var currentAutoIncrementValues = {};
 module.exports = {
 
   find: function (criteria, cb) {
-    return cb(null, WLFilter(criteria.from, db, criteria).results);
+    return cb(null, WLTransform(criteria.from, db, criteria).results);
   },
   create: function (values, cb) {
     cb(new Error('Not implemented yet'));

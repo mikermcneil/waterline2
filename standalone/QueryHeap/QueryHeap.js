@@ -8,7 +8,7 @@ var _ = require('lodash');
 var WLTransform = require('waterline-criteria');
 
 var WLUsageError = require('root-require')('standalone/WLError/WLUsageError');
-var prettyInstance = require('root-require')('standalone/prettyInstance');
+var prettyInstance = require('root-require')('standalone/pretty-instance');
 
 
 

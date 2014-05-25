@@ -4,7 +4,7 @@
 
 var util = require('util');
 var assert = require('assert');
-var WLFilter = require('waterline-criteria');
+var WLTransform = require('waterline-criteria');
 var rootrequire = require('root-require');
 
 
@@ -40,7 +40,7 @@ module.exports = function buildAdapter() {
       );
 
       setTimeout(function afterSimulatedLookupDelay () {
-        var results = WLFilter(criteria.from, {
+        var results = WLTransform(criteria.from, {
           person: require('./person.dataset'),
           chat: require('./chat.dataset')
         }, criteria).results;

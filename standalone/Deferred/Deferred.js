@@ -9,7 +9,7 @@ var _ = require('lodash');
 _.defaults = require('merge-defaults');
 
 var DEFAULT_LOG = require('root-require')('standalone/logger');
-_.partialApply = require('root-require')('standalone/partialApply');
+_.partialApply = require('root-require')('standalone/partial-apply');
 var WLUsageError = require('root-require')('standalone/WLError/WLUsageError');
 
 
