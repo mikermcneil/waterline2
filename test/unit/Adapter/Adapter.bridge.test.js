@@ -6,7 +6,7 @@ var assert = require('assert');
 var util = require('util');
 var Adapter = require('root-require')('lib/Adapter');
 var Datastore = require('root-require')('lib/Datastore');
-var Model = require('root-require')('lib/Model');
+var Relation = require('root-require')('lib/Relation');
 var Deferred = require('root-require')('standalone/Deferred');
 
 var WLUsageError = require('root-require')('standalone/WLError/WLUsageError');
@@ -48,7 +48,7 @@ describe('Adapter', function() {
               foo: function(cb) {
                 assert(arguments.length === ['Datastore', 'Model', 'callback'].length);
                 assert(arguments[0] instanceof Datastore, 'Unexpected arguments in adapter method: '+util.inspect(arguments));
-                assert(arguments[1] instanceof Model, 'Unexpected arguments in adapter method: '+util.inspect(arguments));
+                assert(arguments[1] instanceof Relation, 'Unexpected arguments in adapter method: '+util.inspect(arguments));
                 assert(typeof arguments[2] === 'function', 'Unexpected arguments in adapter method: '+util.inspect(arguments));
                 arguments[2]();
               }
@@ -60,7 +60,7 @@ describe('Adapter', function() {
             });
           },
           getModel: function () {
-            return new Model({
+            return new Relation({
               identity: this.identity
             });
           }

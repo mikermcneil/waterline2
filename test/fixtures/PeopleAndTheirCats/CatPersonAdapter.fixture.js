@@ -27,8 +27,8 @@ module.exports = function build_CatPersonAdapter() {
         '"criteria" argument should exist, and be an object- instead got:\n'+util.inspect(criteria)
       );
       assert(
-        !(criteria instanceof rootrequire('lib/Model')),
-        '"criteria" argument SHOULD NOT be an instance of Model- but it was:\n'+util.inspect(criteria)
+        !(criteria instanceof rootrequire('lib/Relation')),
+        '"criteria" argument SHOULD NOT be an instance of Relation- but it was:\n'+util.inspect(criteria)
       );
       assert(
         !(criteria instanceof rootrequire('lib/Datastore')),
