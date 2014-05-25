@@ -31,6 +31,13 @@ var prettyInstance = require('root-require')('standalone/pretty-instance');
  * this is enforced as a basic max limit on sorted result sets that
  * span multiple datastores.
  *
+ * > Note:
+ * >
+ * > In some ways, you can think about a QueryHeap a bit like a SQL view,
+ * > or "relvar".  It tracks order, but still must be integrated before
+ * > it can be used directly in the normal, expected way (as a ordered
+ * > result set.)
+ *
  * @constructor
  * @extends {EventEmitter}
  */
