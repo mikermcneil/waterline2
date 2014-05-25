@@ -4,7 +4,7 @@
 
 var assert = require('assert');
 var ORM = require('root-require')('lib/ORM');
-var QueryHeap = require('root-require')('lib/Query/QueryHeap');
+var QueryHeap = require('root-require')('standalone/QueryHeap');
 
 
 describe('QueryHeap', function () {
