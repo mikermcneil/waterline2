@@ -76,6 +76,8 @@ util.inherits(QueryHeap, EventEmitter);
 // Integrator
 QueryHeap.prototype.integrate = require('./integrate');
 
+// Execute a query to convert footprints into complete records
+QueryHeap.prototype.rehydrate = require('./rehydrate');
 
 
 /**

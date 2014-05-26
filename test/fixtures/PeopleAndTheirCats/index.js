@@ -41,7 +41,7 @@ module.exports = function PeopleAndTheirCats () {
             // Array of foreign keys:
             // collection: 'Cat',
             // via: 'Cat.petHuman', // or link: 'Cat.petHuman',
-            // aid: '_somecolumnnameforarrayofcatpks',
+            // fieldName: '_somecolumnnameforarrayofcatpks',
             // type: 'integer[]',
 
             // -OR-
@@ -57,17 +57,17 @@ module.exports = function PeopleAndTheirCats () {
             //     id: {
             //       type: 'integer',
             //       primaryKey: true,
-            //       aid: '_somecolumnnameforpk'
+            //       fieldName: '_somecolumnnameforpk'
             //     },
             //     cat: {
             //       model: 'Cat',
             //       type: 'integer',
-            //       aid: '_somecolumnnameforcat'
+            //       fieldName: '_somecolumnnameforcat'
             //     },
             //     person: {
             //       model: 'Person',
             //       type: 'integer',
-            //       aid: '_somecolumnnameforperson'
+            //       fieldName: '_somecolumnnameforperson'
             //     }
             //   }
             // }
