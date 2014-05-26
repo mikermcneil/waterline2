@@ -28,7 +28,10 @@ module.exports = function PeopleAndTheirChats () {
         datastore: 'default',
         attributes: {
           id: { type: 'integer', primaryKey: true },
-          message: {type: 'string'}
+          message: {type: 'string'},
+          recipients: {
+            collection: 'person'
+          }
         }
       }
     },
