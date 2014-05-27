@@ -40,7 +40,7 @@ module.exports = function buildAdapter() {
         '"callback" argument should exist, and be a function- instead got:\n'+util.inspect(cb)
       );
 
-      console.log('in Chat adapter, criteria:', criteria);
+      // console.log('in Chat adapter, criteria:', criteria);
 
       setTimeout(function afterSimulatedLookupDelay () {
         var results = WLTransform(criteria.from||criteria.junction, {

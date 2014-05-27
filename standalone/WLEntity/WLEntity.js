@@ -125,13 +125,14 @@ WLEntity.identifier = function (things, Thing) {
 
     definition = WLEntity.normalize(identity, definition);
 
+    // console.log('Identifying a thing (%s) into '+things+' as a %s', definition.identity, Thing.name);
+
     // If another Thing already exists amongst these `things`
     // with the specified identity, overwrite it.
     _.bind(WLEntity.forgetter(things), this)(definition.identity);
 
     definition.orm = this;
     var newThing = new Thing(definition);
-    // console.log(this,things);
     this[things].push(newThing);
 
     // Refresh the ORM to ensure the new entity is hooked up nicely

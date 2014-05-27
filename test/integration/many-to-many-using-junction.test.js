@@ -12,10 +12,15 @@ var PeopleAndTheirChats = require('../fixtures/PeopleAndTheirChats');
 describe('integration', function () {
   describe.only('nested select with a many to many association rule using the junction strategy', function () {
 
+    var orm;
+    var Person;
+    var Chat;
 
-    var orm = PeopleAndTheirChats();
-    var Person = orm.model('person');
-    var Chat = orm.model('chat');
+    before(function () {
+      orm = PeopleAndTheirChats();
+      Person = orm.model('person');
+      Chat = orm.model('chat');
+    });
 
     it('should return all of the expected parent results', function (done) {
 
