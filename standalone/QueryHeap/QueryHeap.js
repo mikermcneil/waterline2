@@ -130,7 +130,8 @@ QueryHeap.prototype.push = function (src, newResults) {
   // or an object (Model or Junction instance)
   var srcIdentity;
   var _heapdb;
-  if (_.isString(src)) {
+  if (!src) throw new WLUsageError('`src` must be specified when pushing to a QueryHeap');
+  else if (_.isString(src)) {
     srcIdentity = src;
     _heapdb = this._models;
   }
@@ -155,9 +156,7 @@ QueryHeap.prototype.push = function (src, newResults) {
   // Ensure an array exists for this model
   _heapdb[srcIdentity] = (_heapdb[srcIdentity] || []);
 
-
-  var model = this.orm.model(srcIdentity);
-  var primaryKey = model.primaryKey;
+  var primaryKey = src.primaryKey;
 
   // Identify newResults which are unique
   var uniqueNewRecords = _.where(newResults, function ifUnique(newResult) {

@@ -68,47 +68,46 @@ describe('integration', function () {
 
     describe('nested select...where', function () {
 
-      var expected;
+      var expectedChildResults;
+      var expectedParentResults;
 
       before(function (done){
-        Person.find({
+        Chat.find({
           where: { id: [1,2] }
         })
         .exec(function (err, _expected) {
           if (err) return done(err);
-          expected = _expected;
+          expectedParentResults = _expected;
           done();
         });
       });
 
       it('should return expected number of top-level AND nested results', function (done) {
         var q =
-        Person.find({
+        Chat.find({
           where: { id: [1,2] },
           select: {
             id: true,
             name: true,
-            email: true,
-            petCat: {
+            recipients: {
               select: {
                 id: true,
                 name: true
               },
               where: {
-                numEars: 3
+                // numEars: 3
               }
             }
           }
         })
-        .exec(function (err, persons) {
+        .exec(function (err, chats) {
           if (err) return done(err);
 
           // Ensure proper number of top-level results came back
-          assert.equal(persons.length, expected.length, require('util').format('Unexpected number of top-level results (expected %d, got %d)', expected.length, persons.length));
+          assert.equal(chats.length, expected.length, require('util').format('Unexpected number of top-level results (expected %d, got %d)', expected.length, chats.length));
 
           // Ensure proper number of nested things came back
-          // (numEars=3 should not match ANY)
-          assert.equal(q.heap.get('cat').length,0);
+          assert.equal(q.heap.get('person').length,0);
           done();
         });
       });
