@@ -14,7 +14,7 @@ var WLUsageError = require('root-require')('standalone/WLError/WLUsageError');
 
 
 
-describe.only('Adapter', function() {
+describe('Adapter', function() {
   describe('.bridge()', function() {
 
     it('should exist', function() {

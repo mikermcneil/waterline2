@@ -28,8 +28,8 @@ module.exports = function buildAdapter() {
         '"criteria" argument should exist, and be an object- instead got:\n'+util.inspect(criteria)
       );
       assert(
-        !(Waterline.Model.isModel(criteria)),
-        '"criteria" argument SHOULD NOT be an instance of Model- but it was:\n'+util.inspect(criteria)
+        !(Waterline.Relation.isRelation(criteria)),
+        '"criteria" argument SHOULD NOT be an instance of Relation- but it was:\n'+util.inspect(criteria)
       );
       assert(
         !(Waterline.Datastore.isDatastore(criteria)),
