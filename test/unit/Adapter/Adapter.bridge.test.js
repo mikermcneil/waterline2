@@ -8,6 +8,7 @@ var Adapter = require('root-require')('lib/Adapter');
 var Datastore = require('root-require')('lib/Datastore');
 var Relation = require('root-require')('lib/Relation');
 var Deferred = require('root-require')('standalone/Deferred');
+var Waterline = require('root-require')('./');
 
 var WLUsageError = require('root-require')('standalone/WLError/WLUsageError');
 
@@ -22,58 +23,13 @@ describe('Adapter', function() {
 
     describe('its return value (bridge fn)', function() {
 
-      var someEntity;
-      before(function buildSomeEntity() {
-        someEntity = {
-
-          identity: 'somemodel',
-
-          fooBridge: Adapter.bridge({
-            method: 'foo',
-            usage: [{
-              label: 'callback',
-              type: 'function',
-              optional: true
-            }],
-            adapterUsage: {
-              '>= 2.0.0': ['callback'],
-              '*': ['Datastore', 'Model', 'callback']
-            }
-          }),
-
-          getAdapter: function() {
-            return new Adapter({
-              identity: 'someAdapter',
-              apiVersion: '1.0.0',
-              foo: function(cb) {
-                assert(arguments.length === ['Datastore', 'Model', 'callback'].length);
-                assert(arguments[0] instanceof Datastore, 'Unexpected arguments (expected arguments[0] to be a Datastore) in adapter method: '+util.inspect(arguments));
-                assert(arguments[1] instanceof Relation, 'Unexpected arguments (expected arguments[1] to be a Relation) in adapter method: '+util.inspect(arguments));
-                assert(typeof arguments[2] === 'function', 'Unexpected arguments in adapter method: '+util.inspect(arguments));
-                arguments[2]();
-              }
-            });
-          },
-          getDatastore: function () {
-            return new Datastore({
-              identity: 'someDatastore',
-            });
-          },
-          getRelation: function () {
-            return new Relation({
-              identity: this.identity
-            });
-          }
-        };
-      });
-
       it('should be a function', function() {
-        assert(typeof someEntity.fooBridge === 'function');
+        assert(typeof mockWLEntity.fooBridge === 'function');
       });
 
       describe('when it (bridge fn) is called with invalid usage', function() {
         it('should throw a WLUsageError', function() {
-          try { someEntity.fooBridge(3); }
+          try { mockWLEntity.fooBridge(3); }
           catch (e) {
             assert(typeof e === 'object');
             assert(e instanceof WLUsageError, 'Error should be a WLUsageError instance, but instead it sent back: '+require('util').inspect(e));
@@ -86,7 +42,7 @@ describe('Adapter', function() {
       describe('when it (bridge fn) is called with valid usage', function() {
 
         it('should return a Deferred', function() {
-          var fooBridge_returns = someEntity.fooBridge();
+          var fooBridge_returns = mockWLEntity.fooBridge();
           assert(typeof fooBridge_returns === 'object');
           assert(fooBridge_returns instanceof Deferred);
         });
@@ -97,15 +53,108 @@ describe('Adapter', function() {
       });
 
 
-      it('should have the same context as the caller (in this case, `someEntity`)', function(done) {
+      it('should have the same context as the caller (in this case, `mockWLEntity`)', function(done) {
         // Only way to really test this right now is to see if calling `.exec()` works
         // (because that means the bridge fn was able to access the `getAdapter()` method)
-        var fooBridge_returns = someEntity.fooBridge();
+        var fooBridge_returns = mockWLEntity.fooBridge();
         fooBridge_returns.exec(done);
+      });
+    });
+
+
+
+    describe('with a `criteria` in `spec`', function() {
+
+      var withCriteriaBridge_returns;
+      before(function (){
+        withCriteriaBridge_returns = mockWLEntity.withCriteriaBridge();
+      });
+
+      it('should return a Deferred from resulting bridge function', function () {
+        assert(typeof withCriteriaBridge_returns === 'object');
+        assert(withCriteriaBridge_returns instanceof Deferred);
+      });
+
+      it('should get expected arguments in adapter when resulting bridge fn is called', function (done) {
+        withCriteriaBridge_returns.exec(done);
       });
     });
 
   });
 
+});
 
+
+
+
+
+
+
+
+// mocks/fixtures:
+
+var orm = Waterline({
+  models: {
+    someModel: {
+      datastore: 'someDatastore',
+    }
+  },
+  datastores: {
+    someDatastore: {
+      adapter: 'someAdapter'
+    }
+  },
+  adapters: {
+    someAdapter: {
+      apiVersion: '1.0.0',
+      foo: function(/* ... */) {
+        assert(arguments.length === ['Datastore', 'Model', 'callback'].length);
+        assert(arguments[0] instanceof Datastore, 'Unexpected arguments (expected arguments[0] to be a Datastore) in adapter method: '+util.inspect(arguments));
+        assert(arguments[1] instanceof Relation, 'Unexpected arguments (expected arguments[1] to be a Relation) in adapter method: '+util.inspect(arguments));
+        assert(typeof arguments[2] === 'function', 'Unexpected arguments in adapter method: '+util.inspect(arguments));
+        arguments[2]();
+      },
+      bar: function (db, cid, criteria, cb) {
+        var expectedNumArgs = ['Datastore', 'Model.cid', 'criteria', 'callback'].length;
+        assert(arguments.length === expectedNumArgs, 'Unexpected # of arguments ('+arguments.length+'), expected '+expectedNumArgs+'.  Args: '+util.inspect(arguments));
+        assert(arguments[0] instanceof Datastore, 'Unexpected arguments (expected arguments[0] to be a Datastore) in adapter method: '+util.inspect(arguments));
+        assert(typeof arguments[1] === 'string', 'Unexpected arguments (expected arguments[1] to be a string) in adapter method: '+util.inspect(arguments));
+        assert(typeof arguments[2] === 'object', 'Unexpected arguments (expected arguments[2] to be a criteria object) in adapter method: '+util.inspect(arguments));
+        assert(typeof arguments[3] === 'function', 'Unexpected arguments in adapter method: '+util.inspect(arguments));
+        arguments[3]();
+      }
+    }
+  }
+});
+var mockWLEntity = orm.model('someModel');
+
+mockWLEntity.fooBridge = Adapter.bridge({
+  method: 'foo',
+  usage: [{
+    label: 'callback',
+    type: 'function',
+    optional: true
+  }],
+  adapterUsage: {
+    '>= 2.0.0': ['callback'],
+    '*': ['Datastore', 'Model', 'callback']
+  }
+});
+
+mockWLEntity.withCriteriaBridge = Adapter.bridge({
+  method: 'bar',
+  usage: [{
+    label: 'criteria',
+    type: 'object',
+    optional: true,
+    defaultsTo: {}
+  },
+  {
+    label: 'callback',
+    type: 'function',
+    optional: true
+  }],
+  adapterUsage: {
+    '*': ['Datastore', 'Model.cid', 'criteria', 'callback']
+  }
 });
