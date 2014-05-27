@@ -76,7 +76,7 @@ describe('Adapter', function() {
           try { someEntity.fooBridge(3); }
           catch (e) {
             assert(typeof e === 'object');
-            assert(e instanceof WLUsageError);
+            assert(e instanceof WLUsageError, 'Error should be a WLUsageError instance, but instead it sent back: '+require('util').inspect(e));
             return;
           }
           throw new Error('Expected invalid usage passed to the bridge function to throw a WLUsageError');
