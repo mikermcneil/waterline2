@@ -47,8 +47,8 @@ describe('Adapter', function() {
               apiVersion: '1.0.0',
               foo: function(cb) {
                 assert(arguments.length === ['Datastore', 'Model', 'callback'].length);
-                assert(arguments[0] instanceof Datastore, 'Unexpected arguments in adapter method: '+util.inspect(arguments));
-                assert(arguments[1] instanceof Relation, 'Unexpected arguments in adapter method: '+util.inspect(arguments));
+                assert(arguments[0] instanceof Datastore, 'Unexpected arguments (expected arguments[0] to be a Datastore) in adapter method: '+util.inspect(arguments));
+                assert(arguments[1] instanceof Relation, 'Unexpected arguments (expected arguments[1] to be a Relation) in adapter method: '+util.inspect(arguments));
                 assert(typeof arguments[2] === 'function', 'Unexpected arguments in adapter method: '+util.inspect(arguments));
                 arguments[2]();
               }
@@ -59,7 +59,7 @@ describe('Adapter', function() {
               identity: 'someDatastore',
             });
           },
-          getModel: function () {
+          getRelation: function () {
             return new Relation({
               identity: this.identity
             });

@@ -3,7 +3,7 @@
  */
 
 var rootrequire = require('root-require');
-var buildAndTestORM = rootrequire('./test/helpers/buildAndTestORM');
+var Waterline = rootrequire('./');
 
 
 
@@ -14,7 +14,7 @@ var buildAndTestORM = rootrequire('./test/helpers/buildAndTestORM');
 
 module.exports = function PeopleAndTheirChats () {
 
-  return buildAndTestORM({
+  return Waterline({
     models: {
       person: {
         datastore: 'default',
@@ -41,7 +41,7 @@ module.exports = function PeopleAndTheirChats () {
       }
     },
     adapters: {
-      'default': require('./adapter')
+      'default': require('./adapter')()
     }
   });
 };

@@ -23,29 +23,6 @@ module.exports = function buildAndTestORM (ontology, fixtureName) {
   // Build ORM using provided ontology.
   var orm = Waterline(ontology);
 
-  // The following self-tests this fixture.
-  // (if this is mocha, runs some quick sanity checks)
-  if (typeof describe !== 'undefined') {
-
-
-    /**
-     * Tests
-     */
-    describe('fixtures', function () {
-      describe(require('util').format('Waterline(%s)',fixtureName), function () {
-        it('should return a sane, valid ORM instance', function () {
-          assert(Waterline.ORM.isORM(orm));
-        });
-
-        it('should return a properly configured ontology in that ORM instance', function () {
-          assert( Waterline.Adapter.isAdapter (_.find(orm.adapters, { identity: 'wl-pretend' })), 'adapter is missing or invalid' );
-          assert( Waterline.Datastore.isDatastore (_.find(orm.datastores, { identity: 'default' })), 'datastore is missing or invalid' );
-          assert( Waterline.Model.isModel   (_.find(orm.models, { identity: 'user' })), 'model is missing or invalid' );
-        });
-      });
-    });
-  }
-
 
   // Expose ORM
   return orm;

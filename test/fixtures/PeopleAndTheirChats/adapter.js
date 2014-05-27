@@ -6,6 +6,7 @@ var util = require('util');
 var assert = require('assert');
 var WLTransform = require('waterline-criteria');
 var rootrequire = require('root-require');
+var Waterline = rootrequire('./');
 
 
 /**
@@ -27,11 +28,11 @@ module.exports = function buildAdapter() {
         '"criteria" argument should exist, and be an object- instead got:\n'+util.inspect(criteria)
       );
       assert(
-        !(criteria instanceof rootrequire('lib/Model')),
+        !(Waterline.Model.isModel(criteria)),
         '"criteria" argument SHOULD NOT be an instance of Model- but it was:\n'+util.inspect(criteria)
       );
       assert(
-        !(criteria instanceof rootrequire('lib/Datastore')),
+        !(Waterline.Datastore.isDatastore(criteria)),
         '"criteria" argument SHOULD NOT be an instance of Datastore- but it was:\n'+util.inspect(criteria)
       );
       assert(
@@ -39,10 +40,13 @@ module.exports = function buildAdapter() {
         '"callback" argument should exist, and be a function- instead got:\n'+util.inspect(cb)
       );
 
+      console.log('in Chat adapter, criteria:', criteria);
+
       setTimeout(function afterSimulatedLookupDelay () {
-        var results = WLTransform(criteria.from, {
+        var results = WLTransform(criteria.from||criteria.junction, {
           person: require('./person.dataset'),
-          chat: require('./chat.dataset')
+          chat: require('./chat.dataset'),
+          chatperson: require('./chatperson.junction.dataset')
         }, criteria).results;
         return cb(null, results);
       }, 0);
