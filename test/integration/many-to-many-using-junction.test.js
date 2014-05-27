@@ -10,7 +10,7 @@ var _ = require('lodash');
 var PeopleAndTheirChats = require('../fixtures/PeopleAndTheirChats');
 
 describe('integration', function () {
-  describe.skip('nested select with a many to many association rule using the junction strategy', function () {
+  describe.only('nested select with a many to many association rule using the junction strategy', function () {
 
 
     var orm = PeopleAndTheirChats();
