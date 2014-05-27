@@ -14,7 +14,7 @@ var WLUsageError = require('root-require')('standalone/WLError/WLUsageError');
 
 
 
-describe('Adapter', function() {
+describe.only('Adapter', function() {
   describe('.bridge()', function() {
 
     it('should exist', function() {
@@ -65,18 +65,33 @@ describe('Adapter', function() {
 
     describe('with a `criteria` in `spec`', function() {
 
-      var withCriteriaBridge_returns;
+      var withCriteriaBridge_returns1;
+      var withCriteriaBridge_returns2;
       before(function (){
-        withCriteriaBridge_returns = mockWLEntity.withCriteriaBridge();
+        withCriteriaBridge_returns1 = mockWLEntity.withCriteriaBridge();
+        withCriteriaBridge_returns2 = mockWLEntity.withCriteriaBridge({
+          where: {
+            id: [1,2]
+          }
+        });
       });
 
       it('should return a Deferred from resulting bridge function', function () {
-        assert(typeof withCriteriaBridge_returns === 'object');
-        assert(withCriteriaBridge_returns instanceof Deferred);
+        assert(typeof withCriteriaBridge_returns1 === 'object');
+        assert(withCriteriaBridge_returns1 instanceof Deferred);
+        assert(typeof withCriteriaBridge_returns2 === 'object');
+        assert(withCriteriaBridge_returns2 instanceof Deferred);
       });
 
       it('should get expected arguments in adapter when resulting bridge fn is called', function (done) {
-        withCriteriaBridge_returns.exec(done);
+
+        withCriteriaBridge_returns1.exec();
+
+        _EXPECT_CRITERIA_IN_ADAPTER = function (criteria) {
+          assert(criteria.where && criteria.where.id, 'Expected criteria object passed to adapter method to contain `where` clause, but instead the criteria obj is: '+util.inspect(criteria));
+        };
+        withCriteriaBridge_returns2.exec();
+        done();
       });
     });
 
@@ -89,10 +104,11 @@ describe('Adapter', function() {
 
 
 
+// Used for message-passing (to check state within an adapter method)
+var _EXPECT_CRITERIA_IN_ADAPTER;
 
 
 // mocks/fixtures:
-
 var orm = Waterline({
   models: {
     someModel: {
@@ -114,12 +130,14 @@ var orm = Waterline({
         assert(typeof arguments[2] === 'function', 'Unexpected arguments in adapter method: '+util.inspect(arguments));
         arguments[2]();
       },
-      bar: function (db, cid, criteria, cb) {
+      bar: function ( /* db, cid, criteria, cb */) {
         var expectedNumArgs = ['Datastore', 'Model.cid', 'criteria', 'callback'].length;
         assert(arguments.length === expectedNumArgs, 'Unexpected # of arguments ('+arguments.length+'), expected '+expectedNumArgs+'.  Args: '+util.inspect(arguments));
         assert(arguments[0] instanceof Datastore, 'Unexpected arguments (expected arguments[0] to be a Datastore) in adapter method: '+util.inspect(arguments));
         assert(typeof arguments[1] === 'string', 'Unexpected arguments (expected arguments[1] to be a string) in adapter method: '+util.inspect(arguments));
         assert(typeof arguments[2] === 'object', 'Unexpected arguments (expected arguments[2] to be a criteria object) in adapter method: '+util.inspect(arguments));
+
+        if (_EXPECT_CRITERIA_IN_ADAPTER) { _EXPECT_CRITERIA_IN_ADAPTER(arguments[2]); }
         assert(typeof arguments[3] === 'function', 'Unexpected arguments in adapter method: '+util.inspect(arguments));
         arguments[3]();
       }
@@ -145,9 +163,7 @@ mockWLEntity.withCriteriaBridge = Adapter.bridge({
   method: 'bar',
   usage: [{
     label: 'criteria',
-    type: 'object',
-    optional: true,
-    defaultsTo: {}
+    type: 'object'
   },
   {
     label: 'callback',
