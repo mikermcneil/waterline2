@@ -19,7 +19,7 @@
     "waterline-criteria": "~0.10.3",
     "waterline-schema": "~0.1.7",
     "semver": "~2.3.0",
-    "partial-apply": "^0.1.0"
+    "partial-apply": "~0.1.0"
   },
   "optionalDependencies": {
     "node-switchback": "~0.1.0",
