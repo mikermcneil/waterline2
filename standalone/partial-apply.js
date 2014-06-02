@@ -1,13 +1,4 @@
 /**
- * Module dependencies
- */
-
-var _ = require('lodash');
-
-
-
-
-/**
  * partialApply()
  *
  * Like `_.partial(fn, arg0, arg1, ..., argN)`,
@@ -18,7 +9,5 @@ var _ = require('lodash');
  * @return {Function}
  */
 
-module.exports = function partialApply(fn, args) {
-  return _.partial.apply(null, [fn].concat(args));
-};
+module.exports = require('partial-apply');
 
