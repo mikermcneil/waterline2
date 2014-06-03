@@ -138,7 +138,16 @@ WLEntity.identifier = function (things, Thing) {
     // Refresh the ORM to ensure the new entity is hooked up nicely
     // (if it fails, it will fail silently------ for now...)
     // this.refresh();
-    newThing.refresh();
+    this.refresh();
+
+    // <optmization>
+    // OPTIMIZE:
+    // Instead of refreshing the entire ORM, just refresh the new thing,
+    // which should set off a chain reaction of instantiating association rules,
+    // refreshing junctions, refreshing other dependend relations, etc.
+    // For now, the simplest way to accomplish all this is just by centralizing the
+    // logic for it in the ORM.prototype.refresh() method.
+    // </optimization>
 
     return this;
   };
