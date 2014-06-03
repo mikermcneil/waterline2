@@ -6,7 +6,7 @@ var util = require('util');
 var assert = require('assert');
 var WLTransform = require('waterline-criteria');
 var rootrequire = require('root-require');
-
+var Waterline = rootrequire('./');
 
 /**
  * CatPersonAdapter (fixture)
@@ -27,11 +27,11 @@ module.exports = function build_CatPersonAdapter() {
         '"criteria" argument should exist, and be an object- instead got:\n'+util.inspect(criteria)
       );
       assert(
-        !(criteria instanceof rootrequire('lib/Relation')),
+        !(Waterline.Relation.isRelation(criteria)),
         '"criteria" argument SHOULD NOT be an instance of Relation- but it was:\n'+util.inspect(criteria)
       );
       assert(
-        !(criteria instanceof rootrequire('lib/Datastore')),
+        !(Waterline.Datastore.isDatastore(criteria)),
         '"criteria" argument SHOULD NOT be an instance of Datastore- but it was:\n'+util.inspect(criteria)
       );
       assert(
@@ -39,8 +39,11 @@ module.exports = function build_CatPersonAdapter() {
         '"callback" argument should exist, and be a function- instead got:\n'+util.inspect(cb)
       );
 
+      // console.log('\n\n------------------\nin catperson adapter w/ args:', util.inspect(arguments, false, null));
+
       setTimeout(function afterSimulatedLookupDelay () {
-        var results = WLTransform(criteria.from, {
+
+        var results = WLTransform(criteria.from.identity, {
           person: require('./person.dataset.fixture'),
           cat: require('./cat.dataset.fixture')
         }, criteria).results;

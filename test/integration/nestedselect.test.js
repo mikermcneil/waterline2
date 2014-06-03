@@ -19,13 +19,14 @@ describe('integration', function () {
     it('should return all of the expected parent results', function (done) {
 
 
+      var expectQ =
       Person.find({
         where: { id: [1,2] }
       })
       .exec(function (err, expected) {
         if (err) return done(err);
 
-        console.log('Expected:',expected,'\n*************~~~~~**************\n\n\n\n\n');
+        // console.log('Expected:',expected,'\nheap:',expectQ.heap,'\n*************~~~~~**************\n\n\n\n\n');
 
         var q =
         Person.find({
@@ -45,9 +46,9 @@ describe('integration', function () {
         .exec(function (err, persons) {
           if (err) return done(err);
 
-          console.log('Vs:');
+          // console.log('Vs:');
           // console.log('Vs:', persons);
-          console.log(q.heap);
+          // console.log(q.heap);
           assert.equal(persons.length, expected.length, require('util').format('Unexpected number of top-level results (expected %d, got %d)', expected.length, persons.length));
 
           // Ensure proper number of nested things came back
@@ -105,8 +106,9 @@ describe('integration', function () {
           assert.equal(persons.length, expected.length, require('util').format('Unexpected number of top-level results (expected %d, got %d)', expected.length, persons.length));
 
           // Ensure proper number of nested things came back
-          // (numEars=3 should not match ANY)
-          assert.equal(q.heap.get('cat').length,0);
+          // (numEars=3 should NOT match ANY)
+          console.log('heap:',q.heap);
+          assert.equal(q.heap.get('cat').length,0,'Too many child results! (specifically, too many cats)');
           done();
         });
       });
