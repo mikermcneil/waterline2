@@ -27,66 +27,66 @@ describe('ORM', function () {
       orm.identifyModel({ identity: 'Bazket' });
       orm.identifyModel('Weaving');
 
-      var schema = orm.refresh();
-      assert(typeof schema === 'object');
-      assert(typeof schema.foo === 'object');
-      assert(typeof schema.bar === 'object');
-      assert(typeof schema.baz === 'object');
-      assert(typeof schema.bazket === 'object');
-      assert(typeof schema.weaving === 'object');
+      var wl1Schema = orm.refresh();
+      assert(typeof wl1Schema === 'object');
+      assert(typeof wl1Schema.foo === 'object');
+      assert(typeof wl1Schema.bar === 'object');
+      assert(typeof wl1Schema.baz === 'object');
+      assert(typeof wl1Schema.bazket === 'object');
+      assert(typeof wl1Schema.weaving === 'object');
     });
 
     it('should work when datastores and adapters are added', function () {
 
-      var schema;
+      var wl1Schema;
 
       orm.identifyDatastore('some mysql somewhere');
-      schema = orm.refresh();
-      assert(typeof schema === 'object');
-      assert(typeof schema.foo === 'object');
-      assert(typeof schema.bar === 'object');
-      assert(typeof schema.baz === 'object');
-      assert(typeof schema.bazket === 'object');
-      assert(typeof schema.weaving === 'object');
+      wl1Schema = orm.refresh();
+      assert(typeof wl1Schema === 'object');
+      assert(typeof wl1Schema.foo === 'object');
+      assert(typeof wl1Schema.bar === 'object');
+      assert(typeof wl1Schema.baz === 'object');
+      assert(typeof wl1Schema.bazket === 'object');
+      assert(typeof wl1Schema.weaving === 'object');
 
       orm.identifyAdapter('sails-mysql');
-      schema = orm.refresh();
-      assert(typeof schema === 'object');
-      assert(typeof schema.foo === 'object');
-      assert(typeof schema.bar === 'object');
-      assert(typeof schema.baz === 'object');
-      assert(typeof schema.bazket === 'object');
-      assert(typeof schema.weaving === 'object');
+      wl1Schema = orm.refresh();
+      assert(typeof wl1Schema === 'object');
+      assert(typeof wl1Schema.foo === 'object');
+      assert(typeof wl1Schema.bar === 'object');
+      assert(typeof wl1Schema.baz === 'object');
+      assert(typeof wl1Schema.bazket === 'object');
+      assert(typeof wl1Schema.weaving === 'object');
     });
 
     it('shouldn\'t leak between ORM instances', function () {
       var orm1 = new ORM();
       orm1.identifyModel('redBIrD');
-      var schema1 = orm1.refresh();
-      assert(typeof schema1 === 'object');
-      assert(typeof schema1.redbird === 'object');
+      var wl1Schema0 = orm1.refresh();
+      assert(typeof wl1Schema0 === 'object');
+      assert(typeof wl1Schema0.redbird === 'object');
 
       var orm2 = new ORM();
       orm2.identifyModel('BLarhf');
-      var schema2 = orm2.refresh();
+      var wl1Schema2 = orm2.refresh();
 
-      assert(typeof schema2 === 'object');
-      assert(typeof schema2.blarhf === 'object');
-      assert(!schema2.redbird);
+      assert(typeof wl1Schema2 === 'object');
+      assert(typeof wl1Schema2.blarhf === 'object');
+      assert(!wl1Schema2.redbird);
 
       // Ensure that none of the previous tests impacted
       // these completely separate ORM instances:
-      assert(!schema1.foo);
-      assert(!schema1.bar);
-      assert(!schema1.baz);
-      assert(!schema1.bazket);
-      assert(!schema1.weaving);
+      assert(!wl1Schema0.foo);
+      assert(!wl1Schema0.bar);
+      assert(!wl1Schema0.baz);
+      assert(!wl1Schema0.bazket);
+      assert(!wl1Schema0.weaving);
 
-      assert(!schema2.foo);
-      assert(!schema2.bar);
-      assert(!schema2.baz);
-      assert(!schema2.bazket);
-      assert(!schema2.weaving);
+      assert(!wl1Schema2.foo);
+      assert(!wl1Schema2.bar);
+      assert(!wl1Schema2.baz);
+      assert(!wl1Schema2.bazket);
+      assert(!wl1Schema2.weaving);
     });
 
     it('shouldn\'t blow up with ONLY datastores', function () {
