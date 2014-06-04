@@ -138,7 +138,7 @@ WLEntity.identifier = function (things, Thing) {
     // Refresh the ORM to ensure the new entity is hooked up nicely
     // (if it fails, it will fail silently------ for now...)
     // this.refresh();
-    this.refresh();
+    // this.refresh();
 
     // <optmization>
     // OPTIMIZE:
