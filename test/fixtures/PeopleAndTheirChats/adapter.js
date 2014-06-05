@@ -4,10 +4,10 @@
 
 var util = require('util');
 var assert = require('assert');
+var _ = require('lodash');
 var WLTransform = require('waterline-criteria');
 var rootrequire = require('root-require');
 var Waterline = rootrequire('./');
-
 
 /**
  * adapter (fixture)
@@ -40,15 +40,20 @@ module.exports = function buildAdapter() {
         '"callback" argument should exist, and be a function- instead got:\n'+util.inspect(cb)
       );
 
-      // console.log('in Chat adapter, criteria:', criteria);
+      console.log('[[in adapter]] find from '+criteria.from.identity+':', criteria);
 
+      // console.log('In adapter, arguments === ', arguments);
       setTimeout(function afterSimulatedLookupDelay () {
-        var results = WLTransform(criteria.from||criteria.junction, {
+        var results = WLTransform(criteria.from.identity, {
           person: require('./person.dataset'),
           chat: require('./chat.dataset'),
           chatperson: require('./chatperson.junction.dataset'),
           share: require('./share.dataset')
         }, criteria).results;
+        if (criteria.from.identity === 'share') {
+          console.log('results === ',results);
+        }
+        else console.log('result pk values === ',_.pluck(results, 'id'));
         return cb(null, results);
       }, 0);
     }

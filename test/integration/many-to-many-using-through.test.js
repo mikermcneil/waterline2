@@ -25,7 +25,7 @@ describe('integration', function () {
       orm.model('share', {
         datastore: 'default',
         attributes: {
-          sharedBy: {
+          personWhoShared: {
             model: 'person'
           },
           chatShared: {
@@ -42,7 +42,6 @@ describe('integration', function () {
       // And, um.. let's leave the ethics of sharing a private chat with
       // the world out of this, yeah?  Don't try this at home. or whatever.
       Person = orm.model('person');
-      Chat = orm.model('chat');
       Person.attributes.sharedChats = {
         association: {
           entity: 'model',
@@ -52,10 +51,13 @@ describe('integration', function () {
           through: {
             entity: 'model',
             identity: 'share',
-            via: 'sharedBy'
+            via: 'personWhoShared',
+            onto: 'chatShared'
           }
         }
       };
+
+      Chat = orm.model('chat');
       Chat.attributes.sharedBy = {
         association: {
           entity: 'model',
@@ -65,7 +67,8 @@ describe('integration', function () {
           through: {
             entity: 'model',
             identity: 'share',
-            via: 'chatShared'
+            via: 'chatShared',
+            onto: 'personWhoShared'
           }
         }
       };
@@ -95,7 +98,7 @@ describe('integration', function () {
       .exec(function (err, expected) {
         if (err) return done(err);
 
-        console.log('chatFindQ:',chatFindQ.heap);
+        // console.log('chatFindQ:',chatFindQ.heap);
         console.log('Expected:',expected,'\n*************~~~~~**************\n\n\n\n\n');
 
         var q =
@@ -120,7 +123,7 @@ describe('integration', function () {
           assert.equal(chats.length, expected.length, require('util').format('Unexpected number of top-level results (expected %d, got %d)', expected.length, chats.length));
 
           // Ensure proper number of nested things came back
-          // assert.equal(q.heap.get('chat').length, 1);
+          assert.equal(q.heap.get('chat').length, 1);
 
           done();
         });
