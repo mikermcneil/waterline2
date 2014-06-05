@@ -46,7 +46,8 @@ module.exports = function buildAdapter() {
         var results = WLTransform(criteria.from||criteria.junction, {
           person: require('./person.dataset'),
           chat: require('./chat.dataset'),
-          chatperson: require('./chatperson.junction.dataset')
+          chatperson: require('./chatperson.junction.dataset'),
+          share: require('./share.dataset')
         }, criteria).results;
         return cb(null, results);
       }, 0);
