@@ -137,7 +137,7 @@ describe('integration', function () {
 
 
 
-    describe('nested select...where', function () {
+    describe.only('nested select...where', function () {
 
       var expectedChildResults;
       var expectedParentResults;
@@ -164,6 +164,9 @@ describe('integration', function () {
               select: {
                 id: true,
                 name: true
+              },
+              where: {
+                name: 'Lynda' // psst.. there's no one named Lynda
               }
             }
           }
@@ -175,7 +178,7 @@ describe('integration', function () {
           assert.equal(chats.length, expectedParentResults.length, require('util').format('Unexpected number of top-level results (expected %d, got %d)', expectedParentResults.length, chats.length));
 
           // Ensure proper number of nested things came back
-          assert.equal(q.heap.get('person').length,1);
+          assert.equal(q.heap.get('person').length,0);
           done();
         });
       });
