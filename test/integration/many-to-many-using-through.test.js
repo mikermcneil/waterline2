@@ -137,7 +137,7 @@ describe('integration', function () {
 
 
 
-    describe.only('nested select...where', function () {
+    describe('nested select...where', function () {
 
       var expectedChildResults;
       var expectedParentResults;
