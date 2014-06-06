@@ -10,7 +10,7 @@ var _ = require('lodash');
 var PeopleAndTheirChats = require('../fixtures/PeopleAndTheirChats');
 
 describe('integration', function () {
-  describe.only('many to many using the viaJunction AR and an app-level, `through` model as its adjoining relation', function () {
+  describe('many to many using the viaJunction AR and an app-level, `through` model as its adjoining relation', function () {
 
     var orm;
     var Person;
@@ -122,8 +122,10 @@ describe('integration', function () {
           console.log(q.heap);
           assert.equal(chats.length, expected.length, require('util').format('Unexpected number of top-level results (expected %d, got %d)', expected.length, chats.length));
 
+          // Ensure proper number of things came back
+          assert.equal(q.heap.get('chat').length, 2);
           // Ensure proper number of nested things came back
-          assert.equal(q.heap.get('chat').length, 1);
+          assert.equal(q.heap.get('person').length, 1);
 
           done();
         });
@@ -135,7 +137,7 @@ describe('integration', function () {
 
 
 
-    describe.skip('nested select...where', function () {
+    describe('nested select...where', function () {
 
       var expectedChildResults;
       var expectedParentResults;
@@ -157,14 +159,11 @@ describe('integration', function () {
           where: { id: [1,2] },
           select: {
             id: true,
-            name: true,
+            message: true,
             sharedBy: {
               select: {
                 id: true,
                 name: true
-              },
-              where: {
-                // numEars: 3
               }
             }
           }
@@ -173,10 +172,10 @@ describe('integration', function () {
           if (err) return done(err);
 
           // Ensure proper number of top-level results came back
-          assert.equal(chats.length, expected.length, require('util').format('Unexpected number of top-level results (expected %d, got %d)', expected.length, chats.length));
+          assert.equal(chats.length, expectedParentResults.length, require('util').format('Unexpected number of top-level results (expected %d, got %d)', expectedParentResults.length, chats.length));
 
           // Ensure proper number of nested things came back
-          assert.equal(q.heap.get('person').length,0);
+          assert.equal(q.heap.get('person').length,1);
           done();
         });
       });
