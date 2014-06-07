@@ -118,34 +118,34 @@ QueryHeap.prototype.wipe = function (src) {
 
 /**
  * [push description]
- * @param  {[type]} criteria
+ * @param  {[type]} src
  * @param  {[type]} newRecords [description]
  * @return {[type]}            [description]
  */
-QueryHeap.prototype.push = function (criteria, newRecords) {
+QueryHeap.prototype.push = function (src, newRecords) {
 
-  // ///////////////////////////////////////////////////////
-  // // Normalize `src`:
-  // //
-  // // `src` may be specified as a string (identity of a model)
-  // // or an object (Model or Junction instance)
-  // var srcIdentity;
-  // var _heapdb;
-  // if (!src) throw new WLUsageError('`src` must be specified when pushing to a QueryHeap');
-  // else if (_.isString(src)) {
-  //   srcIdentity = src;
-  //   _heapdb = this._models;
-  // }
-  // else {
-  //   if(src.constructor.name === 'Model') {
-  //     _heapdb = this._models;
-  //   }
-  //   else {
-  //     _heapdb = this._junctions;
-  //   }
-  //   srcIdentity = src.identity;
-  // }
-  // ///////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////
+  // Normalize `src`:
+  //
+  // `src` may be specified as a string (identity of a model)
+  // or an object (Model or Junction instance)
+  var srcIdentity;
+  var _heapdb;
+  if (!src) throw new WLUsageError('`src` must be specified when pushing to a QueryHeap');
+  else if (_.isString(src)) {
+    srcIdentity = src;
+    _heapdb = this._models;
+  }
+  else {
+    if(src.constructor.name === 'Model') {
+      _heapdb = this._models;
+    }
+    else {
+      _heapdb = this._junctions;
+    }
+    srcIdentity = src.identity;
+  }
+  ///////////////////////////////////////////////////////
 
 
 
@@ -163,12 +163,12 @@ QueryHeap.prototype.push = function (criteria, newRecords) {
   var primaryKey = src.primaryKey;
 
   // Identify newRecords which are unique
-  var uniqueNewRecords = _.where(newRecords, function ifUnique(newResult) {
-    var criteria = {}; criteria[primaryKey] = newResult[primaryKey];
+  var uniqueNewRecords = _.where(newRecords, function ifUnique(newRecord) {
+    var criteria = {}; criteria[primaryKey] = newRecord[primaryKey];
     var extantMatchingResult = _.findWhere(_heapdb[srcIdentity], criteria);
     // If a result with the same primary key already exists, merge new with old.
     if (extantMatchingResult) {
-      _.extend(extantMatchingResult, newResult);
+      _.extend(extantMatchingResult, newRecord);
       return false;
     }
     else return true;
