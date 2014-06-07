@@ -8,7 +8,7 @@ var ORM = require('../../../lib/ORM');
 
 
 describe('ORM', function () {
-  describe('.prototype.identifyModel()', function () {
+  describe('.prototype.identify*()', function () {
 
     var orm;
     before(function () {

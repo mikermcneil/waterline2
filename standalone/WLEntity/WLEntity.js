@@ -125,6 +125,8 @@ WLEntity.identifier = function (things, Thing) {
 
     definition = WLEntity.normalize(identity, definition);
 
+    // console.log('Trying to identify in "%s": ',things, definition.identity, definition);
+
     // console.log('Identifying a thing (%s) into '+things+' as a %s', definition.identity, Thing.name);
 
     // If another Thing already exists amongst these `things`
@@ -153,7 +155,8 @@ WLEntity.forgetter = function (things) {
    * @return {WLEntity}
    */
   return function _forgetThing (identity) {
-    _.reject(this[things], function (thing) {
+    // console.log('Trying to forget "%s" from "%s": ',identity, things);
+    this[things] = _.reject(this[things], function (thing) {
       return thing.identity.toLowerCase() === identity.toLowerCase();
     });
     return this;
