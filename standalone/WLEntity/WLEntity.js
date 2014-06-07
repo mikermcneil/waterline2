@@ -4,9 +4,11 @@
  * Module dependencies
  */
 
+var util = require('util');
 var _ = require('lodash');
 
 var WLError = require('root-require')('standalone/WLError');
+var WLUsageError = require('root-require')('standalone/WLError/WLUsageError');
 
 
 
@@ -121,9 +123,17 @@ WLEntity.identifier = function (things, Thing) {
    * @return {WLEntity}
    * @api private
    */
-  return function _identifyThing (identity, definition) {
+  return function _identifyThing (identityOrDefinition, definition) {
 
-    definition = WLEntity.normalize(identity, definition);
+    definition = WLEntity.normalize(identityOrDefinition, definition);
+    var identity = definition.identity;
+
+    if (!identity) {
+      throw new WLUsageError(util.format(
+        'Could not forget from "%s" because no valid identity '+
+        'was provided (got "%s")',things,identity
+      ));
+    }
 
     // console.log('Trying to identify in "%s": ',things, definition.identity, definition);
 
@@ -131,7 +141,7 @@ WLEntity.identifier = function (things, Thing) {
 
     // If another Thing already exists amongst these `things`
     // with the specified identity, overwrite it.
-    (_.bind(WLEntity.forgetter(things), this))(definition.identity);
+    (_.bind(WLEntity.forgetter(things), this))(identity);
 
     definition.orm = this;
     var newThing = new Thing(definition);
@@ -155,6 +165,13 @@ WLEntity.forgetter = function (things) {
    * @return {WLEntity}
    */
   return function _forgetThing (identity) {
+    if (!identity) {
+      throw new WLUsageError(util.format(
+        'Could not forget entity from "%s" because no valid identity '+
+        'was provided (got "%s")',things,identity
+      ));
+    }
+
     // console.log('Trying to forget "%s" from "%s": ',identity, things);
     this[things] = _.reject(this[things], function (thing) {
       return thing.identity.toLowerCase() === identity.toLowerCase();
@@ -178,6 +195,12 @@ WLEntity.getter = function (things) {
    * @return {WLEntity}
    */
   return function _getThing (identity) {
+    if (!identity) {
+      throw new WLUsageError(util.format(
+        'Could not get entity from "%s" because no valid identity '+
+        'was provided (got "%s")',things,identity
+      ));
+    }
     return _.find(this[things], function (thing) {
       return thing.identity.toLowerCase() === identity.toLowerCase();
     });
@@ -187,16 +210,27 @@ WLEntity.getter = function (things) {
 
 
 /**
- * Return a getter or identifier.
+ * Return a method which will work as a getter -OR- identifier,
+ * depending on how it is used.
  *
  * @param  {String} things
  * @param  {WLEntity} Thing
- * @return {[type]}        [description]
+ * @return {Function}
  */
 WLEntity.accessor = function (things, Thing) {
-  return function _getOrIdentifyThing ( /* identity [definition] */ ) {
-    if (arguments[1]) return WLEntity.identifier(things, Thing).apply(this, Array.prototype.slice.call(arguments));
-    else return WLEntity.getter(things).apply(this, Array.prototype.slice.call(arguments));
+
+  /**
+   * @required  {String} identity
+   * @optional  {Object} definition
+   * @return {WLEntity}
+   */
+  return function _getOrIdentifyThing ( /* identity [,definition] */ ) {
+    if (arguments[1]) {
+      return WLEntity.identifier(things, Thing).apply(this, Array.prototype.slice.call(arguments));
+    }
+    else {
+      return WLEntity.getter(things).apply(this, Array.prototype.slice.call(arguments));
+    }
   };
 };
 
