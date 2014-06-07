@@ -40,7 +40,7 @@ module.exports = function buildAdapter() {
         '"callback" argument should exist, and be a function- instead got:\n'+util.inspect(cb)
       );
 
-      console.log('[[in adapter]] find from '+criteria.from.identity+':', criteria);
+      // console.log('[[in adapter]] find from '+criteria.from.identity+':', criteria);
 
       // console.log('In adapter, arguments === ', arguments);
       setTimeout(function afterSimulatedLookupDelay () {
@@ -50,10 +50,10 @@ module.exports = function buildAdapter() {
           chatperson: require('./chatperson.junction.dataset'),
           share: require('./share.dataset')
         }, criteria).results;
-        if (criteria.from.identity === 'share') {
-          console.log('results === ',results);
-        }
-        else console.log('result pk values === ',_.pluck(results, 'id'));
+        // if (criteria.from.identity === 'share') {
+        //   console.log('results === ',results);
+        // }
+        // else console.log('result pk values === ',_.pluck(results, 'id'));
         return cb(null, results);
       }, 0);
     }
