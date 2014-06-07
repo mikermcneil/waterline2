@@ -125,7 +125,7 @@ describe('integration', function () {
           // Ensure proper number of things came back
           assert.equal(q.heap.get('chat').length, 2);
           // Ensure proper number of nested things came back
-          assert.equal(q.heap.get('person').length, 1);
+          assert.equal(q.heap.get('person').length, 1, 'expected 1 person, got: '+q.heap.get('person').length);
 
           done();
         });
