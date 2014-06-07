@@ -2,6 +2,8 @@
  * Module dependencies
  */
 
+var util = require('util');
+
 var WLError = require('root-require')('standalone/WLError');
 
 
@@ -17,14 +19,17 @@ var WLError = require('root-require')('standalone/WLError');
  */
 
 module.exports = function lookupRelationFrom (from, orm) {
-  var fromUnknownEntityError = new WLError('Unknown `.entity` in query\'s FROM clause.  `from` === '+require('util').inspect(from));
 
   if (!orm) return;
-  if (!from || typeof from !== 'object') throw fromUnknownEntityError;
+  if (!from || typeof from !== 'object') throw _getFromUnknownEntityError({from: from});
 
   switch (from.entity) {
     case 'model': return orm.model(from.identity);
     case 'junction': return orm.junction(from.identity);
-    default: throw fromUnknownEntityError;
+    default: throw _getFromUnknownEntityError({from: from});
   }
 };
+
+function _getFromUnknownEntityError(scope) {
+  return new WLError('Unknown `.entity` in query\'s FROM clause.  `from` === '+util.inspect(scope.from));
+}

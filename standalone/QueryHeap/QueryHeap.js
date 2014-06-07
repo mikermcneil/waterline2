@@ -35,8 +35,8 @@ var prettyInstance = require('root-require')('standalone/pretty-instance');
  * >
  * > In some ways, you can think about a QueryHeap a bit like a SQL view,
  * > or "relvar".  It tracks order, but still must be integrated before
- * > it can be used directly in the normal, expected way (as a ordered
- * > result set.)
+ * > it can be used directly in the normal, expected way (as an ordered
+ * > result set of objects, potentially with populated data in each one)
  *
  * @constructor
  * @extends {EventEmitter}
@@ -77,6 +77,7 @@ util.inherits(QueryHeap, EventEmitter);
 QueryHeap.prototype.integrate = require('./integrate');
 
 // Execute a query to convert footprints into complete records
+// (NOTE: this doesn't currently work--in reality it's implemented differently. But this is here as a reminder.)
 QueryHeap.prototype.rehydrate = require('./rehydrate');
 
 
@@ -117,34 +118,37 @@ QueryHeap.prototype.wipe = function (src) {
 
 /**
  * [push description]
- * @param  {[type]} src        [description]
- * @param  {[type]} newResults [description]
+ * @param  {[type]} criteria
+ * @param  {[type]} newRecords [description]
  * @return {[type]}            [description]
  */
-QueryHeap.prototype.push = function (src, newResults) {
+QueryHeap.prototype.push = function (criteria, newRecords) {
 
-  ///////////////////////////////////////////////////////
-  // Normalize `src`:
-  //
-  // `src` may be specified as a string (identity of a model)
-  // or an object (Model or Junction instance)
-  var srcIdentity;
-  var _heapdb;
-  if (!src) throw new WLUsageError('`src` must be specified when pushing to a QueryHeap');
-  else if (_.isString(src)) {
-    srcIdentity = src;
-    _heapdb = this._models;
-  }
-  else {
-    if(src.constructor.name === 'Model') {
-      _heapdb = this._models;
-    }
-    else {
-      _heapdb = this._junctions;
-    }
-    srcIdentity = src.identity;
-  }
-  ///////////////////////////////////////////////////////
+  // ///////////////////////////////////////////////////////
+  // // Normalize `src`:
+  // //
+  // // `src` may be specified as a string (identity of a model)
+  // // or an object (Model or Junction instance)
+  // var srcIdentity;
+  // var _heapdb;
+  // if (!src) throw new WLUsageError('`src` must be specified when pushing to a QueryHeap');
+  // else if (_.isString(src)) {
+  //   srcIdentity = src;
+  //   _heapdb = this._models;
+  // }
+  // else {
+  //   if(src.constructor.name === 'Model') {
+  //     _heapdb = this._models;
+  //   }
+  //   else {
+  //     _heapdb = this._junctions;
+  //   }
+  //   srcIdentity = src.identity;
+  // }
+  // ///////////////////////////////////////////////////////
+
+
+
 
 
   var orm = this.orm;
@@ -158,8 +162,8 @@ QueryHeap.prototype.push = function (src, newResults) {
 
   var primaryKey = src.primaryKey;
 
-  // Identify newResults which are unique
-  var uniqueNewRecords = _.where(newResults, function ifUnique(newResult) {
+  // Identify newRecords which are unique
+  var uniqueNewRecords = _.where(newRecords, function ifUnique(newResult) {
     var criteria = {}; criteria[primaryKey] = newResult[primaryKey];
     var extantMatchingResult = _.findWhere(_heapdb[srcIdentity], criteria);
     // If a result with the same primary key already exists, merge new with old.
