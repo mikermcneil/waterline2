@@ -39,10 +39,6 @@ describe('QueryHeap', function () {
       assert(typeof heap.push === 'function');
     });
 
-    it('should have a `wipe()` method', function () {
-      assert(typeof heap.wipe === 'function');
-    });
-
 
   });
 });
