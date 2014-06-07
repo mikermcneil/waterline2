@@ -27,10 +27,6 @@ describe('QueryHeap', function () {
       assert(!heap.propertyIsEnumerable('orm'));
     });
 
-    it('should have non-enumerable property: `_models`', function () {
-      assert(!heap.propertyIsEnumerable('_models'));
-    });
-
     it('should have a `get()` method', function () {
       assert(typeof heap.get === 'function');
     });

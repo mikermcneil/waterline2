@@ -9,33 +9,25 @@ var lookupRelationFrom = require('root-require')('standalone/lookup-relation-fro
 
 
 /**
- * [get description]
- * @param  {[type]} src [description]
- * @return {[type]}     [description]
+ * @param  {String} bufferCtx   [usually a treepath for some criteria object]
+ * @return {Array}
  */
-module.exports = function get (src) {
+module.exports = function get (bufferCtx) {
 
-  ///////////////////////////////////////////////////////
-  // Normalize `src`:
-  //
-  // `src` may be specified as a string (identity of a model)
-  // or an object (Model or Junction instance)
-  var srcIdentity;
-  var _heapdb;
-  if (_.isString(src)) {
-    srcIdentity = src;
-    _heapdb = this._models;
-  }
+  // Lookup the buffer
+  var buffer = this._buffers[bufferCtx];
+
+  // If no buffer exists for the specified context, return an empty array
+  if (!buffer) return [];
+
+  // If a buffer DOES exist, return its contents
   else {
-    if(src.constructor.name === 'Model') {
-      _heapdb = this._models;
-    }
-    else {
-      _heapdb = this._junctions;
-    }
-    srcIdentity = src.identity;
-  }
-  ///////////////////////////////////////////////////////
 
-  return _heapdb[srcIdentity] || [];
+    // TODO: Come back and consider adding a `_.cloneDeep()` here
+    // On one hand it's a good idea to protect the contents of
+    // this buffer from inadvertant modification in userland, but
+    // at the same time it adds a completely unnecessary performance
+    // hit.  Could always have a configuration option I guess...
+    return buffer.records;
+  }
 };

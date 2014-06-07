@@ -44,15 +44,12 @@ function QueryHeap (opts) {
 
   // Make `this.orm` non-enumerable
   Object.defineProperty(this, 'orm', { enumerable: false, writable: true });
-  // Make `this._models` non-enumerable
-  Object.defineProperty(this, '_models', { enumerable: false, writable: true });
-  // Make `this._junctions` non-enumerable
-  Object.defineProperty(this, '_junctions', { enumerable: false, writable: true });
 
+  // Build initial set of buffers.
+  this._buffers = {};
+
+  // Merge all opts into `this` context.
   _.merge(this, opts || {});
-
-  this._models = {};
-  this._junctions = {};
 
   if (!this.orm) {
     throw new WLUsageError('An `orm` is required when initializing a QueryHeap');
@@ -78,19 +75,19 @@ QueryHeap.prototype.integrate = require('./integrate');
 // (NOTE: this doesn't currently work--in reality it's implemented differently. But this is here as a reminder.)
 QueryHeap.prototype.rehydrate = require('./rehydrate');
 
-// Saves records to a new or existing buffer
+// Saves new records to an existing buffer set
 QueryHeap.prototype.push = require('./QueryHeap.prototype.push');
 
-// Gets all records from the specified buffer
+// Gets all records from the specified buffer set
 QueryHeap.prototype.get = require('./QueryHeap.prototype.get');
 
-
+// Allocates a new buffer set using the specified options
+QueryHeap.prototype.alloc = require('./QueryHeap.prototype.alloc');
 
 // Presentation
 QueryHeap.prototype.inspect = function () {
   return prettyInstance(this, {
-    models: this._models,
-    junctions: this._junctions
+    _buffers: this._buffers
   });
 };
 
