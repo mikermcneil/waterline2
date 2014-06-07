@@ -9,15 +9,16 @@ var lookupRelationFrom = require('root-require')('standalone/lookup-relation-fro
 
 
 /**
- * @param  {String} bufferCtx   [usually a treepath for some criteria object]
+ * @param  {String} identity   [usually a treepath for some criteria object]
  * @return {Array}
  */
-module.exports = function get (bufferCtx) {
+module.exports = function get (identity) {
 
   // Lookup the buffer
-  var buffer = this._buffers[bufferCtx];
+  var buffer = this._buffers[identity];
 
-  // If no buffer exists for the specified context, return an empty array
+  // If the indicated buffer does not exist, fail gracefully
+  // by returning an empty array.
   if (!buffer) return [];
 
   // If a buffer DOES exist, return its contents

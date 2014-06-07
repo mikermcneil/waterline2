@@ -44,6 +44,8 @@ function QueryHeap (opts) {
 
   // Make `this.orm` non-enumerable
   Object.defineProperty(this, 'orm', { enumerable: false, writable: true });
+  // Make `this._buffers` non-enumerable
+  Object.defineProperty(this, '_buffers', { enumerable: false, writable: true });
 
   // Build initial set of buffers.
   this._buffers = {};

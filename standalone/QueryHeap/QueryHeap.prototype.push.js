@@ -11,15 +11,16 @@ var WLUsageError = require('root-require')('standalone/WLError/WLUsageError');
 
 
 /**
- * Push `newRecords` to the specified `bufferCtx`.
+ * Push `newRecords` to the buffer specified by `identity`.
  *
- * @param  {String} bufferCtx   [usually a treepath for some criteria object]
+ * @param  {String} identity   [usually a treepath for some criteria object]
  * @param  {Array} newRecords
  *
  * @chainable
  */
-module.exports = function push (bufferCtx, newRecords) {
+module.exports = function push (identity, newRecords) {
 
+  // var relation = lookupRelationFrom(, this.orm);
 
 
 };
