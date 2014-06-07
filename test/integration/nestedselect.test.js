@@ -53,7 +53,7 @@ describe('integration', function () {
 
           // Ensure proper number of nested things came back
           // (numEars=3 should not match ANY)
-          assert.equal(q.heap.get('cat').length, 1);
+          assert.equal(q.heap.getAllFrom('cat').length, 1);
 
           done();
         });

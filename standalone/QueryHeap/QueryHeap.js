@@ -86,6 +86,16 @@ QueryHeap.prototype.get = require('./QueryHeap.prototype.get');
 // Allocates a new page buffer with the specified properties
 QueryHeap.prototype.malloc = require('./QueryHeap.prototype.malloc');
 
+// Aggregates and returns all records from the specified relation
+QueryHeap.prototype.getAllFrom = function (relationIdentity){
+  return _.reduce(this._buffers, function (memo, buffer, bufferIdent) {
+    if (buffer.from.identity === relationIdentity) {
+      memo.push.apply(memo, buffer.records);
+    }
+    return memo;
+  }, []);
+};
+
 // Presentation
 QueryHeap.prototype.inspect = function () {
   return prettyInstance(this, {

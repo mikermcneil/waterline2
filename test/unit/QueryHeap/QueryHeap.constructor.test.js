@@ -26,6 +26,9 @@ describe('QueryHeap', function () {
     it('should have non-enumerable property: `orm`', function () {
       assert(!heap.propertyIsEnumerable('orm'));
     });
+    it('should have non-enumerable property: `_buffers`', function () {
+      assert(!heap.propertyIsEnumerable('_buffers'));
+    });
 
     it('should have a `get()` method', function () {
       assert(typeof heap.get === 'function');
@@ -33,6 +36,10 @@ describe('QueryHeap', function () {
 
     it('should have a `push()` method', function () {
       assert(typeof heap.push === 'function');
+    });
+
+    it('should have a `malloc()` method', function () {
+      assert(typeof heap.malloc === 'function');
     });
 
 

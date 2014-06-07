@@ -41,11 +41,11 @@ describe('integration', function () {
         // console.log(q);
         q.exec(function(err, results) {
           if (err) throw err;
-          assert(q.heap.get('cat'));
-          assert(q.heap.get('person'));
+          assert(q.heap.getAllFrom('cat'));
+          assert(q.heap.getAllFrom('person'));
           // console.log('========>',q.heap);
 
-          var catsNamedRandyInHeap = _.where(q.heap.get('cat'), {id: 1});
+          var catsNamedRandyInHeap = _.where(q.heap.getAllFrom('cat'), {id: 1});
           assert.equal(catsNamedRandyInHeap.length, 1, 'expected exactly 1 cat in the heap named randy (id:1) but got '+catsNamedRandyInHeap.length);
           cb();
         });
@@ -78,9 +78,9 @@ describe('integration', function () {
         // console.log(q);
         q.exec(function(err, results) {
           if (err) throw err;
-          assert(q.heap.get('cat'));
-          assert(q.heap.get('person'));
-          var catsNamedDempseyInHeap = _.where(q.heap.get('cat'), {id: 3});
+          assert(q.heap.getAllFrom('cat'));
+          assert(q.heap.getAllFrom('person'));
+          var catsNamedDempseyInHeap = _.where(q.heap.getAllFrom('cat'), {id: 3});
           assert.equal(catsNamedDempseyInHeap.length, 1, 'expected exactly one cat named "Dempsey the Cat" (id:3) but got '+catsNamedDempseyInHeap.length);
           // console.log(q.heap);
           cb();

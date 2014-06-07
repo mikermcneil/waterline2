@@ -6,25 +6,25 @@ var util = require('util');
 var _ = require('lodash');
 var WLTransform = require('waterline-criteria');
 
-var lookupRelationFrom = require('root-require')('standalone/lookup-relation-from');
 var WLUsageError = require('root-require')('standalone/WLError/WLUsageError');
 
 
 /**
- * @param  {String} identity   [usually a treepath for some criteria object]
+ * @param  {String} bufferIdentity   [usually a treepath for some criteria object]
  * @param  {Object} options
  *
  * @chainable
  */
-module.exports = function malloc (identity, options) {
+module.exports = function malloc (bufferIdentity, options) {
 
-  if (this._buffers[identity]) {
+  if (this._buffers[bufferIdentity]) {
     throw new WLUsageError(util.format(
-      'QueryHeap cannot malloc "%s" - a buffer already exists with that identity!'
+      'QueryHeap cannot malloc "%s" - a buffer already exists with that identity',
+      bufferIdentity
     ));
   }
   else {
-    this._buffers[identity] = {
+    this._buffers[bufferIdentity] = {
 
       // `from` is necessary so that the QueryHeap can introspect the schema
       // of the relations whose records are stored in this buffer.
