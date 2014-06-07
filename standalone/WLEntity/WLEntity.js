@@ -129,25 +129,12 @@ WLEntity.identifier = function (things, Thing) {
 
     // If another Thing already exists amongst these `things`
     // with the specified identity, overwrite it.
-    _.bind(WLEntity.forgetter(things), this)(definition.identity);
+    (_.bind(WLEntity.forgetter(things), this))(definition.identity);
 
     definition.orm = this;
     var newThing = new Thing(definition);
     this[things].push(newThing);
 
-    // Refresh the ORM to ensure the new entity is hooked up nicely
-    // (if it fails, it will fail silently------ for now...)
-    // this.refresh();
-    // this.refresh();
-
-    // <optmization>
-    // OPTIMIZE:
-    // Instead of refreshing the entire ORM, just refresh the new thing,
-    // which should set off a chain reaction of instantiating association rules,
-    // refreshing junctions, refreshing other dependend relations, etc.
-    // For now, the simplest way to accomplish all this is just by centralizing the
-    // logic for it in the ORM.prototype.refresh() method.
-    // </optimization>
 
     return this;
   };
