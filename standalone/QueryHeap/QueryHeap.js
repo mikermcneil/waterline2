@@ -75,14 +75,14 @@ QueryHeap.prototype.integrate = require('./integrate');
 // (NOTE: this doesn't currently work--in reality it's implemented differently. But this is here as a reminder.)
 QueryHeap.prototype.rehydrate = require('./rehydrate');
 
-// Saves new records to an existing buffer set
+// Saves new records to an existing page buffer
 QueryHeap.prototype.push = require('./QueryHeap.prototype.push');
 
-// Gets all records from the specified buffer set
+// Gets all records from the specified page buffer
 QueryHeap.prototype.get = require('./QueryHeap.prototype.get');
 
-// Allocates a new buffer set using the specified options
-QueryHeap.prototype.alloc = require('./QueryHeap.prototype.alloc');
+// Allocates a new page buffer with the specified properties
+QueryHeap.prototype.malloc = require('./QueryHeap.prototype.malloc');
 
 // Presentation
 QueryHeap.prototype.inspect = function () {
