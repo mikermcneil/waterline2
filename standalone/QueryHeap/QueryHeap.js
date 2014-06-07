@@ -80,6 +80,10 @@ QueryHeap.prototype.rehydrate = require('./rehydrate');
 // Saves new records to an existing page buffer
 QueryHeap.prototype.push = require('./QueryHeap.prototype.push');
 
+QueryHeap.prototype.pushFootprints = function (bufferIdent, records) {
+  this.push(bufferIdent, records, true);
+};
+
 // Gets all records from the specified page buffer
 QueryHeap.prototype.get = require('./QueryHeap.prototype.get');
 
