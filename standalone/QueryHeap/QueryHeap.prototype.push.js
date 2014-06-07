@@ -62,13 +62,13 @@ module.exports = function push (bufferIdentity, newRecords, justFootprints) {
       }
     });
 
-    console.log('Post-push(%s, %s), new buffer.records:', bufferIdentity, util.inspect(newRecords), buffer.records);
+    // console.log('Post-push(%s, %s), new buffer.records:', bufferIdentity, util.inspect(newRecords), buffer.records);
 
     //  • Then run WLTransform to turn the result into a sorted set.
     //  • Finally, prune any records which can be safely discarded.
     //    (NOTE: must keep at least `skip`+`limit` records to guarantee correctness of result set)
     buffer.records = WLTransform.sort(buffer.records, buffer.sort||{});
-    buffer.records = _.first(buffer.records, (buffer.skip + buffer.limit)||1000);
+    buffer.records = _.first(buffer.records, ((buffer.skip||0) + (buffer.limit||0))||1000);
 
     return this;
   }
