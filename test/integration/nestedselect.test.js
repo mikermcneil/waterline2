@@ -15,6 +15,7 @@ describe('integration', function () {
 
     var orm = PeopleAndTheirCats();
     var Person = orm.model('person');
+    var Cat = orm.model('cat');
 
     it('should return all of the expected parent results', function (done) {
 
@@ -53,7 +54,7 @@ describe('integration', function () {
 
           // Ensure proper number of nested things came back
           // (numEars=3 should not match ANY)
-          assert.equal(q.heap.getAllFrom('cat').length, 1);
+          assert.equal(q.heap.getAllFrom('cat', Cat.primaryKey).length, 1);
 
           done();
         });

@@ -123,9 +123,9 @@ describe('integration', function () {
           assert.equal(chats.length, expected.length, require('util').format('Unexpected number of top-level results (expected %d, got %d)', expected.length, chats.length));
 
           // Ensure proper number of things came back
-          assert.equal(q.heap.getAllFrom('chat').length, 2, 'expected 2 chats, got:'+q.heap.getAllFrom('chat').length);
+          assert.equal(q.heap.getAllFrom('chat', Chat.primaryKey).length, 2, 'expected 2 chats, got:'+q.heap.getAllFrom('chat', Chat.primaryKey).length);
           // Ensure proper number of nested things came back
-          assert.equal(q.heap.getAllFrom('person').length, 1, 'expected 1 person, got: '+q.heap.getAllFrom('person').length);
+          assert.equal(q.heap.getAllFrom('person', Person.primaryKey).length, 1, 'expected 1 person, got '+q.heap.getAllFrom('person', Person.primaryKey).length+' :: '+require('util').inspect(q.heap.getAllFrom('person')));
 
           done();
         });
@@ -178,7 +178,7 @@ describe('integration', function () {
           assert.equal(chats.length, expectedParentResults.length, require('util').format('Unexpected number of top-level results (expected %d, got %d)', expectedParentResults.length, chats.length));
 
           // Ensure proper number of nested things came back
-          assert.equal(q.heap.getAllFrom('person').length,0);
+          assert.equal(q.heap.getAllFrom('person', Person.primaryKey).length,0);
           done();
         });
       });

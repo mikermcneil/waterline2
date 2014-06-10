@@ -91,13 +91,20 @@ QueryHeap.prototype.get = require('./QueryHeap.prototype.get');
 QueryHeap.prototype.malloc = require('./QueryHeap.prototype.malloc');
 
 // Aggregates and returns all records from the specified relation
-QueryHeap.prototype.getAllFrom = function (relationIdentity){
-  return _.reduce(this._buffers, function (memo, buffer, bufferIdent) {
+QueryHeap.prototype.getAllFrom = function (relationIdentity, relationPK){
+  return _.uniq(_.reduce(this._buffers, function (memo, buffer, bufferIdent) {
     if (buffer.from.identity === relationIdentity) {
       memo.push.apply(memo, buffer.records);
     }
     return memo;
-  }, []);
+  }, []), relationPK);
+};
+
+// Return all buffers whose identity matches the specified regular expression
+QueryHeap.prototype.getBufferIdentitiesLike = function (rxp) {
+  return _(this._buffers).keys().where(function (bufferIdent) {
+    return bufferIdent.match(rxp);
+  }).valueOf();
 };
 
 // Presentation
