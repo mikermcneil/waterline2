@@ -23,6 +23,7 @@ module.exports = function rehydrate (bufferIdentity, records) {
     ));
   }
   else {
+    console.log ('~~~~) Hydrating '+bufferIdentity+ ' with '+records.length+' records:',records);
     var buffer = this._buffers[bufferIdentity];
     var relation = lookupRelationFrom(buffer.from, this.orm);
 
