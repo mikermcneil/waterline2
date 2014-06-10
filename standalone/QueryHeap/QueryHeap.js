@@ -73,8 +73,7 @@ util.inherits(QueryHeap, EventEmitter);
 // Integrator
 QueryHeap.prototype.integrate = require('./integrate');
 
-// Execute a query to convert footprints into complete records
-// (NOTE: this doesn't currently work--in reality it's implemented differently. But this is here as a reminder.)
+// Extend the records in the buffer with the specified `bufferIdent` with the provided data.
 QueryHeap.prototype.rehydrate = require('./rehydrate');
 
 // Saves new records to an existing page buffer
