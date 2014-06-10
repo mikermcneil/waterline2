@@ -20,7 +20,7 @@ module.exports = function PeopleAndTheirChats () {
         datastore: 'default',
         attributes: {
           id: { type: 'integer', primaryKey: true, fieldName: '_legacy_id' },
-          name: { type: 'string', name: '_legacy_name' },
+          name: { type: 'string', fieldName: '_legacy_name' },
           email: { type: 'string', fieldName: '_legacy_email'}
         }
       },

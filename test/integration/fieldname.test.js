@@ -6,7 +6,7 @@ var util = require('util');
 var PeopleAndTheirLegacyData = require('../fixtures/PeopleAndTheirLegacyData');
 
 
-describe('query engine', function () {
+describe('custom field names', function () {
 
   var orm = PeopleAndTheirLegacyData();
 
