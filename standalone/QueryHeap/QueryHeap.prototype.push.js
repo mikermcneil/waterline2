@@ -31,6 +31,7 @@ module.exports = function push (bufferIdentity, newRecords, justFootprints) {
 
     var buffer = this._buffers[bufferIdentity];
     var relation = lookupRelationFrom(buffer.from, this.orm);
+
     // If the `justFootprints` flag is enabled, `newRecords` will be stripped-down to only
     // the minimal set of data which is absolutely necessary for uniquely identifying a given
     // record, i.e. primary key values, & the values of any attribute in the criteria's sort vectors.
@@ -45,11 +46,19 @@ module.exports = function push (bufferIdentity, newRecords, justFootprints) {
           return attrName === relation.primaryKey || _.contains(_.keys(buffer.sort), attrName);
         });
       });
+      console.log('footprintized into: ',newRecords);
     }
-    console.log('footprintized into: ',newRecords);
 
     //  • Calculate the union of `newRecords` and the existing `buffer.records`.
     _.each(newRecords, function (newRecord) {
+
+      // If the primary key value doesn't exist, always push the whole thing
+      // (this is important for `groupBy`, etc.)
+      if (!newRecord[relation.primaryKey]) {
+        buffer.records.push(newRecord);
+        return;
+      }
+
       var extantMatchingRecord = _.find(buffer.records, function (existingRecord) {
         return existingRecord[relation.primaryKey] === newRecord[relation.primaryKey];
       });
@@ -57,6 +66,9 @@ module.exports = function push (bufferIdentity, newRecords, justFootprints) {
         buffer.records.push(newRecord);
       }
     });
+
+    console.log('primaryKey', relation.primaryKey);
+    console.log('buffer.records', buffer.records);
 
 
        // but in the case of a duplicate, allow the new record to override the old
