@@ -39,14 +39,15 @@ module.exports = function push (bufferIdentity, newRecords, justFootprints) {
     // additional query get the rest of the attribute values necessary for a complete result set.
     // But as you've probably already deduced, a complete result set is not always strictly necessary,
     // and so oftentimes `justFootprints` is all we need - and it also reduces memory-usage.
-    console.log('\n\n&&&&&&&&&& pushing ',newRecords,'to cache (relation='+relation.identity+')');
+
+    // console.log('\n\n&&&&&&&&&& pushing ',newRecords,'to cache (relation='+relation.identity+')');
     if (justFootprints) {
       newRecords = _.map(newRecords, function _generateFootprint(newRecord) {
         return _.pick(newRecord, function _pickOrOmitKey (val, attrName) {
           return attrName === relation.primaryKey || _.contains(_.keys(buffer.sort), attrName);
         });
       });
-      console.log('footprintized into: ',newRecords);
+      // console.log('footprintized into: ',newRecords);
     }
 
     //  • Calculate the union of `newRecords` and the existing `buffer.records`.
@@ -67,8 +68,8 @@ module.exports = function push (bufferIdentity, newRecords, justFootprints) {
       }
     });
 
-    console.log('primaryKey', relation.primaryKey);
-    console.log('buffer.records', buffer.records);
+    // console.log('primaryKey', relation.primaryKey);
+    // console.log('buffer.records', buffer.records);
 
 
        // but in the case of a duplicate, allow the new record to override the old

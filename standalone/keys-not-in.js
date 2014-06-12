@@ -2,7 +2,7 @@
  * Module dependencies
  */
 
-var keysIn = require('./keysIn');
+var keysIn = require('root-require')('standalone/keys-in');
 
 
 /**

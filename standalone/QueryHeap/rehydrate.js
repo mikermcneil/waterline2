@@ -23,7 +23,7 @@ module.exports = function rehydrate (bufferIdentity, records) {
     ));
   }
   else {
-    console.log ('~~~~) Hydrating '+bufferIdentity+ ' with '+records.length+' records:',records);
+    // console.log ('~~~~) Hydrating '+bufferIdentity+ ' with '+records.length+' records:',records);
     var buffer = this._buffers[bufferIdentity];
     var relation = lookupRelationFrom(buffer.from, this.orm);
 
@@ -48,6 +48,6 @@ module.exports = function rehydrate (bufferIdentity, records) {
       _.extend(matchingFootprint, hydratedRecord);
 
     });
-    console.log ('~~~~ New contents of buffer ('+bufferIdentity+') -> ',buffer);
+    // console.log ('~~~~ New contents of buffer ('+bufferIdentity+') -> ',buffer);
   }
 };
