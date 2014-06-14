@@ -15,7 +15,7 @@ describe('QueryHeap', function () {
 
     before(function (){
       heap = new QueryHeap({
-        orm: new ORM({
+        orm: (new ORM({
           models: {
 
             canister: {
@@ -40,7 +40,11 @@ describe('QueryHeap', function () {
             }
 
           }
-        })
+        }))
+
+        // We refresh the ORM here so `primaryKey` will be calculated
+        // (and maybe other important things?)
+        .refresh()
       });
     });
 
@@ -134,6 +138,36 @@ describe('QueryHeap', function () {
         heap.push('f1000', [{id:1},{id:2},{id:3}]);
       });
     });
+
+
+
+
+
+    // IMPORTANT:
+    // QueryHeap buffers do not respect secondary `unique` attributes/indices--
+    // just the primary key. It is up to the caller to honor other constraints.
+    it('should ignore duplicates (using the primary key)', function () {
+      heap.malloc('f1000A', {from: {entity: 'model', identity: 'stark'}});
+      assert.deepEqual(heap._buffers.f1000A.records,[]);
+
+
+      heap.push('f1000A', [{id:1, name: 'robb'},{id:2, name: 'sansa'},{id:3, name: 'jon'}]);
+      assert.deepEqual(heap._buffers.f1000A.records,[{id:1, name: 'robb'},{id:2, name: 'sansa'},{id:3, name: 'jon'}]);
+
+      heap.push('f1000A', [{id:1, name: 'robb'},{id:2, name: 'sansa'},{id:3, name: 'jon'}]);
+      assert.deepEqual(heap._buffers.f1000A.records,[{id:1, name: 'robb'},{id:2, name: 'sansa'},{id:3, name: 'jon'}]);
+
+      heap.push('f1000A', [{id:1, name: 'robb'},{id:2, name: 'sansa'},{id:3, name: 'jon'}, {id: 4, name: 'bran'}]);
+      assert.deepEqual(heap._buffers.f1000A.records,[{id:1, name: 'robb'},{id:2, name: 'sansa'},{id:3, name: 'jon'}, {id: 4, name: 'bran'}]);
+
+    });
+
+
+
+
+    //
+    // Criteria modifiers
+    //
 
     it('should reorder records according to the buffer\'s `sort` modifier', function (){
       heap.malloc('f1001', {
@@ -289,6 +323,8 @@ describe('QueryHeap', function () {
       assert.deepEqual(heap._buffers.f1101.records,[{name: 'rickon', age: 4}, {name: 'bran', age: 9}, {name: 'arya', age: 11}, {name: 'sansa', age: 13}]);
 
     });
+
+
 
   });
 });

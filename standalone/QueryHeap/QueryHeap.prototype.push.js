@@ -49,6 +49,8 @@ module.exports = function push (bufferIdentity, newRecords, justFootprints) {
   var buffer = this._buffers[bufferIdentity];
   var relation = lookupRelationFrom(buffer.from, this.orm);
 
+  // console.log(relation);
+
   // If the `justFootprints` flag is enabled, `newRecords` will be stripped-down to only
   // the minimal set of data which is absolutely necessary for uniquely identifying a given
   // record, i.e. primary key values, & the values of any attribute in the criteria's sort vectors.
@@ -77,6 +79,8 @@ module.exports = function push (bufferIdentity, newRecords, justFootprints) {
       return;
     }
 
+    // But if an existing record with the same primary key DOES exist,
+    // don't push the new record (enforces uniqueness)
     var extantMatchingRecord = _.find(buffer.records, function (existingRecord) {
       return existingRecord[relation.primaryKey] === newRecord[relation.primaryKey];
     });
@@ -99,6 +103,7 @@ module.exports = function push (bufferIdentity, newRecords, justFootprints) {
   // }
 
   // console.log('Post-push(%s, %s), new buffer.records:', bufferIdentity, util.inspect(newRecords), buffer.records);
+
 
   //  • Then run WLTransform to turn the result into a sorted set.
   //  • Finally, prune any records which can be safely discarded.
