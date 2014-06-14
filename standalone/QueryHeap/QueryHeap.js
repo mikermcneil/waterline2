@@ -71,10 +71,10 @@ util.inherits(QueryHeap, EventEmitter);
 
 
 // Integrator
-QueryHeap.prototype.integrate = require('./integrate');
+QueryHeap.prototype.integrate = require('./QueryHeap.prototype.integrate');
 
 // Extend the records in the buffer with the specified `bufferIdent` with the provided data.
-QueryHeap.prototype.rehydrate = require('./rehydrate');
+QueryHeap.prototype.rehydrate = require('./QueryHeap.prototype.rehydrate');
 
 // Saves new records to an existing page buffer
 QueryHeap.prototype.push = require('./QueryHeap.prototype.push');

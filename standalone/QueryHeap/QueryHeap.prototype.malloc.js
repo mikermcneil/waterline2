@@ -16,6 +16,12 @@ var WLUsageError = require('root-require')('standalone/WLError/WLUsageError');
  * @chainable
  */
 module.exports = function malloc (bufferIdentity, options) {
+  if (!bufferIdentity) {
+    throw new WLUsageError(util.format(
+      'In QueryHeap.prototype.malloc(), 1st argument `bufferIdentity` is required - Usage:  `someheap.malloc(bufferIdentity [,options])`'
+    ));
+  }
+  options = options || {};
 
   if (this._buffers[bufferIdentity]) {
     throw new WLUsageError(util.format(
@@ -47,6 +53,8 @@ module.exports = function malloc (bufferIdentity, options) {
       // so that a buffer can store subsets of both footprints -AND- complete records, simultaneously?
     };
   }
+
+  return this;
 };
 
 
