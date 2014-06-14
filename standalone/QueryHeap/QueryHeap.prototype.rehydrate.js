@@ -16,13 +16,29 @@ var lookupRelationFrom = require('root-require')('standalone/lookup-relation-fro
  * @return {[type]}             [description]
  */
 module.exports = function rehydrate (bufferIdentity, records) {
-  if (!this._buffers[bufferIdentity]) {
+  if (!bufferIdentity) {
+    throw new WLUsageError(util.format(
+      'In QueryHeap.prototype.rehydrate(), 1st argument `bufferIdentity` (a string) is required - Usage:  `someheap.rehydrate(bufferIdentity)`'
+    ));
+  }
+  else if (!_.isArray(records)) {
+    throw new WLUsageError(util.format(
+      'In QueryHeap.prototype.push(), 2nd argument `newRecords` (an array of records) is required - Usage:  `someheap.push(bufferIdentity, newRecords [, justFootprints])`'
+    ));
+  }
+  else if (!this._buffers[bufferIdentity]) {
     throw new WLUsageError(util.format(
       'QueryHeap cannot rehydrate buffer ("%s") because it does not exist',
       util.inspect(bufferIdentity, false, null)
     ));
   }
   else {
+
+    // Optimization: return early if the set of records to push is empty
+    if (!records.length) {
+      return this;
+    }
+
     // console.log ('~~~~) Hydrating '+bufferIdentity+ ' with '+records.length+' records:',records);
     var buffer = this._buffers[bufferIdentity];
     var relation = lookupRelationFrom(buffer.from, this.orm);
