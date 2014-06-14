@@ -61,8 +61,9 @@ var orm = Waterline({
     }
   },
   adapters: {
+
+    // NOTE: because no apiVersion is specified, this adapter defaults to `0.0.0`
     someAdapter: {
-      // NOTE: because no apiVersion is specified, this adapter defaults to `1.0.0`
       foo: function(/* ... */) {
         assert(arguments.length === ['Datastore', 'Model', 'callback'].length);
         assert(arguments[0] instanceof Datastore, 'Unexpected arguments (expected arguments[0] to be a Datastore) in adapter method: '+util.inspect(arguments));
@@ -137,12 +138,12 @@ var orm = Waterline({
 var mockWLEntity = orm.model('someModel');
 
 mockWLEntity.fooBridge = Adapter.bridge({
-  method: 'foo',
   usage: [{
     label: 'callback',
     type: 'function',
     optional: true
   }],
+  adapterMethod: 'foo',
   adapterUsage: {
     '>= 2.0.0': ['callback'],
     '*': ['Datastore', 'Model', 'callback']
@@ -151,7 +152,6 @@ mockWLEntity.fooBridge = Adapter.bridge({
 
 var otherMockWLEntity = orm.model('someOtherModel');
 otherMockWLEntity.withCriteriaBridge = Adapter.bridge({
-  method: 'find',
   usage: [{
     label: 'criteria',
     type: 'object'
@@ -161,6 +161,7 @@ otherMockWLEntity.withCriteriaBridge = Adapter.bridge({
     type: 'function',
     optional: true
   }],
+  adapterMethod: 'find',
   adapterUsage: {
     '*': ['Datastore', 'Model.cid', 'criteria', 'callback']
   },
