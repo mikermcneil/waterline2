@@ -150,7 +150,6 @@ describe('QueryHeap', function () {
       heap.malloc('f1000A', {from: {entity: 'model', identity: 'stark'}});
       assert.deepEqual(heap._buffers.f1000A.records,[]);
 
-
       heap.push('f1000A', [{id:1, name: 'robb'},{id:2, name: 'sansa'},{id:3, name: 'jon'}]);
       assert.deepEqual(heap._buffers.f1000A.records,[{id:1, name: 'robb'},{id:2, name: 'sansa'},{id:3, name: 'jon'}]);
 
