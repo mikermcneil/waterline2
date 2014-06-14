@@ -208,7 +208,7 @@ describe('QueryHeap', function () {
       assert.deepEqual(heap._buffers.f1011.records,[{name: 'arya', age: 11}, {name: 'sansa', age: 13}, {name: 'jon', age: 16}, {name: 'ned', age: 32}]);
     });
 
-    it('should limit records appropriately', function (){
+    it('should limit+sort records appropriately', function (){
 
       heap.malloc('f1100', {
         from: {entity: 'model', identity: 'stark'},
@@ -237,6 +237,57 @@ describe('QueryHeap', function () {
 
       heap.push('f1100', [{name: 'rickon', age: 4}]);
       assert.deepEqual(heap._buffers.f1100.records,[{name: 'rickon', age: 4}, {name: 'bran', age: 9}]);
+
+      heap.push('f1100', [{name: 'robb', age: 17}]);
+      assert.deepEqual(heap._buffers.f1100.records,[{name: 'rickon', age: 4}, {name: 'bran', age: 9}]);
+    });
+
+
+
+    it('should limit+skip+sort records appropriately', function (){
+
+      //
+      // NOTE:
+      // Currently, the results w/ `skip` look ALMOST exactly like the results
+      // without it.  The only difference is that the heap will contain `skip+limit`
+      // records, instead of `limit` records.
+      //
+      // Eventually `heap.get()` should probably implement `skip`
+      // (and potentially even `where`, but that depends)
+      //
+
+      heap.malloc('f1101', {
+        from: {entity: 'model', identity: 'stark'},
+        sort: {
+          age: 1,
+          name: 1
+        },
+        limit: 2,
+        skip: 2
+      });
+      assert.deepEqual(heap._buffers.f1101.records,[]);
+
+      heap.push('f1101', []);
+      assert.deepEqual(heap._buffers.f1101.records,[]);
+
+      heap.push('f1101', [{name: 'ned', age: 32}]);
+      assert.deepEqual(heap._buffers.f1101.records,[{name: 'ned', age: 32}]);
+
+      heap.push('f1101', [{name: 'jon', age: 16}]);
+      assert.deepEqual(heap._buffers.f1101.records,[{name: 'jon', age: 16}, {name: 'ned', age: 32}]);
+
+      heap.push('f1101', [{name: 'arya', age: 11}, {name: 'sansa', age: 13}]);
+      assert.deepEqual(heap._buffers.f1101.records,[{name: 'arya', age: 11}, {name: 'sansa', age: 13}, {name: 'jon', age: 16}, {name: 'ned', age: 32}]);
+
+      heap.push('f1101', [{name: 'robb', age: 17}]);
+      assert.deepEqual(heap._buffers.f1101.records,[{name: 'arya', age: 11}, {name: 'sansa', age: 13}, {name: 'jon', age: 16}, {name: 'robb', age: 17}]);
+
+      heap.push('f1101', [{name: 'bran', age: 9}]);
+      assert.deepEqual(heap._buffers.f1101.records,[{name: 'bran', age: 9}, {name: 'arya', age: 11}, {name: 'sansa', age: 13}, {name: 'jon', age: 16}]);
+
+      heap.push('f1101', [{name: 'rickon', age: 4}]);
+      assert.deepEqual(heap._buffers.f1101.records,[{name: 'rickon', age: 4}, {name: 'bran', age: 9}, {name: 'arya', age: 11}, {name: 'sansa', age: 13}]);
+
     });
 
   });

@@ -19,6 +19,13 @@ module.exports = function get (bufferIdentity) {
     ));
   }
 
+  //
+  // TODO:
+  // implement skip (and possibly even `where`) here
+  // (instead of doing it manually when a cursor is almost finished)
+  //
+
+
   // Lookup the buffer
   var buffer = this._buffers[bufferIdentity];
 
