@@ -31,5 +31,7 @@ module.exports = function lookupRelationFrom (from, orm) {
 };
 
 function _getFromUnknownEntityError(scope) {
-  return new WLError('Unknown `.entity` in query\'s FROM clause.  `from` === '+util.inspect(scope.from));
+  var e = new WLError('Unknown `.entity` in query\'s FROM clause.  `from` === '+util.inspect(scope.from));
+  e.code = 'E_INVALIDFROM';
+  return e;
 }
