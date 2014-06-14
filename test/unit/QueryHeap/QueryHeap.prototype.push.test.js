@@ -31,12 +31,32 @@ describe('QueryHeap', function () {
                 description: { type: 'string' },
                 usedInCanisters: { collection: 'canister', via: 'madeOfMaterial' }
               }
+            },
+
+            stark: {
+              attributes: {
+                name: { type: 'string' }
+              }
             }
 
           }
         })
       });
     });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     it('should require the 1st argument (`bufferIdentity`)', function () {
       assert.throws(function () {
@@ -82,7 +102,7 @@ describe('QueryHeap', function () {
 
     it('should push the specified records onto the buffer\'s `records` array', function () {
       heap.malloc('f101', {
-        from: {entity: 'model', identity: 'canister'}
+        from: {entity: 'model', identity: 'stark'}
       });
       assert.deepEqual(heap._buffers.f101.records,[]);
 
@@ -113,6 +133,110 @@ describe('QueryHeap', function () {
         heap.malloc('f1000', {where: {}, limit: 10000, skip: 9999});
         heap.push('f1000', [{id:1},{id:2},{id:3}]);
       });
+    });
+
+    it('should reorder records according to the buffer\'s `sort` modifier', function (){
+      heap.malloc('f1001', {
+        from: {entity: 'model', identity: 'stark'},
+        sort: {
+          name: 1
+        }
+      });
+      assert.deepEqual(heap._buffers.f1001.records,[]);
+
+      heap.push('f1001', []);
+      assert.deepEqual(heap._buffers.f1001.records,[]);
+
+      heap.push('f1001', [{name: 'ned'}]);
+      assert.deepEqual(heap._buffers.f1001.records,[{name: 'ned'}]);
+
+      heap.push('f1001', [{name: 'jon'}]);
+      assert.deepEqual(heap._buffers.f1001.records,[{name: 'jon'}, {name: 'ned'}]);
+
+
+      heap.push('f1001', [{name: 'arya'}, {name: 'sansa'}]);
+      assert.deepEqual(heap._buffers.f1001.records,[{name: 'arya'}, {name: 'jon'}, {name: 'ned'}, {name: 'sansa'}]);
+    });
+
+    it('should sort records appropriately (in order of keys) when multiple sort attributes are applied', function (){
+      heap.malloc('f1010', {
+        from: {entity: 'model', identity: 'stark'},
+        sort: {
+          name: 1,
+          age: 1
+        }
+      });
+      assert.deepEqual(heap._buffers.f1010.records,[]);
+
+      heap.push('f1010', []);
+      assert.deepEqual(heap._buffers.f1010.records,[]);
+
+      //
+      // Wow.
+      // In retrospect, I guess using `age` was kind of a mistake. Whatever.
+      // http://towerofthehand.com/reference/compendiums/appendix_ages.html
+      //
+
+      heap.push('f1010', [{name: 'ned', age: 32}]);
+      assert.deepEqual(heap._buffers.f1010.records,[{name: 'ned', age: 32}]);
+
+      heap.push('f1010', [{name: 'jon', age: 16}]);
+      assert.deepEqual(heap._buffers.f1010.records,[{name: 'jon', age: 16}, {name: 'ned', age: 32}]);
+
+      heap.push('f1010', [{name: 'arya', age: 11}, {name: 'sansa', age: 13}]);
+      assert.deepEqual(heap._buffers.f1010.records,[{name: 'arya', age: 11}, {name: 'jon', age: 16}, {name: 'ned', age: 32}, {name: 'sansa', age: 13}]);
+
+      heap.malloc('f1011', {
+        from: {entity: 'model', identity: 'stark'},
+        sort: {
+          age: 1,
+          name: 1
+        }
+      });
+      assert.deepEqual(heap._buffers.f1011.records,[]);
+
+      heap.push('f1011', []);
+      assert.deepEqual(heap._buffers.f1011.records,[]);
+
+      heap.push('f1011', [{name: 'ned', age: 32}]);
+      assert.deepEqual(heap._buffers.f1011.records,[{name: 'ned', age: 32}]);
+
+      heap.push('f1011', [{name: 'jon', age: 16}]);
+      assert.deepEqual(heap._buffers.f1011.records,[{name: 'jon', age: 16}, {name: 'ned', age: 32}]);
+
+      heap.push('f1011', [{name: 'arya', age: 11}, {name: 'sansa', age: 13}]);
+      assert.deepEqual(heap._buffers.f1011.records,[{name: 'arya', age: 11}, {name: 'sansa', age: 13}, {name: 'jon', age: 16}, {name: 'ned', age: 32}]);
+    });
+
+    it('should limit records appropriately', function (){
+
+      heap.malloc('f1100', {
+        from: {entity: 'model', identity: 'stark'},
+        sort: {
+          age: 1,
+          name: 1
+        },
+        limit: 2
+      });
+      assert.deepEqual(heap._buffers.f1100.records,[]);
+
+      heap.push('f1100', []);
+      assert.deepEqual(heap._buffers.f1100.records,[]);
+
+      heap.push('f1100', [{name: 'ned', age: 32}]);
+      assert.deepEqual(heap._buffers.f1100.records,[{name: 'ned', age: 32}]);
+
+      heap.push('f1100', [{name: 'jon', age: 16}]);
+      assert.deepEqual(heap._buffers.f1100.records,[{name: 'jon', age: 16}, {name: 'ned', age: 32}]);
+
+      heap.push('f1100', [{name: 'arya', age: 11}, {name: 'sansa', age: 13}]);
+      assert.deepEqual(heap._buffers.f1100.records,[{name: 'arya', age: 11}, {name: 'sansa', age: 13}]);
+
+      heap.push('f1100', [{name: 'bran', age: 9}]);
+      assert.deepEqual(heap._buffers.f1100.records,[{name: 'bran', age: 9}, {name: 'arya', age: 11}]);
+
+      heap.push('f1100', [{name: 'rickon', age: 4}]);
+      assert.deepEqual(heap._buffers.f1100.records,[{name: 'rickon', age: 4}, {name: 'bran', age: 9}]);
     });
 
   });
