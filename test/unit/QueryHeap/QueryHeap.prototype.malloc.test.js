@@ -11,8 +11,12 @@ var QueryHeap = require('root-require')('standalone/QueryHeap');
 describe('QueryHeap', function () {
   describe('.prototype.malloc()', function () {
 
-    var heap = new QueryHeap({
-      orm: new ORM()
+    var heap;
+
+    before(function (){
+      heap = new QueryHeap({
+        orm: new ORM()
+      });
     });
 
     it('should require the 1st argument (`bufferIdentity`)', function () {

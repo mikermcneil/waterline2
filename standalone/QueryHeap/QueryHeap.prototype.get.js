@@ -9,13 +9,18 @@ var lookupRelationFrom = require('root-require')('standalone/lookup-relation-fro
 
 
 /**
- * @param  {String} identity   [usually a treepath for some criteria object]
+ * @param  {String} bufferIdentity   [usually a treepath for some criteria object]
  * @return {Array}
  */
-module.exports = function get (identity) {
+module.exports = function get (bufferIdentity) {
+  if (!bufferIdentity) {
+    throw new WLUsageError(util.format(
+      'In QueryHeap.prototype.get(), 1st argument `bufferIdentity` is required - Usage:  `someheap.get(bufferIdentity)`'
+    ));
+  }
 
   // Lookup the buffer
-  var buffer = this._buffers[identity];
+  var buffer = this._buffers[bufferIdentity];
 
   // If the indicated buffer does not exist, fail gracefully
   // by returning an empty array.
