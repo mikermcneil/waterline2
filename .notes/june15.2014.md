@@ -1,4 +1,30 @@
 
+## Buffer naming scheme
+
+
+Example:
+
+• root
+  • the top-level result records
+
+• root[1].petCats
+  • the `petCats` of the top-level result record w/ pkvalue of 1
+
+• root.petCats[7].favoriteCatFood
+  • the `favoriteCatFood` of the cat record w/ pkvalue of 7
+
+• root.petCats.favoriteCatFood[a842ba4k2110glad1].ingredients
+  • the `ingredients` of the catfood w/ pkvalue of "a842ba4k2110glad1"
+
+This reduces duplication in-RAM and still allows for simple integration.
+Most importantly, it appropriately enforces skip/limit/sort while still allowing
+us to run page-at-a-time adapter lookups, rather than looking up associations for
+individual records.
+
+
+====================================================
+
+
 
 Find all the towns-
   for each one, populate the 25 most affluent inhabitants (current or former) that have at least 5 male friends.
