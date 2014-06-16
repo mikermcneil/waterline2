@@ -38,9 +38,8 @@ Here's an example of the wrapped query for one particular batch of towns after i
 ```
 {
   from: 'town',
-  select {
+  select: {
     currentOrFormerInhabitants: {
-    {
       from: 'person',
       limit: 25,
       sort: {
@@ -59,6 +58,7 @@ Here's an example of the wrapped query for one particular batch of towns after i
   }
 }
 ```
+
 
 
 ====================================================
