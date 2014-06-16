@@ -108,7 +108,7 @@ describe('integration', function () {
 
           // Ensure proper number of nested things came back
           // (numEars=3 should NOT match ANY)
-          console.log('heap:',q.heap);
+          // console.log('heap:',q.heap);
           assert.equal(q.heap.get('cat').length,0,'Too many child results! (specifically, too many cats)');
           done();
         });

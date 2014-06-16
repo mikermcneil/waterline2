@@ -99,7 +99,7 @@ describe('integration', function () {
         if (err) return done(err);
 
         // console.log('chatFindQ:',chatFindQ.heap);
-        console.log('Expected:',expected,'\n*************~~~~~**************\n\n\n\n\n');
+        // console.log('Expected:',expected,'\n*************~~~~~**************\n\n\n\n\n');
 
         var q =
         Chat.find({
@@ -118,8 +118,8 @@ describe('integration', function () {
         .exec(function (err, chats) {
           if (err) return done(err);
 
-          console.log('Vs:');
-          console.log(q.heap);
+          // console.log('Vs:');
+          // console.log(q.heap);
           assert.equal(chats.length, expected.length, require('util').format('Unexpected number of top-level results (expected %d, got %d)', expected.length, chats.length));
 
           // Ensure proper number of things came back
