@@ -51,7 +51,7 @@ Here's an example of the wrapped query for one particular batch of towns after i
           from: 'rentalapplication',
           count: { '>=': 1 },
           whose: {
-            _town: [1,2,3,4,5]
+            inhabitedTownsOnThisRentalApp: [1,2,3,4,5]
           }
         }
       }
