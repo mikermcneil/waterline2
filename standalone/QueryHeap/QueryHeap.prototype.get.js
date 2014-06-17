@@ -4,6 +4,7 @@
 
 var util = require('util');
 var _ = require('lodash');
+var WLTransform = require('waterline-criteria');
 
 var lookupRelationFrom = require('root-require')('standalone/lookup-relation-from');
 
@@ -41,6 +42,19 @@ module.exports = function get (bufferIdentity) {
     // this buffer from inadvertant modification in userland, but
     // at the same time it adds a completely unnecessary performance
     // hit.  Could always have a configuration option I guess...
-    return buffer.records;
+    var slicedRecords = buffer.records;
+
+    //////////////////////////////////////////////////////////////////////////////////////////
+    // Not sure if this is the right place to do this stuff, but trying it out
+    //////////////////////////////////////////////////////////////////////////////////////////
+    slicedRecords = WLTransform.sort(slicedRecords, buffer.sort || {});
+    // TODO:
+    // allow for >1000 records in result set- instead of doing the following,
+    // if no limit is set, just clip off the first SKIP records
+    //
+    slicedRecords = slicedRecords.slice((buffer.skip || 0), (buffer.limit || 1000) + (buffer.skip || 0));
+    //////////////////////////////////////////////////////////////////////////////////////////
+
+    return slicedRecords;
   }
 };
