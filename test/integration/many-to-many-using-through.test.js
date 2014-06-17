@@ -56,6 +56,15 @@ describe('integration', function () {
           }
         }
       };
+      // Just for now
+      Person.attributes['&model_share_personWhoShared'] = {
+        association: {
+          entity: 'model',
+          identity: 'share',
+          plural: true,
+          via: 'personWhoShared'
+        }
+      };
 
       Chat = orm.model('chat');
       Chat.attributes.sharedBy = {
@@ -119,7 +128,7 @@ describe('integration', function () {
           if (err) return done(err);
 
           // console.log('Vs:');
-          // console.log(q.heap);
+          console.log(q.heap);
           assert.equal(chats.length, expected.length, require('util').format('Unexpected number of top-level results (expected %d, got %d)', expected.length, chats.length));
 
           // Ensure proper number of things came back
