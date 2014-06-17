@@ -56,15 +56,6 @@ describe('integration', function () {
           }
         }
       };
-      // Just for now
-      Person.attributes['&model_share_personWhoShared'] = {
-        association: {
-          entity: 'model',
-          identity: 'share',
-          plural: true,
-          via: 'personWhoShared'
-        }
-      };
 
       Chat = orm.model('chat');
       Chat.attributes.sharedBy = {
