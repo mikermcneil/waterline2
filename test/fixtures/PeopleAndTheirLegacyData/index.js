@@ -8,11 +8,11 @@ var Waterline = rootrequire('./');
 
 
 /**
- * PeopleAndTheirChats (fixture)
+ * PeopleAndTheirLegacyData (fixture)
  * @return {ORM}
  */
 
-module.exports = function PeopleAndTheirChats () {
+module.exports = function PeopleAndTheirLegacyData () {
 
   return Waterline({
     models: {
