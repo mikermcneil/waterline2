@@ -49,6 +49,24 @@ function QueryHeap (opts) {
 
   // Build initial set of buffers.
   this._buffers = {};
+  // TODO:
+  // Store these buffers in an adapter so that they may also be paged through
+  // since it is possible to overflow RAM since the # of buffers is infinite
+  // (this can be mitigated by using ephemeral buffers for subqueries)
+
+
+  // TODO:
+  // Create the notion of ephemeral buffers for subqueries/aggregations
+
+
+  // TODO:
+  // Store the contents of buffers in an adapter (even footprints) so they
+  // can be
+
+  // TODO:
+  // track already-matched records in a buffer (that can overflow to an adapter, again)
+  // to provide an optimization in subquery cursor (do NOTIN queries)
+
 
   // Merge all opts into `this` context.
   _.merge(this, opts || {});
@@ -89,6 +107,9 @@ QueryHeap.prototype.get = require('./QueryHeap.prototype.get');
 // Allocates a new page buffer with the specified properties
 QueryHeap.prototype.malloc = require('./QueryHeap.prototype.malloc');
 
+// Releases the memory for a page buffer
+QueryHeap.prototype.heap = require('./QueryHeap.prototype.free');
+
 // Aggregates and returns all records from the specified relation
 QueryHeap.prototype.getAllFrom = function (relationIdentity, relationPK){
   return _.uniq(_.reduce(this._buffers, function (memo, buffer, bufferIdent) {
@@ -105,6 +126,24 @@ QueryHeap.prototype.getBufferIdentitiesLike = function (rxp) {
     return bufferIdent.match(rxp);
   }).valueOf();
 };
+
+
+
+////////////////////////////////////////////////////////////////////////////////////
+// TODO: Global Caching
+////////////////////////////////////////////////////////////////////////////////////
+// TODO:
+// QueryHeap should extend from WLHeap - which can also be used as a cross-query cache
+
+// TODO:
+// Merge the buffers of `someOtherHeap` into this heap (union)
+// QueryHeap.prototype.merge(someOtherHeap)
+
+// TODO:
+// Free all buffers in this heap
+// QueryHeap.prototype.freeAll()
+////////////////////////////////////////////////////////////////////////////////////
+
 
 // Presentation
 QueryHeap.prototype.inspect = function () {
