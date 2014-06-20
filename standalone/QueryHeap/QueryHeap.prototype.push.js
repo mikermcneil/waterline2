@@ -109,7 +109,7 @@ module.exports = function push (bufferIdentity, newRecords, justFootprints) {
   //  • Finally, prune any records which can be safely discarded.
   //    (NOTE: must keep at least `skip`+`limit` records to guarantee correctness of result set)
   buffer.records = WLTransform.sort(buffer.records, buffer.sort||{});
-  buffer.records = _.first(buffer.records, ((buffer.skip||0) + (buffer.limit||0))||1000);
+  buffer.records = _.first(buffer.records, ((buffer.skip||0) + (buffer.limit||0))||1000000);
 
   return this;
 };

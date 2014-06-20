@@ -49,10 +49,10 @@ module.exports = function get (bufferIdentity) {
     //////////////////////////////////////////////////////////////////////////////////////////
     slicedRecords = WLTransform.sort(slicedRecords, buffer.sort || {});
     // TODO:
-    // allow for >1000 records in result set- instead of doing the following,
+    // allow for >1000000 records in result set- instead of doing the following,
     // if no limit is set, just clip off the first SKIP records
     //
-    slicedRecords = slicedRecords.slice((buffer.skip || 0), (buffer.limit || 1000) + (buffer.skip || 0));
+    slicedRecords = slicedRecords.slice((buffer.skip || 0), (buffer.limit || 1000000) + (buffer.skip || 0));
     //////////////////////////////////////////////////////////////////////////////////////////
 
     return slicedRecords;
