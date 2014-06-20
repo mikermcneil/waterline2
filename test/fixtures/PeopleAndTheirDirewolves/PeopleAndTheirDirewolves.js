@@ -5,7 +5,8 @@
 var util = require('util');
 var _ = require('lodash');
 var rootrequire = require('root-require');
-var FalseFlag = require('false-flag');
+var FalseFlag = require('./falseflag');
+
 var WLTransform = require('waterline-criteria');
 var Waterline = rootrequire('./');
 
