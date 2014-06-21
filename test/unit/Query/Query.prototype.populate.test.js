@@ -157,38 +157,21 @@ describe('Query', function () {
     it.skip('should support indefinite traversal of graph', function (){
       q = new Query({orm:orm});
 
-      // Look up my mom, and her mom, and so forth, until the provided `until`
+      // Look up my mom, and her mom, and so forth, until the provided `halt`
       // function returns true (umm eve-us australopithecus?)
-      q.populate('mom...', function until (nextRecord){
+      q.populate('mom...', {}, function halt (nextRecord){
         return !nextRecord;
       });
       assert.equal(typeof q.criteria.select.mom, 'object');
       assert.equal(typeof q.criteria.select.mom.halt, 'function');
 
-
-      // Which came first, the chicken or the egg?
-      //
-      // e.g. instead of:
-      // q.populate('egg');
-      // q.populate('egg.chicken');
-      // q.populate('egg.chicken.egg');
-      // ????
-      //
-      // do this:
-      q.populate('...',
-      function until (nextRecord) {
+      // Look up my dad, his mom, and her mom, and so forth, until the
+      // provided `halt` function returns true
+      q.populate('dad.mom...', {}, function halt (nextRecord){
         return !nextRecord;
-      },
-      function buildNextCriteria (currentCriteria) {
-        if (currentCriteria.select.chicken) {
-          return { select: { egg: {} } };
-        }
-        else if (currentCriteria.select.egg) {
-          return { select: { chicken: {} } };
-        }
       });
-      assert.equal(typeof q.criteria.halt, 'function');
-      assert.equal(typeof q.criteria.next, 'function');
+      assert.equal(typeof q.criteria.select.mom, 'object');
+      assert.equal(typeof q.criteria.select.mom.halt, 'function');
     });
 
   });
