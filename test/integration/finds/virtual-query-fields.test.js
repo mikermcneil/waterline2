@@ -8,7 +8,7 @@ var _ = require('lodash');
 
 
 describe('integration', function () {
-  describe('query engine', function () {
+  describe('finds', function () {
 
     // Load fixtures
     var orm = require('root-require')('test/fixtures/PeopleAndTheirChats')();
