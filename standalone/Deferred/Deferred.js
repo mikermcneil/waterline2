@@ -54,9 +54,11 @@ function Deferred (opts, worker) {
     logger: DEFAULT_LOG.results,
 
     // Sane default for promise library
+    // (may be disabled)
     Promise: typeof opts.Promise !== 'undefined' ? opts.Promise :  require('bluebird'),
 
     // Switchback support is enabled by default
+    // (may be disabled)
     Switchback: typeof opts.Switchback !== 'undefined' ? opts.Switchback : require('node-switchback')
   });
 
