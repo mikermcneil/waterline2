@@ -18,12 +18,26 @@ describe('Query', function () {
       q = new Query({orm:orm});
     });
 
-    it('should correctly modify our Query', function () {
-
+    it('should not freak out if no options are specified', function () {
+      q.options();
     });
 
-    it('should be idempotent', function () {
+    it('should correctly modify our Query', function () {
+      q.options({
+        foo:'bar'
+      });
 
+      assert.equal(q.foo,'bar');
+    });
+
+    it('should be chainable', function () {
+      q.options()
+        .options({})
+        .options({
+          baz:'bane'
+        });
+
+      assert.equal(q.baz,'bane');
     });
 
   });

@@ -18,8 +18,8 @@ describe('Query', function () {
       q = new Query({orm:orm});
     });
 
-    it('should correctly modify our Query', function () {
-
+    it.skip('should correctly modify our Query', function () {
+      TODO
     });
 
   });

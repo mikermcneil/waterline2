@@ -9,7 +9,7 @@ var ORM = require('root-require')('./lib/ORM');
 
 
 describe('Query', function () {
-  describe('.prototype.select()', function () {
+  describe('.prototype.pick()', function () {
     var q;
     var orm;
 
@@ -20,37 +20,37 @@ describe('Query', function () {
 
     it('should modify & normalize our Query\'s criteria', function () {
       var q0 = new Query({orm:orm});
-      q0.select({name: true});
+      q0.pick({name: true});
       assert.deepEqual(q0.criteria.select, {'*': false, name: true});
 
       var q1 = new Query({orm:orm});
-      q1.select({age:true});
+      q1.pick({age:true});
       assert.deepEqual(q1.criteria.select, {'*': false, age:true});
 
       var q2 = new Query({orm:orm});
-      q2.select({profession: true});
+      q2.pick({profession: true});
       assert.deepEqual(q2.criteria.select, {'*': false, profession: true});
     });
 
     it('should accumulate modifications to Query\'s criteria', function () {
       q = new Query({orm:orm});
 
-      q.select({name: true});
+      q.pick({name: true});
       assert.deepEqual(q.criteria.select, {'*': false, name: true});
 
-      q.select({age:true});
+      q.pick({age:true});
       assert.deepEqual(q.criteria.select, {'*': false, name: true, age:true});
 
-      q.select({profession: true});
+      q.pick({profession: true});
       assert.deepEqual(q.criteria.select, {'*': false, name: true, age:true, profession: true});
     });
 
     it('should be chainable', function (){
       q = new Query({orm:orm});
 
-      q.select('name')
-        .select('age')
-        .select('profession');
+      q.pick('name')
+        .pick('age')
+        .pick('profession');
 
       assert.deepEqual(q.criteria.select, {'*': false, name: true, age:true, profession: true});
 

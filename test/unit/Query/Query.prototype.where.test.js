@@ -7,7 +7,6 @@ var Query = require('root-require')('./lib/Query');
 var ORM = require('root-require')('./lib/ORM');
 
 
-
 describe('Query', function () {
   describe('.prototype.where()', function () {
     var q;
@@ -47,3 +46,25 @@ describe('Query', function () {
 
   });
 });
+
+
+
+
+/*
+
+===============================================================
+QUICK NOTE ABOUT `.and()`
+===============================================================
+Both of the following modifiers are equivalent:
+
+```
+  User.find()
+    .where('name','ned')
+    .and('age',{'>':25})
+```
+
+-PS-
+No `.or()` - it's too confusing!
+Just use the `.where({or:[CLAUSE_0,CLAUSE_1,...,CLAUSE_N]})` syntax instead.
+
+*/
