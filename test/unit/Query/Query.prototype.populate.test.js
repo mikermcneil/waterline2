@@ -179,7 +179,7 @@ describe('Query', function () {
       function until (nextRecord) {
         return !nextRecord;
       },
-      function morphCriteria (currentCriteria) {
+      function buildNextCriteria (currentCriteria) {
         if (currentCriteria.select.chicken) {
           return { select: { egg: {} } };
         }
@@ -188,7 +188,7 @@ describe('Query', function () {
         }
       });
       assert.equal(typeof q.criteria.halt, 'function');
-      assert.equal(typeof q.criteria.getChildCriteria, 'function');
+      assert.equal(typeof q.criteria.next, 'function');
     });
 
   });
