@@ -2,7 +2,7 @@ var assert = require('assert');
 
 
 // fixtures
-var PeopleAndTheirCats = require('../fixtures/PeopleAndTheirCats');
+var PeopleAndTheirCats = require('root-require')('test/fixtures/PeopleAndTheirCats');
 
 
 describe('query engine', function () {

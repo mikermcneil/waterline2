@@ -6,7 +6,7 @@ var assert = require('assert');
 var _ = require('lodash');
 
 // fixtures
-var PeopleAndTheirCats = require('../fixtures/PeopleAndTheirCats');
+var PeopleAndTheirCats = require('root-require')('test/fixtures/PeopleAndTheirCats');
 
 
 describe('integration', function () {

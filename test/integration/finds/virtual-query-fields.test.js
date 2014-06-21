@@ -11,13 +11,13 @@ describe('integration', function () {
   describe('query engine', function () {
 
     // Load fixtures
-    var orm = require('../fixtures/PeopleAndTheirChats')();
+    var orm = require('root-require')('test/fixtures/PeopleAndTheirChats')();
 
     describe('virtual-query-fields', function () {
 
       // WHERE
       // ----------------------------------------------------------------------------
-      it('should return expected results with virtual fields in WHERE', function (done) {
+      it('should return expected results with virtual fields in WHERE conjunct', function (done) {
         orm.model('person').find({
           where: {
             '&foo': 'some scalar value'
@@ -30,7 +30,7 @@ describe('integration', function () {
         });
       });
 
-      it('should return expected results with virtual fields in WHERE, even if other valid WHERE expressions exist', function (done) {
+      it('should return expected results with virtual fields in WHERE, if other valid WHERE expressions exist as a disjunct clause', function (done) {
         orm.model('person').find({
           where: {
             or: [{
@@ -133,19 +133,6 @@ describe('integration', function () {
 
 
 
-
-// console.log(q);
-//   q.exec(function(err, results) {
-//     if (err) throw err;
-//     assert(q.heap.getAllFrom('cat', Cat.primaryKey));
-//     assert(q.heap.getAllFrom('person', Person.primaryKey));
-//     // console.log('========>',q.heap);
-
-//     var catsNamedRandyInHeap = _.where(q.heap.getAllFrom('cat', Cat.primaryKey), {id: 1});
-//     assert.equal(catsNamedRandyInHeap.length, 1, 'expected exactly 1 cat in the heap named randy (id:1) but got '+catsNamedRandyInHeap.length);
-//     cb();
-//   });
-// });
 
 
 

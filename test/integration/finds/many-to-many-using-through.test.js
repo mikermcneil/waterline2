@@ -7,7 +7,7 @@ var _ = require('lodash');
 
 
 // fixtures
-var PeopleAndTheirChats = require('../fixtures/PeopleAndTheirChats');
+var PeopleAndTheirChats = require('root-require')('test/fixtures/PeopleAndTheirChats');
 
 describe('integration', function () {
   describe('many to many using the viaJunction AR and an app-level, `through` model as its adjoining relation', function () {

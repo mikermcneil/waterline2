@@ -3,7 +3,7 @@ var util = require('util');
 
 
 // fixtures
-var PeopleAndTheirLegacyData = require('../fixtures/PeopleAndTheirLegacyData');
+var PeopleAndTheirLegacyData = require('root-require')('test/fixtures/PeopleAndTheirLegacyData');
 
 
 describe('custom field names', function () {

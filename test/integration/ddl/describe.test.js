@@ -4,12 +4,12 @@
 
 var assert = require('assert');
 var _ = require('lodash');
-var Waterline = require('../../');
+var Waterline = require('root-require')('./');
 
 
 
 // fixtures
-var PeopleAndTheirCats = require('../fixtures/PeopleAndTheirCats');
+var PeopleAndTheirCats = require('root-require')('test/fixtures/PeopleAndTheirCats');
 
 
 describe('integration', function () {

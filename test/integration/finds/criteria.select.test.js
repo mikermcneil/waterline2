@@ -3,7 +3,7 @@ var util = require('util');
 
 
 // fixtures
-var PeopleAndTheirLegacyData = require('../fixtures/PeopleAndTheirLegacyData');
+var PeopleAndTheirLegacyData = require('root-require')('test/fixtures/PeopleAndTheirLegacyData');
 
 
 describe('criteria.select.test.js (projections->the "select" clause)', function () {
