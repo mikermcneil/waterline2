@@ -2,19 +2,95 @@
 
 > rewrite
 
+See [Introduction to Waterline2](./Introduction to Waterline2.pdf)
+
+If you're feeling experimental, you can actually use parts of WL2 right now, wrapped up in the beta version of Waterline and Sails 0.10.
+
+> **Wait, what?**
+>
+> As of earlier this summer, WL2 actually passes all the original waterline core tests, as well as waterline-adapter-tests for sails-disk and other adapters.  In fact, it seems to more or less work in existing Sails projects.  However, for any of that, you have to use a special branch of the original waterline that calls out to this module.  Please don't rely on this strategy for production use-- wl2 is DEFINITELY not ready for that.  Basically, this branch of waterline rebuilds the ORM on _literally every query_, and there are lots of optimizations that still need to happen in the cursor to make xD/A's practical.
+>
+> That said, if you're still interested in trying this out....
+>
+> ###### Step 1
+> Clone the `wl2-mike` branch of waterline (the original repo) and install its deps:
+>
+> ```sh
+> $ git clone https://yadayadayada/balderdashy/waterline
+> $npm install
+> ```
+>
+> ###### Step 2
+> Clone this repo (waterline2) in a DIFFERENT place and install its deps:
+> ```sh
+> $ git clone ...whatever..
+> $ npm install
+> ```
+>
+> ###### Step 3
+> Link your local waterline2 so you can use it like it's an actual published thing:
+>
+> ```sh
+> $ cd into/wherever/you/cloned/waterline2
+> $ npm link
+> ```
+>
+>
+> ###### Step 4
+> Link TO waterline2 from inside of your orig. waterline (that you cloned from the wl2-mike branch):
+>
+> ```sh
+> $ cd into/wherever/the/original/waterliine/on/wl2-mike/branch/is
+> $ npm link waterline2
+> ```
+>
+> ###### Step 5
+> Link your local orig. waterline (same one, on the wl2-mike branch, you get the idea) so that you can use it from other places on your system:
+> ```sh
+> $ cd into/wherever/the/original/waterliine/on/wl2-mike/branch/is
+> $ npm link
+> ```
+>
+> Now wherever else you want, you can run `npm link waterline` to grab a shortcut to your hooked-up branch of the original waterline that relies on WL2 for its `find()` operations.
+>
+> ```sh
+> $ cd my/nodejs-powered/game/about/goldfish
+> $ npm link waterline
+> $ node
+> ```
+>
+> ```js
+> var theOriginalWaterline = require('waterline');
+> // But now if you do original waterline things, it'll actually use waterline2 for the finds
+> ```
+>
+>
+> ###### And finally, if you want to use this in your Sails app:
+>
+> If you want to try out Waterline2 in your sails app, you'll need to clone sails, npm install its dependencies, then `rm -rf ./node_modules/waterline` and `npm link waterline`.  Then if you `npm link` from that directory, you'll be able to `npm link sails` in your Sails app to link it to that local version of Sails that's using a linked local copy of Waterline on the wl2-mike branch, which is in turn using a linked copy of waterline2 for its finds.
+>
+> Whew.
+>
+>
+> TODO: expand this part and actually put better instructions in here, but no time now
+>
+
+
 ## Usage
+
+First, clone this repo and run npm install.  Then do:
 
 ```sh
 $ node
 ```
 
+And:
+
 ```js
 var Waterline = require('./');
 ```
 
-
-
-## Instantiate ORM(s)
+## Making Some ORM(s)
 
 Simple:
 
@@ -173,6 +249,262 @@ orm3.forgetAdapter('wl-myfoo');
 ```
 
 
+## Querying
+
+Waterline2 adds a lot of cool stuff.  I won't get to it all here.  But realize that you can still query things like you're used to:
+
+
+###### Standard usage (node callback)
+```js
+User.find().exec(function (err, users){...})
+```
+
+###### Node callback as last argument
+
+```js
+User.find(function (err, users){...})
+```
+
+###### Promises
+(but now you can plug in your own promise library)
+
+```js
+User.find()
+.then(function (users){...})
+.catch(function (err){...})
+```
+
+###### Switchbacks
+(but now you can disable them or plug in your own EventEmitter)
+
+```js
+User.find().exec({
+  success: function (users) {...}
+  error: function (err) {...},
+})
+```
+
+
+### Populates
+
+As you probably know, Waterline supports populate queries (i.e. joins).
+
+```js
+// Look up User #6 and populate her files
+User.findOne(6).populate('files').then(function (user6) {
+  // user6.canAccess => [{...}, {...}, ...]
+});
+```
+
+
+You can also filter/sort/paginate/project the results of each populated result set (on a per-parent-record-basis) by using the second argument to populate:
+
+```js
+// Find a list of all users between the ages of 45 and 55
+// and populate their 5 most overdue book checkouts that took place
+// at branch #37
+User.find()
+.where({
+  age: {
+    '>=': 45,
+    '<=': 55
+  }
+})
+.populate('checkouts', {
+  where: { branch: 37 },
+  limit: 5,
+  sort: 'dueDate ASC'
+})
+.then(function (users) {
+  // users.checkouts => [{...}, {...}, ...]
+})
+```
+
+
+But in WL2, the normalized criteria syntax looks a little different than it used to for that type of query:
+
+```js
+{
+  from: {entity: 'model', identity: 'user'},
+  where: {},
+  limit: undefined,
+  skip: 0,
+  sort: {},
+  select: {
+    '*': true,
+    checkouts: {
+      from: {entity: 'model', identity: 'librarycheckout'},
+      select: { '*': true },
+      where: { branch: 37 },
+      limit: 5,
+      skip: 0,
+      sort: { dueDate: 1 }
+    }
+  }
+}
+```
+
+And as you might be thinking, what that means is that now (at last!), populates can be infinitely nested.
+
+A simple example:
+
+```js
+// Look up User #6 and populate her files
+// (but now let's assume there is an intermediate model, i.e. "Permission")
+User.findOne(6).populate('canAccess.files').then(function (user6) {
+  // user6.canAccess => [{...}, {...}, ...]
+  // user6.canAccess[0].files => [{...}, {...}, ...]
+})
+```
+
+
+
+You can even filter/sort/paginate/project _nested_ populates, as deep as you like.  You cannot, (with _only this method_ at least) filter intermediate populates (i.e. if the Permission model had a `type` attribute, and we wanted to populate only those files associated via a `type:"read"` permission).
+
+But we _can_ do it with WHERE subqueries.  Read on for more about that.
+
+
+
+
+### WHERE Subqueries
+
+With Waterline2, the ORM now supports WHERE subqueries.
+
+
+```js
+var now = new Date();
+
+// Find all users with overdue library checkouts
+User.find()
+.where({
+  checkouts: {
+    dueDate:  { '<': now }
+  }
+})
+.then(function (naughtyUsers){
+  // naughtyUsers
+})
+```
+
+
+These subqueries can be infinitely nested:
+
+```js
+var now = new Date();
+
+// Find all users with overdue library checkouts
+User.find()
+.where({
+  checkouts: {
+    dueDate:  { '<': now }
+  }
+})
+.then(function (naughtyUsers){
+  // naughtyUsers
+})
+```
+
+
+Here's a more complex example, which also uses `.populate()`:
+
+```js
+var now = new Date();
+
+// Find the 5 most recent overdue library checkouts that contained
+// a book titled "Robinson Crusoe"
+LibraryCheckout.find()
+limit(5)
+.sort('createdAt DESC')
+.where({
+  dueDate: {'<': now },
+  books: {
+    title: 'Robinson Crusoe'
+  }
+})
+
+// (also populate the user who checked out the books so we can
+//  send them an email letting them know that their debt will be
+//  forgiven if they go to our kid's robinson-crusoe-themed birthday
+//  party next week)
+.populate('cardholder')
+.exec(...)
+```
+
+
+You can combine them with projections, populates.  Here's the fully expanded criteria object for the same query:
+
+
+```js
+{
+  select: {
+    '*': true,
+    books: {
+
+    }
+  },
+  where: {
+    books: {
+      whose: { title: 'Robinson Crusoe' },
+      min: 1
+    }
+  },
+  limit: 5,
+  skip: 0,
+  sort: {
+    createdAt: -1
+  }
+}
+```
+
+
+
+> **NOTE:**
+>
+> Currently, the means by which parent records are qualified is fairly limited.
+> (You really only have one qualifier operator: `min`)
+> This syntax be extended over time to include more operators, but in the mean
+> time, you can actually pass in a filter function instead.  Note that the filter
+> function **must be synchronous** (it returns true to keep or false to reject.)
+> To manipulate result sets at runtime depending on an _asynchronous_ operation,
+> you must write a custom association rule (AR).
+>
+> ```js
+> // Find users who checked out books whose titles include their first name
+> // (Note that this is impossible with the vanilla syntax since there is currently
+> // no declarative approach to address the result data from elsewhere in the query)
+> User.find()
+> .where({
+>   checkouts: {
+>     books: {
+>       '&filter': function ourLittleCustomQualifier (someBook, itsCheckout, itsUser) {
+>
+>          // Note that if `itsUser.firstName` is `null`, the following would throw.
+>          // Luckily, this method is wrapped in a try..catch inside Waterline core.
+>          // If it throws, it's ok- the record will just be omitted.
+>          return user.firstName.match()
+>        }
+>     }
+>   }
+> })
+> ```
+>
+> (WARNING: The filter function approach discussed above not work yet-
+>  will update this file when it does. Leaving this note here so I don't have
+>  to document it again later.)
+
+
+
+## xD/A Queries
+
+When possible (for intra-datastore subqueries), WL2 will use an optimized approach to execute ORM `find`'s with as few queries as possible.
+
+But one of the coolest things about Waterline, and a core philosophy of our team and contributors, is pure database agnosticism.  So to keep with the spirit of that perogative, _cross-datastore and cross-adapter associations/subqueries are supportedin Waterline 2_.
+
+**HOWEVER** this comes at a cost.  The paging necessary to make this work across databases can be slow.  You should be careful and make reasonable decisions about where you house your data.
+
+But the idea is that, when there's no other choice, it's pretty great to be able to rely on Waterline to take care of xD/A data manipulation/querying for you and have it all just work.  Plus, even though there will always be a lot more we could do to optimize the cursor, it's likely to be faster than anything you or I would write ourselves on a one-off basis (because how would you ever get the chance to spend enough time on it, yknow?)
+
+
 ## Advanced
 
 ### Constructors
@@ -186,7 +518,7 @@ new Waterline.Adapter();
 new Waterline.ORM();
 ```
 
-### Qualifier methods
+### `instanceof` methods
 
 Waterline also provides some static methods for checking whether some input is an instantiated model, datastore, etc.:
 
@@ -197,70 +529,19 @@ Waterline.Adapter.isAdapter( someMysteriousThing );
 Waterline.ORM.isORM( someMysteriousThing );
 ```
 
-## Everything Else
+
+
+
+
+### Everything Else
 
 See the source code.  Play around with it, have a good time you know
 
 
 ## Contributing
 
+See [ROADMAP.md](./ROADMAP.md). (it's slightly out of date)
 
-Here are our todos:
-(feel free to suggest things)
-
-> if things are ~~crossed out~~, that means they're implemented
-
-#### Short-term Roadmap
-
-1. ~~Finish the query engine so we can pull it into Waterline v0.x.x.~~
-2. ~~Build shim that will allow Waterline v0.x.x to use the query engine.~~
-3. ~~Build shim that will allow Waterline v0.x.x adapters to work transparently with WL2.~~
-4. ~~Finish making many-to-many associations work~~
-5. Implement optimizations to use native joins using middleware-like approach
-6. Optimize the operations-shim in wl1 (see `wl2-mike` branch of balderdashy/waterline)
-6. Finish robust transaction support so we can pull it into Waterline v0.11.x.
-
-#### Broad Goals
-
-+ ~~Pluggable/optional promise support~~
-+ ~~Pluggable/optional switchback support~~
-+ ~~Pluggable/optional logger~~
-+ Better verbose logging to see queries, query plans, etc.
-+ ~~Emit 'error' events on the `orm` instance on uncatchable errors (i.e. when there's no callback)~~
-+ ~~Emit 'warning' events on the `orm` instance when we want to pass information back to the user about a near-error we recovered from (or something she might not expect to happen w/ usage normalization/validation)~~
-+ Better support client-side usage and relevant requirements:
-  + ~~Lightweight~~
-  + ~~Fewer dependencies (but holy shit we have to keep lodash)~~
-+ Conform to/establish standards that can be used in other languages.
-+ ~~Improve nomenclature / overloaded terminology.~~
-+ Transactions and optimistic locking (in RecordCollection)
-
-#### DDL/migrations
-
-+ ~~Possibility to modify ontology at runtime-- everything is adjusted when you run `orm.refresh()`~~
-+ ~~Includes adding dynamically configured databases~~
-+ Expose explicit`.migrate()` usage
-+ ~~Make junction strategies (for n<-->m and n-->m associations) configurable at the adapter level (i.e. associations in the schema are really just Queries).  Maybe even at the Query level (i.e. custom joins)~~ (see AssociationRule in the code)
-
-#### Criteria cursor
-
-+ ~~Allows for `whose`-style subqueries (SELECT * FROM foo WHERE (SELECT * FROM bar WHERE ...))~~
-+ ~~Allows for proper populate..where..limit..skip..sort..select support~~
-+ Can be shared by finders, update, AND destroy
-+ Update can accept a values object, OR a map function
-+ Sort can be specified as a comparator function
-+ Index / cache criteria and their results in a configurable cache adapter
-
-
-
-
-#### Timeline
-
-~~We'll see how this goes.  Who knows?  Maybe early-mid 2015 or maybe never- depends.  But I wanted to jot down the ideas now rather than letting them fester.~~
-
-Actually, part of this module will likely be used in the Waterline 0.10 release.
-
-I would still expect early-mid 2015 for the full release of this rewrite, but in the mean time, we'll likely be using parts of it in waterline core.
 
 ## License
 
