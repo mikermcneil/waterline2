@@ -1,1 +1,3 @@
 --recursive
+-g Query.prototype
+-i
