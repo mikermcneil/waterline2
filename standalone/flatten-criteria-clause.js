@@ -5,7 +5,8 @@
  */
 
 var _ = require('lodash');
-var $$ = require('./MODIFIERS');
+
+var $$ = require('root-require')('standalone/CRITERIA-MODIFIERS');
 
 
 

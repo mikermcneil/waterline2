@@ -6,8 +6,8 @@ var util = require('util');
 var _ = require('lodash');
 var _mergeDefaults = require('merge-defaults');
 
-var $$ = require('./MODIFIERS');
 
+var $$ = require('root-require')('standalone/CRITERIA-MODIFIERS');
 var WLUsageError = require('root-require')('standalone/WLError/WLUsageError');
 var keysIn = require('root-require')('standalone/keys-in');
 var keysNotIn = require('root-require')('standalone/keys-not-in');

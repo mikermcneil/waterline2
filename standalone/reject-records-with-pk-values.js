@@ -7,7 +7,7 @@ var _ = require('lodash');
 
 
 // THIS MODULE CAN PROBABLY BE REMOVED
-// (doesn't seem to be in use anymore, and WLFilter is more robust-
+// (doesn't seem to be in use anymore, and WLTransform is more robust-
 //  unfortunately it doesn't allow for the schema to be passed in though)
 // ~mike, july2,2014
 
