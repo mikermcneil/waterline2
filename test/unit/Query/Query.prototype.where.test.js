@@ -7,8 +7,8 @@ var Query = require('root-require')('./lib/Query');
 var ORM = require('root-require')('./lib/ORM');
 
 
-describe('Query', function () {
-  describe('.prototype.where()', function () {
+describe('Query.prototype', function () {
+  describe('.where()', function () {
     var q;
     var orm;
 

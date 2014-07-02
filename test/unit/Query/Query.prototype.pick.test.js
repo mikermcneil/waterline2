@@ -8,8 +8,8 @@ var ORM = require('root-require')('./lib/ORM');
 
 
 
-describe('Query', function () {
-  describe('.prototype.pick()', function () {
+describe('Query.prototype', function () {
+  describe('.pick()', function () {
     var q;
     var orm;
 
