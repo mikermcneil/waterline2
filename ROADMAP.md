@@ -224,9 +224,7 @@ Thanks!
 
  Owner                                           | Feature                                                | Details     
  :---------------------------------------------: | :----------------------------------------------------- | :------
- [@mikermcneil](https://github.com/mikermcneil)  | Add support for nested config via env variables        | We could support nested config via env variables by using `__` to represent the `.` (has to be double underscore, single underscore prbly breaks things).  For example: `MYAPP__GENERATOR__OPTIONS__ENGINE` would turn into `generator.options.engine`. (see [tests](https://github.com/mikermcneil/rc/blob/master/test/nested-env-vars.js#L6))
- [@you]()                                        | Your feature request here                              |
- [@you]()                                        | Your other feature request here                        |
+ [@mikermcneil](https://github.com/mikermcneil)  | Add support for nested config via env variables        | Actually this is just an example feature request / backlog item.  We could support nested config via env variables by using `__` to represent the `.` (has to be double underscore, single underscore prbly breaks things).  For example: `MYAPP__GENERATOR__OPTIONS__ENGINE` would turn into `generator.options.engine`. (see [tests](https://github.com/mikermcneil/rc/blob/master/test/nested-env-vars.js#L6))
 
 
 > #### Feature Requests
