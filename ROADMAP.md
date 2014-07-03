@@ -7,12 +7,79 @@ The current implementation status, medium-term roadmap, and backlog (including f
 
 ## Status
 
-|------------------------------|
-|                              |
-|                              |
-|                              |
-|                              |
-|                              |
+Some of the features below depend on one another.  When in doubt, these tables should always reflect the most conservative outlook of where we stand, using binary metrics (either supported or its not.)
+
+> ###### Legend
+>
+>   - :white_check_mark: - supported feature
+>   - :white_large_square: - feature not yet implemented
+
+
+### Public API
+
+#### ORM
+
+|                              |                       |
+|------------------------------|-----------------------|
+| **TODO:** finish this        |
+
+#### Datastore
+
+|                              |                       |
+|------------------------------|-----------------------|
+| **TODO:** finish this        |
+
+
+#### Relation
+
+|                              |                       |
+|------------------------------|-----------------------|
+| `.prototype.find()`          | :white_check_mark: 
+| `.prototype.create()`        | :white_large_square:
+| `.prototype.update()`        | :white_large_square:
+| `.prototype.destroy()`       | :white_large_square:
+| `.prototype.findOrCreate()`  | :white_large_square:
+| **TODO:** finish this     |
+
+#### Query
+
+|                              |                       |
+|------------------------------|-----------------------|
+| `.bridge()`                  | :white_check_mark:
+| **TODO:** finish this        |
+
+
+
+### Private API
+
+
+#### Transaction
+
+|                              |                       |
+|------------------------------|-----------------------|
+| **TODO:** finish this        |
+
+#### Adapter
+
+|                              |                       |
+|------------------------------|-----------------------|
+| `.bridge()`                  | :white_check_mark:
+| **TODO:** finish this        |
+
+#### QueryHeap
+
+> Note: Will likely be adapted into a generic buffer heap that can be used for multiple use cases throughout WL2, not just w/i the Query class
+
+The API for this class is likely to change somewhate, since it will likely take over managing buffer identities itself rather than relying on the user to take care of it.  It also needs to store the buffers as an array so that they can overflow through an adapter into the proposed built-in "cache" datastore (i.e. you might choose to use Redis to store the buffer references from your query heaps that don't fit in RAM.  But you might choose to store the records or footprints from the actual _overflowing buffers_ themselves in Mongo, so they can grow bigger.  Similarly you might want to store overflow from the global cache buffer heap in Redis, but a _different_ datastore hosted somewhere else.  you get the idea)
+
+|                              |                       |
+|------------------------------|-----------------------|
+| `.malloc()`                  | :white_check_mark:
+| `.free()`                    | :white_large_square:
+| `.push()`                    | :white_check_mark:
+| `.get()`                     | :white_check_mark:
+| **TODO:** finish this        |
+
 
 
 
