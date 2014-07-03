@@ -74,10 +74,10 @@ The API for this class is likely to change somewhate, since it will likely take 
 
 |                              |                       |
 |------------------------------|-----------------------|
-| `.malloc()`                  | :white_check_mark:
-| `.free()`                    | :white_large_square:
-| `.push()`                    | :white_check_mark:
-| `.get()`                     | :white_check_mark:
+| `.prototype.malloc()`        | :white_check_mark:
+| `.prototype.free()`          | :white_large_square:
+| `.prototype.push()`          | :white_check_mark:
+| `.prototype.get()`           | :white_check_mark:
 | **TODO:** finish this        |
 
 
