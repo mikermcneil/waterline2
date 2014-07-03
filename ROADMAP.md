@@ -1,4 +1,21 @@
-# Waterline 2.0 Roadmap
+# Waterline 2.0 Roadmap, Status, and Feature Requests
+
+
+
+
+## Status
+
+|------------------------------|
+|                              |
+|                              |
+|                              |
+|                              |
+|                              |
+
+
+
+
+## Roadmap
 
 ### Timeline
 
@@ -63,6 +80,33 @@ Here are our pending roadmap items:
 + Sort can be specified as a comparator function
 + Index / cache criteria and their results in a configurable cache adapter
 
+
+## Feature Requests
+
+> We welcome feature requests as pull requests that edit this section of this file.
+>
+> Before adding a new item to this list, please ensure the feature you're interested in is not already covered by another row in the table below, or in the roadmap above.  In addition to _new_ feature requests, please feel welcome to submit any suggested edits to feature requests or roadmap items.
+>
+> BTW- the most helpful feature requests also include a test which fails in the current implementation, and would pass if the requested feature was implemented :)
+
+
+| Subject (5-8 words)          | More detailed description   |
+|------------------------------|-----------------------------|
+| bar                          | test
+| foo                          | test2
+| bax                             |
+| baz                             |
+| bag                           |
+
+
+
+
+
+## Contributing
+
+In addition to new feature requests, please feel welcome to submit any suggested edits to feature requests or roadmap items as a pull request.
+
+Thanks!
 
 
 
