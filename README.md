@@ -1,8 +1,9 @@
 # Waterline 2.0
 
-> rewrite
-
-See [Introduction to Waterline2](./Introduction to Waterline2.pdf) for background.
+> ** Please do not use this module in production. **
+>
+> Instead, check out the [current stable version](https://github.com/balderdashy/waterline).
+> If you're curious, see [Introduction to Waterline2](./Introduction to Waterline2.pdf) for background on what this even is.
 
 Waterline2 is not currently ready for production use. However if you're feeling experimental, you can actually use parts of WL2 in your existing Sails app right now, as long as you're using the beta version of Waterline or Sails. (v0.10)
 
