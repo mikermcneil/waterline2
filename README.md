@@ -6,13 +6,7 @@
 >
 > And umm... if you're curious, see [Introduction to Waterline2](./Introduction to Waterline2.pdf) for background on what this even is.
 
-Waterline2 is not currently ready for production use. However if you're feeling experimental, you can actually use parts of WL2 in your existing Sails app right now, as long as you're using the beta version of Waterline or Sails. (v0.10)
-
-> Wait, what?
->
-> Well, there are some pretty heavy crutches involved, and it's not particularly easy to set up right now, but cool to see nonetheless.  And obviously extremely important for testing if you're looking to get involved as a contributor.
->
-> Check out [USAGE_WITH_SAILS.md](./USAGE_WITH_SAILS.md) for details.  As long as you're comfortable with `npm link`, you should have no problem getting it to work.
+Waterline2 is not currently ready for production use. However if you're feeling experimental, you [can actually use parts of WL2 in your existing Sails app right now](./USAGE_WITH_SAILS), as long as you're using the >=0.10.x version of Waterline or Sails.  There are some pretty heavy crutches involved, and it's not particularly easy to set up right now, but cool to see nonetheless.  And obviously extremely important for testing if you're looking to get involved as a contributor.  Check out [USAGE_WITH_SAILS.md](./USAGE_WITH_SAILS.md) for details.  As long as you're comfortable with `npm link`, you should have no problem getting it to work.
 
 
 
