@@ -2,12 +2,17 @@
 
 > **Please do not use this module in production.**
 >
-> Instead, check out the [current stable version](https://github.com/balderdashy/waterline).
+> Waterline2 is not currently ready for production use and is not actively maintained.  _It is only a proposal_ at this point.
 >
-> And umm... if you're curious, see [Introduction to Waterline2](./Introduction to Waterline2.pdf) for background on what this even is.
+> Instead, check out the [current stable version of Waterline](https://github.com/balderdashy/waterline).  It is actively developed and is the core team's main focus.
 
-Waterline2 is not currently ready for production use. However if you're feeling experimental, you [can actually use parts of WL2 in your existing Sails app right now](./USAGE_WITH_SAILS), as long as you're using the >=0.10.x version of Waterline or Sails.  There are some pretty heavy crutches involved, and it's not particularly easy to set up right now, but cool to see nonetheless.  And obviously extremely important for testing if you're looking to get involved as a contributor.  Check out [USAGE_WITH_SAILS.md](./USAGE_WITH_SAILS.md) for details.  As long as you're comfortable with `npm link`, you should have no problem getting it to work.
 
+
+**Still curious?**
+
+See [Introduction to Waterline2](./Introduction to Waterline2.pdf) for background on what this even is.  Then see see ROADMAP.md for what's planned and the contribution guidelines.
+
+ However if you're feeling experimental, you [can actually use parts of WL2 in your existing Sails app right now](./USAGE_WITH_SAILS), as long as you're using the >=0.10.x version of Waterline or Sails.  There are some pretty heavy crutches involved, and it's not particularly easy to set up right now, but cool to see nonetheless.  And obviously extremely important for testing if you're looking to get involved as a contributor.  Check out [USAGE_WITH_SAILS.md](./USAGE_WITH_SAILS.md) for details.  As long as you're comfortable with `npm link`, you should have no problem getting it to work.
 
 
 
