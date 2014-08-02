@@ -1,6 +1,6 @@
 {
   "name": "waterline2",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Proposed impl. for next-gen of waterline",
   "main": "index.js",
   "scripts": {
