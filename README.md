@@ -8,11 +8,9 @@
 
 
 
-**Still curious?**
+Still curious?  Okay.  First, see [Introduction to Waterline2](./Introduction to Waterline2.pdf) for background on what this even is.  Then see see ROADMAP.md for what's planned and the contribution guidelines.  Feel free to send suggestions, etc. as PRs.  If you've caught the bug and are interested in becoming a bigger part of the project, please reach out to @mikermcneil, @particlebanana, or @sgress454 on Twitter.
 
-See [Introduction to Waterline2](./Introduction to Waterline2.pdf) for background on what this even is.  Then see see ROADMAP.md for what's planned and the contribution guidelines.
-
-If you're feeling experimental, you [can actually use parts of WL2 in your existing Sails app right now](./USAGE_WITH_SAILS), as long as you're using the >=0.10.x version of Waterline or Sails.  There are some pretty heavy crutches involved, and it's not particularly easy to set up right now, but cool to see nonetheless.  And obviously extremely important for testing if you're looking to get involved as a contributor.  Check out [USAGE_WITH_SAILS.md](./USAGE_WITH_SAILS.md) for details.  As long as you're comfortable with `npm link`, you should have no problem getting it to work.
+If you're feeling experimental, you [can actually use parts of WL2 in your existing Sails app right now](./USAGE_WITH_SAILS), as long as you're using the >=0.10.x version of Waterline and/or Sails.  There are some pretty heavy crutches involved, and it's not particularly easy to set up right now, but cool to see nonetheless.  And obviously extremely important for testing if you're looking to get involved as a contributor.  Check out [USAGE_WITH_SAILS.md](./USAGE_WITH_SAILS.md) for details.  As long as you're comfortable with `npm link`, you should have no problem getting it to work.
 
 
 
