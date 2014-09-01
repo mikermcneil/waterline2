@@ -39,7 +39,7 @@ C(reate)
 D(estroy)
 ```
 
-> (as in, if you tried to do _everything_ wth only find, update, create, and destroy, you'd be FUCED)
+> (as in, if you tried to do _everything_ wth only find, update, create, and destroy, you'd be FUCD)
 
 
 
