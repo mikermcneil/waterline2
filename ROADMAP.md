@@ -12,84 +12,23 @@ The current implementation status, immediate-term plans, and future goals of thi
 
 
 
-## Status
+## Build Status
 
-Some of the features below depend on one another.  When in doubt, these tables should always reflect the most conservative outlook of where we stand, using binary metrics (either supported or its not.)
-
-> ###### Legend
->
->   - :white_check_mark: - supported feature
->   - :white_large_square: - feature not yet implemented
-
-
-### Public API
-
-#### ORM
-
-|                              |                       |
-|------------------------------|-----------------------|
-| **TODO:** finish this        |
-
-#### Datastore
-
-|                              |                       |
-|------------------------------|-----------------------|
-| **TODO:** finish this        |
-
-
-#### Relation
-
-|                              |                       |
-|------------------------------|-----------------------|
-| `.prototype.find()`          | :white_check_mark: 
-| `.prototype.create()`        | :white_large_square:
-| `.prototype.update()`        | :white_large_square:
-| `.prototype.destroy()`       | :white_large_square:
-| `.prototype.findOrCreate()`  | :white_large_square:
-| **TODO:** finish this     |
-
-#### Query
-
-|                              |                       |
-|------------------------------|-----------------------|
-| `.bridge()`                  | :white_check_mark:
-| **TODO:** finish this        |
-
-
-
-### Private API
-
-
-#### Transaction
-
-|                              |                       |
-|------------------------------|-----------------------|
-| **TODO:** finish this        |
-
-#### Adapter
-
-|                              |                       |
-|------------------------------|-----------------------|
-| `.bridge()`                  | :white_check_mark:
-| **TODO:** finish this        |
-
-#### QueryHeap
-
-> Note: Will likely be adapted into a generic buffer heap that can be used for multiple use cases throughout WL2, not just w/i the Query class
-
-The API for this class is likely to change somewhate, since it will likely take over managing buffer identities itself rather than relying on the user to take care of it.  It also needs to store the buffers as an array so that they can overflow through an adapter into the proposed built-in "cache" datastore (i.e. you might choose to use Redis to store the buffer references from your query heaps that don't fit in RAM.  But you might choose to store the records or footprints from the actual _overflowing buffers_ themselves in Mongo, so they can grow bigger.  Similarly you might want to store overflow from the global cache buffer heap in Redis, but a _different_ datastore hosted somewhere else.  you get the idea)
-
-|                              |                       |
-|------------------------------|-----------------------|
-| `.prototype.malloc()`        | :white_check_mark:
-| `.prototype.free()`          | :white_large_square:
-| `.prototype.push()`          | :white_check_mark:
-| `.prototype.get()`           | :white_check_mark:
-| **TODO:** finish this        |
+| Release                                                                                                                 | Install Command                                                | Build Status
+|------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------- | -----------------
+| [![NPM version](https://badge.fury.io/js/sails.png)](https://github.com/balderdashy/sails/tree/stable) _(stable)_       | `npm install sails`                                          | [![Build Status](https://travis-ci.org/balderdashy/sails.png?branch=stable)](https://travis-ci.org/balderdashy/sails) |
+| [edge](https://github.com/balderdashy/sails/tree/master)                                                                | `npm install sails@git://github.com/balderdashy/sails.git` | [![Build Status](https://travis-ci.org/balderdashy/sails.png?branch=master)](https://travis-ci.org/balderdashy/sails) |
 
 
 
 
+## Timeline
+
+~~We'll see how this goes.  Who knows?  Maybe early-mid 2015 or maybe never- depends.  But I wanted to jot down the ideas now rather than letting them fester.~~
+
+~~Actually, part of this module will likely be used in the Waterline 0.10 release.~~
+
+I would still expect early-mid 2015 for the full release of this rewrite, but in the mean time, we'll likely be using parts of it in waterline core.
 
 
 ## Roadmap
@@ -99,22 +38,13 @@ Our short-to-medium-term roadmap items, in order of descending priority:
 _(feel free to suggest things)_
 
 
-
-### Timeline
-
-~~We'll see how this goes.  Who knows?  Maybe early-mid 2015 or maybe never- depends.  But I wanted to jot down the ideas now rather than letting them fester.~~
-
-~~Actually, part of this module will likely be used in the Waterline 0.10 release.~~
-
-I would still expect early-mid 2015 for the full release of this rewrite, but in the mean time, we'll likely be using parts of it in waterline core.
+ Feature                                                  | Owner                                                                            | Details
+ :------------------------------------------------------- | :------------------------------------------------------------------------------- | :------
+ example thing                                            | [@mikermcneil](https://github.com/mikermcneil)                                   | some thing
 
 
-### Todos
 
-Here are our pending roadmap items:
-(feel free to suggest things)
-
-> if things are ~~crossed out~~, that means they're implemented
+> TODO: take the following things and put them in the format of the table above.  If things are ~~crossed out~~, that means they're implemented.
 
 #### Procedural
 
@@ -176,3 +106,87 @@ The backlog consists of features which are not currently in the immediate-term r
  [@mikermcneil](https://github.com/mikermcneil)  | Add support for nested config via env variables        | Actually this is just an example feature request / backlog item.  We could support nested config via env variables by using `__` to represent the `.` (has to be double underscore, single underscore prbly breaks things).  For example: `MYAPP__GENERATOR__OPTIONS__ENGINE` would turn into `generator.options.engine`. (see [tests](https://github.com/mikermcneil/rc/blob/master/test/nested-env-vars.js#L6))
 
 
+
+
+
+
+<!--
+## Where We Stand
+
+
+Some of the features below depend on one another.  When in doubt, these tables should always reflect the most conservative outlook of where we stand, using binary metrics (either supported or its not.)
+
+> ###### Legend
+>
+>   - :white_check_mark: - supported feature
+>   - :white_large_square: - feature not yet implemented
+
+
+
+
+
+### Public API
+
+##### ORM
+
+|                              |                       |
+|------------------------------|-----------------------|
+| **TODO:** finish this        |
+
+##### Datastore
+
+|                              |                       |
+|------------------------------|-----------------------|
+| **TODO:** finish this        |
+
+
+##### Relation
+
+|                              |                       |
+|------------------------------|-----------------------|
+| `.prototype.find()`          | :white_check_mark: 
+| `.prototype.create()`        | :white_large_square:
+| `.prototype.update()`        | :white_large_square:
+| `.prototype.destroy()`       | :white_large_square:
+| `.prototype.findOrCreate()`  | :white_large_square:
+| **TODO:** finish this     |
+
+##### Query
+
+|                              |                       |
+|------------------------------|-----------------------|
+| `.bridge()`                  | :white_check_mark:
+| **TODO:** finish this        |
+
+
+
+### Private API
+
+
+##### Transaction
+
+|                              |                       |
+|------------------------------|-----------------------|
+| **TODO:** finish this        |
+
+##### Adapter
+
+|                              |                       |
+|------------------------------|-----------------------|
+| `.bridge()`                  | :white_check_mark:
+| **TODO:** finish this        |
+
+##### QueryHeap
+
+> Note: Will likely be adapted into a generic buffer heap that can be used for multiple use cases throughout WL2, not just w/i the Query class
+
+The API for this class is likely to change somewhate, since it will likely take over managing buffer identities itself rather than relying on the user to take care of it.  It also needs to store the buffers as an array so that they can overflow through an adapter into the proposed built-in "cache" datastore (i.e. you might choose to use Redis to store the buffer references from your query heaps that don't fit in RAM.  But you might choose to store the records or footprints from the actual _overflowing buffers_ themselves in Mongo, so they can grow bigger.  Similarly you might want to store overflow from the global cache buffer heap in Redis, but a _different_ datastore hosted somewhere else.  you get the idea)
+
+|                              |                       |
+|------------------------------|-----------------------|
+| `.prototype.malloc()`        | :white_check_mark:
+| `.prototype.free()`          | :white_large_square:
+| `.prototype.push()`          | :white_check_mark:
+| `.prototype.get()`           | :white_check_mark:
+| **TODO:** finish this        |
+-->
