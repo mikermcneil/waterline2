@@ -16,7 +16,7 @@ The current implementation status, immediate-term plans, and future goals of thi
 
 | Release                                                                                                                 | Install Command                                                | Build Status
 |------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------- | -----------------
-| [![NPM version](https://badge.fury.io/js/waterline2.png)](https://github.com/mikermcneil/waterline2/tree/stable) _(stable)_       | `npm install waterline2@git://github.com/mikermcneil/waterline2.git#stable`                                          | [![Build Status](https://travis-ci.org/mikermcneil/waterline2.png?branch=stable)](https://travis-ci.org/mikermcneil/waterline2) |
+| [![NPM version](https://badge.fury.io/js/waterline2.png)](https://github.com/mikermcneil/waterline2/tree/stable) _(stable)_       | `npm install waterline2`                                          | [![Build Status](https://travis-ci.org/mikermcneil/waterline2.png?branch=stable)](https://travis-ci.org/mikermcneil/waterline2) |
 | [edge](https://github.com/mikermcneil/waterline2/tree/master)                                                                | `npm install waterline2@git://github.com/mikermcneil/waterline2.git` | [![Build Status](https://travis-ci.org/mikermcneil/waterline2.png?branch=master)](https://travis-ci.org/mikermcneil/waterline2) |
 
 
