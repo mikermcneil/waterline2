@@ -12,7 +12,7 @@ var Waterline = require('../../');
 
 describe('acceptance: basic usage', function (){
 
-  it('should work with sails-memory on npm', function (done) {
+  it('should work with sails-memory from npm', function (done) {
 
     var orm = Waterline({
       adapters: {
@@ -23,18 +23,27 @@ describe('acceptance: basic usage', function (){
           adapter: 'sails-memory'
         }
       },
-      cache: {
-        datastore: 'default',
-        attributes: {}
+      models: {
+        cacheEntry: {
+          datastore: 'default',
+          attributes: {}
+        }
       }
     });
 
 
-    var Cache = orm.model('cache');
+    var CacheEntry = orm.model('cacheEntry');
 
-    Cache.find().exec(console.log);
+    // Test a create and a find.
+    CacheEntry.create().exec(function (err, newCacheEntry) {
+      if (err) return done(err);
 
-    done();
+      CacheEntry.find().exec(function (err, cacheEntries) {
+        if (err) return done(err);
+
+        done();
+      });
+    });
 
   });
 
@@ -45,8 +54,31 @@ describe('acceptance: basic usage', function (){
 function buildSimpleRAMAdapter(){
   var data = {};
 
+  // TODO:
+  // set up some kind of `metadata` object that can be
+  // used by adapter authors.  In the case of sails-memory and sails-disk,
+  // it can also just host the in-memory representation of the dataset.
+
   return {
     apiVersion: '2.0.0',
+
+    ////////////////////////////////////////////////////////////////////////
+    // TODO:
+    // Explore setting up some kind of managed connect/disconnect methods
+    // (similar to registerConnection() and teardown() in v0.0.0 of
+    // the adapter API, but lower-level.  Allows the adapter author to
+    // send back a "connection" object in the callback.)
+    //
+    // Example:
+    // connect: function (datastore, metadata, cb) {
+    //   data[datastore.identity] = {};
+    //   cb();
+    // },
+    // disconnect: function (datastore, metadata, cb) {
+    //   delete data[datastore.identity];
+    //   cb();
+    // },
+    ////////////////////////////////////////////////////////////////////////
 
     find: function (datastore, cid, criteria, cb){
       data[datastore.identity] = data[datastore.identity] || {};
