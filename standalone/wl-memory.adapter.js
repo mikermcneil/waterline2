@@ -36,6 +36,21 @@ module.exports = {
   // used by adapter authors.  In the case of sails-memory and sails-disk,
   // it can also just host the in-memory representation of the dataset.
 
+
+  listCollections: function (datastore, cb){
+    global._globalWaterlineRAMDB = global._globalWaterlineRAMDB || {};
+    global._globalWaterlineRAMDB[datastore.identity] = global._globalWaterlineRAMDB[datastore.identity] || {};
+    cb(null, _.keys(global._globalWaterlineRAMDB[datastore.identity]) || []);
+  },
+  describe: function (datastore, cid, cb){ cb('todo'); },
+  define: function (datastore, cid, modelDef, cb){ cb('todo'); },
+  addIndex: function (datastore, indexName, indexDef, cb){ cb('todo'); },
+  removeIndex: function (datastore, indexName, cb){ cb('todo'); },
+  addField: function (datastore, cid, fieldName, fieldDef, cb){ cb('todo'); },
+  removeField: function (datastore, cid, fieldName, cb){ cb('todo'); },
+  drop: function (datastore, cid, cb){ cb('todo'); },
+
+
   find: function (datastore, cid, criteria, cb){
 
     global._globalWaterlineRAMDB = global._globalWaterlineRAMDB || {};
