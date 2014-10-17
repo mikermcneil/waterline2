@@ -51,7 +51,39 @@ describe('acceptance: basic usage', function (){
 
         assert(_.isObject(cacheEntry));
         assert(!_.isArray(cacheEntry));
-        done();
+
+
+        CacheEntry.update({
+          where: {
+            id: 3
+          }
+        }, {
+          name: 'rick'
+        }).exec(function(err, updatedCacheEntries) {
+          if (err) return done(err);
+
+          assert(_.isArray(updatedCacheEntries));
+          assert.equal(updatedCacheEntries.length,1);
+
+
+          CacheEntry.destroy({
+            where: {
+              id: 3
+            }
+          }).exec(function (err) {
+            if (err) return done(err);
+
+            CacheEntry.find().exec(function (err, cacheEntries) {
+              if (err) return done(err);
+
+              assert(_.isArray(cacheEntries));
+              assert.equal(cacheEntries.length,0, 'Expected record to be destroyed, but it still exists.');
+              done();
+            });
+          });
+
+        });
+
       });
     });
 
@@ -141,7 +173,7 @@ function buildSimpleRAMAdapter(){
       var destroyed = [];
       _.each(indices, function (record, i) {
         var destroyedRecord = data[datastore.identity][cid].splice(i, 1);
-        destroyed.push(removed);
+        destroyed.push(destroyedRecord);
       });
       return cb(null, destroyed);
     }
