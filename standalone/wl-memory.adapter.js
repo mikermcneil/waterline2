@@ -7,6 +7,26 @@ var WLTransform = require('waterline-criteria');
 
 
 
+// Here's an example of the data structure implemented by the global RAM
+// database contained in this module:
+// ====================================================================
+// global._globalWaterlineRAMDB = {
+//   meta: {},
+//   datastores: {
+//     '*': {
+//       meta: {},
+//       collections: {
+//         '*': {
+//           meta: {},
+//           fields: {},
+//           records: [{...}, {...}]
+//         }
+//       }
+//     }
+//   }
+// };
+// ====================================================================
+
 
 
 
