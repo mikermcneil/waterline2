@@ -43,7 +43,7 @@ module.exports = {
     cb(null, _.keys(global._globalWaterlineRAMDB[datastore.identity]) || []);
   },
   describe: function (datastore, cid, cb){ cb('todo'); },
-  define: function (datastore, cid, modelDef, cb){ cb('todo'); },
+  define: function (datastore, cid, attributes, cb){ cb('todo'); },
   addIndex: function (datastore, indexName, indexDef, cb){ cb('todo'); },
   removeIndex: function (datastore, indexName, cb){ cb('todo'); },
   addField: function (datastore, cid, fieldName, fieldDef, cb){ cb('todo'); },
