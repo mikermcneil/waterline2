@@ -2,10 +2,10 @@
  * Module dependencies
  */
 
+var assert = require('assert');
 var _ = require('lodash');
 var WLTransform = require('waterline-criteria');
 var Waterline = require('../../');
-
 
 
 
@@ -40,14 +40,17 @@ describe('acceptance: basic usage', function (){
     }).exec(function (err, newCacheEntry) {
       if (err) return done(err);
 
-      console.log(newCacheEntry);
+      // console.log('created...',newCacheEntry);
 
       CacheEntry.findOne({
-        id: 3
-      }).exec(function (err, cacheEntries) {
+        where: {
+          id: 3
+        }
+      }).exec(function (err, cacheEntry) {
         if (err) return done(err);
 
-        console.log(cacheEntries);
+        assert(_.isObject(cacheEntry));
+        assert(!_.isArray(cacheEntry));
         done();
       });
     });
@@ -98,12 +101,15 @@ function buildSimpleRAMAdapter(){
       }
       catch(e) { return cb(e); }
     },
-    create: function (datastore, cid, values, cb){
+    create: function (datastore, cid, newRecords, cb){
       data[datastore.identity] = data[datastore.identity] || {};
       data[datastore.identity][cid] = data[datastore.identity][cid] || [];
 
-      data[datastore.identity][cid].push(values);
-      cb(null, values);
+      _.each(newRecords, function(newRecord){
+        data[datastore.identity][cid].push(newRecord);
+      });
+
+      cb(null, newRecords);
     },
     update: function (datastore, cid, criteria, values, cb){
       data[datastore.identity] = data[datastore.identity] || {};

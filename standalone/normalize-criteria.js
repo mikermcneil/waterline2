@@ -57,11 +57,21 @@ function normalize (criteriaTree, targetRelation, criteriaMetadata) {
   }
 
   // Check if the tree contains any top-level criteria modifiers
+  //
+  // TODO:
+  // Change this approach!
+  // Currently, it breaks if you have something like { foo: 'bar', from: 'user' }
+  // Instead of detecting non-criteria-modifiers, we should pick out all keys which
+  // are NOT criteria modifiers, hold onto them in a temporary object, then if any
+  // were found, merge them back into the `where` object (or define a WHERE object for them)
+  //
   var criteriaModifiers = _.where(criteriaTree, doesKeyMatch($$.CRITERIA_MODS));
   // If it doesn't, we'll assume all of the keys belong to a "WHERE"
   if (!criteriaModifiers.length) {
     criteriaTree = {where: criteriaTree};
   }
+
+
 
   // Normalize FROM
   criteriaTree = normalizeFromClause(criteriaTree);
