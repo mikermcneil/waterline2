@@ -35,7 +35,7 @@ describe('acceptance: basic usage', function (){
     var CacheEntry = orm.model('cacheEntry');
 
     // Test a create and a find.
-    CacheEntry.create().exec(function (err, newCacheEntry) {
+    CacheEntry.create({}).exec(function (err, newCacheEntry) {
       if (err) return done(err);
 
       CacheEntry.find().exec(function (err, cacheEntries) {
