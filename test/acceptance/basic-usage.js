@@ -94,7 +94,6 @@ describe('acceptance: basic usage', function (){
 
 
 function buildSimpleRAMAdapter(){
-  var data = {};
 
   // TODO:
   // set up some kind of `metadata` object that can be
@@ -113,66 +112,74 @@ function buildSimpleRAMAdapter(){
     //
     // Example:
     // connect: function (datastore, metadata, cb) {
-    //   data[datastore.identity] = {};
+    //   global._globalWaterlineRAMDB[datastore.identity] = {};
     //   cb();
     // },
     // disconnect: function (datastore, metadata, cb) {
-    //   delete data[datastore.identity];
+    //   delete global._globalWaterlineRAMDB[datastore.identity];
     //   cb();
     // },
     ////////////////////////////////////////////////////////////////////////
 
     find: function (datastore, cid, criteria, cb){
-      data[datastore.identity] = data[datastore.identity] || {};
-      data[datastore.identity][cid] = data[datastore.identity][cid] || [];
+
+      global._globalWaterlineRAMDB = global._globalWaterlineRAMDB || {};
+      global._globalWaterlineRAMDB[datastore.identity] = global._globalWaterlineRAMDB[datastore.identity] || {};
+      global._globalWaterlineRAMDB[datastore.identity][cid] = global._globalWaterlineRAMDB[datastore.identity][cid] || [];
 
       var results;
       try {
-        results = WLTransform(data[datastore.identity][cid], criteria).results;
+        results = WLTransform(global._globalWaterlineRAMDB[datastore.identity][cid], criteria).results;
         return cb(null, results);
       }
       catch(e) { return cb(e); }
     },
+
     create: function (datastore, cid, newRecords, cb){
-      data[datastore.identity] = data[datastore.identity] || {};
-      data[datastore.identity][cid] = data[datastore.identity][cid] || [];
+      global._globalWaterlineRAMDB = global._globalWaterlineRAMDB || {};
+      global._globalWaterlineRAMDB[datastore.identity] = global._globalWaterlineRAMDB[datastore.identity] || {};
+      global._globalWaterlineRAMDB[datastore.identity][cid] = global._globalWaterlineRAMDB[datastore.identity][cid] || [];
 
       _.each(newRecords, function(newRecord){
-        data[datastore.identity][cid].push(newRecord);
+        global._globalWaterlineRAMDB[datastore.identity][cid].push(newRecord);
       });
 
       cb(null, newRecords);
     },
+
     update: function (datastore, cid, criteria, values, cb){
-      data[datastore.identity] = data[datastore.identity] || {};
-      data[datastore.identity][cid] = data[datastore.identity][cid] || [];
+      global._globalWaterlineRAMDB = global._globalWaterlineRAMDB || {};
+      global._globalWaterlineRAMDB[datastore.identity] = global._globalWaterlineRAMDB[datastore.identity] || {};
+      global._globalWaterlineRAMDB[datastore.identity][cid] = global._globalWaterlineRAMDB[datastore.identity][cid] || [];
 
       var indices;
       try {
-        indices = WLTransform(data[datastore.identity][cid], criteria).indices;
+        indices = WLTransform(global._globalWaterlineRAMDB[datastore.identity][cid], criteria).indices;
       }
       catch(e) { return cb(e); }
 
       var updated = [];
       _.each(indices, function (i){
-        var updatedRecord = _.extend(data[datastore.identity][cid][i], values);
+        var updatedRecord = _.extend(global._globalWaterlineRAMDB[datastore.identity][cid][i], values);
         updated.push(updatedRecord);
       });
       return cb(null, updated);
     },
+
     destroy: function (datastore, cid, criteria, cb){
-      data[datastore.identity] = data[datastore.identity] || {};
-      data[datastore.identity][cid] = data[datastore.identity][cid] || [];
+      global._globalWaterlineRAMDB = global._globalWaterlineRAMDB || {};
+      global._globalWaterlineRAMDB[datastore.identity] = global._globalWaterlineRAMDB[datastore.identity] || {};
+      global._globalWaterlineRAMDB[datastore.identity][cid] = global._globalWaterlineRAMDB[datastore.identity][cid] || [];
 
       var indices;
       try {
-        indices = WLTransform(data[datastore.identity][cid], criteria).indices;
+        indices = WLTransform(global._globalWaterlineRAMDB[datastore.identity][cid], criteria).indices;
       }
       catch(e) { return cb(e); }
 
       var destroyed = [];
       _.each(indices, function (record, i) {
-        var destroyedRecord = data[datastore.identity][cid].splice(i, 1);
+        var destroyedRecord = global._globalWaterlineRAMDB[datastore.identity][cid].splice(i, 1);
         destroyed.push(destroyedRecord);
       });
       return cb(null, destroyed);
