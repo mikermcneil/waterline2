@@ -6,31 +6,6 @@ var _ = require('lodash');
 var WLTransform = require('waterline-criteria');
 
 
-
-// Here's an example of the data structure implemented by the global RAM
-// database contained in this module:
-// ====================================================================
-// global._globalWaterlineRAMDB = {
-//   meta: {},
-//   datastores: {
-//     '*': {
-//       meta: {},
-//       collections: {
-//         '*': {
-//           meta: {},
-//           fields: {},
-//           records: [{...}, {...}]
-//         }
-//       }
-//     }
-//   }
-// };
-// ====================================================================
-
-
-
-
-
 module.exports = {
   apiVersion: '2.0.0',
 
@@ -58,127 +33,143 @@ module.exports = {
 
 
   listCollections: function (datastore, cb){
-    global._globalWaterlineRAMDB = global._globalWaterlineRAMDB || {};
-    global._globalWaterlineRAMDB.meta = global._globalWaterlineRAMDB.meta || {};
-    global._globalWaterlineRAMDB.datastores = global._globalWaterlineRAMDB.datastores || {};
-    global._globalWaterlineRAMDB.datastores[datastore.identity] = global._globalWaterlineRAMDB.datastores[datastore.identity] || {};
-    global._globalWaterlineRAMDB.datastores[datastore.identity].meta = global._globalWaterlineRAMDB.datastores[datastore.identity].meta || {};
-    global._globalWaterlineRAMDB.datastores[datastore.identity].collections = global._globalWaterlineRAMDB.datastores[datastore.identity].collections || {};
-    cb(null, _.keys(global._globalWaterlineRAMDB.datastores[datastore.identity].collections) || []);
+    var collections = GlobalRAMStore.getDatabase(datastore.identity).collections || [];
+    return cb(null, collections);
   },
   describe: function (datastore, cid, cb){
-    global._globalWaterlineRAMDB = global._globalWaterlineRAMDB || {};
-    global._globalWaterlineRAMDB.meta = global._globalWaterlineRAMDB.meta || {};
-    global._globalWaterlineRAMDB.datastores = global._globalWaterlineRAMDB.datastores || {};
-    global._globalWaterlineRAMDB.datastores[datastore.identity] = global._globalWaterlineRAMDB.datastores[datastore.identity] || {};
-    global._globalWaterlineRAMDB.datastores[datastore.identity].meta = global._globalWaterlineRAMDB.datastores[datastore.identity].meta || {};
-    global._globalWaterlineRAMDB.datastores[datastore.identity].collections = global._globalWaterlineRAMDB.datastores[datastore.identity].collections || {};
-    global._globalWaterlineRAMDB.datastores[datastore.identity].collections[cid] = global._globalWaterlineRAMDB.datastores[datastore.identity].collections[cid] || {};
-    global._globalWaterlineRAMDB.datastores[datastore.identity].collections[cid].records = global._globalWaterlineRAMDB.datastores[datastore.identity].collections[cid].records || [];
-    global._globalWaterlineRAMDB.datastores[datastore.identity].collections[cid].fields = global._globalWaterlineRAMDB.datastores[datastore.identity].collections[cid].fields || [];
-    global._globalWaterlineRAMDB.datastores[datastore.identity].collections[cid].meta = global._globalWaterlineRAMDB.datastores[datastore.identity].collections[cid].meta || {};
-    cb(null, global._globalWaterlineRAMDB.datastores[datastore.identity].collections[cid].fields);
+    var fields = GlobalRAMStore.getCollection(datastore.identity, cid).fields;
+    return cb(null, fields);
   },
-  define: function (datastore, cid, attributes, cb){
+  define: function (datastore, cid, fields, cb){
+    var db = GlobalRAMStore.getDatabase(datastore.identity);
+    db.collections[cid] = {
+      meta: {},
+      fields: fields,
+      records: []
+    };
+    return cb();
+  },
+
+  addIndex: function (datastore, indexName, indexDef, cb){
     cb('todo');
   },
-  addIndex: function (datastore, indexName, indexDef, cb){ cb('todo'); },
-  removeIndex: function (datastore, indexName, cb){ cb('todo'); },
-  addField: function (datastore, cid, fieldName, fieldDef, cb){ cb('todo'); },
-  removeField: function (datastore, cid, fieldName, cb){ cb('todo'); },
-  drop: function (datastore, cid, cb){ cb('todo'); },
+
+  removeIndex: function (datastore, indexName, cb){
+    cb('todo');
+  },
+
+  addField: function (datastore, cid, fieldName, fieldDef, cb){
+    cb('todo');
+  },
+
+  removeField: function (datastore, cid, fieldName, cb){
+    cb('todo');
+  },
+
+  drop: function (datastore, cid, cb){
+    cb('todo');
+  },
 
 
   find: function (datastore, cid, criteria, cb){
 
-    global._globalWaterlineRAMDB = global._globalWaterlineRAMDB || {};
-    global._globalWaterlineRAMDB.meta = global._globalWaterlineRAMDB.meta || {};
-    global._globalWaterlineRAMDB.datastores = global._globalWaterlineRAMDB.datastores || {};
-    global._globalWaterlineRAMDB.datastores[datastore.identity] = global._globalWaterlineRAMDB.datastores[datastore.identity] || {};
-    global._globalWaterlineRAMDB.datastores[datastore.identity].meta = global._globalWaterlineRAMDB.datastores[datastore.identity].meta || {};
-    global._globalWaterlineRAMDB.datastores[datastore.identity].collections = global._globalWaterlineRAMDB.datastores[datastore.identity].collections || {};
-    global._globalWaterlineRAMDB.datastores[datastore.identity].collections[cid] = global._globalWaterlineRAMDB.datastores[datastore.identity].collections[cid] || {};
-    global._globalWaterlineRAMDB.datastores[datastore.identity].collections[cid].records = global._globalWaterlineRAMDB.datastores[datastore.identity].collections[cid].records || [];
-    global._globalWaterlineRAMDB.datastores[datastore.identity].collections[cid].fields = global._globalWaterlineRAMDB.datastores[datastore.identity].collections[cid].fields || [];
-    global._globalWaterlineRAMDB.datastores[datastore.identity].collections[cid].meta = global._globalWaterlineRAMDB.datastores[datastore.identity].collections[cid].meta || {};
+    var allRecords = GlobalRAMStore.getCollection(datastore.identity, cid).records;
 
     var results;
     try {
-      results = WLTransform(global._globalWaterlineRAMDB.datastores[datastore.identity].collections[cid].records, criteria).results;
+      results = WLTransform(allRecords, criteria).results;
       return cb(null, results);
     }
     catch(e) { return cb(e); }
   },
 
   create: function (datastore, cid, newRecords, cb){
-    global._globalWaterlineRAMDB = global._globalWaterlineRAMDB || {};
-    global._globalWaterlineRAMDB.meta = global._globalWaterlineRAMDB.meta || {};
-    global._globalWaterlineRAMDB.datastores = global._globalWaterlineRAMDB.datastores || {};
-    global._globalWaterlineRAMDB.datastores[datastore.identity] = global._globalWaterlineRAMDB.datastores[datastore.identity] || {};
-    global._globalWaterlineRAMDB.datastores[datastore.identity].meta = global._globalWaterlineRAMDB.datastores[datastore.identity].meta || {};
-    global._globalWaterlineRAMDB.datastores[datastore.identity].collections = global._globalWaterlineRAMDB.datastores[datastore.identity].collections || {};
-    global._globalWaterlineRAMDB.datastores[datastore.identity].collections[cid] = global._globalWaterlineRAMDB.datastores[datastore.identity].collections[cid] || {};
-    global._globalWaterlineRAMDB.datastores[datastore.identity].collections[cid].records = global._globalWaterlineRAMDB.datastores[datastore.identity].collections[cid].records || [];
-    global._globalWaterlineRAMDB.datastores[datastore.identity].collections[cid].fields = global._globalWaterlineRAMDB.datastores[datastore.identity].collections[cid].fields || [];
-    global._globalWaterlineRAMDB.datastores[datastore.identity].collections[cid].meta = global._globalWaterlineRAMDB.datastores[datastore.identity].collections[cid].meta || {};
+    var allRecords = GlobalRAMStore.getCollection(datastore.identity, cid).records;
 
     _.each(newRecords, function(newRecord){
-      global._globalWaterlineRAMDB.datastores[datastore.identity].collections[cid].records.push(newRecord);
+      allRecords.push(newRecord);
     });
 
     cb(null, newRecords);
   },
 
   update: function (datastore, cid, criteria, values, cb){
-    global._globalWaterlineRAMDB = global._globalWaterlineRAMDB || {};
-    global._globalWaterlineRAMDB.meta = global._globalWaterlineRAMDB.meta || {};
-    global._globalWaterlineRAMDB.datastores = global._globalWaterlineRAMDB.datastores || {};
-    global._globalWaterlineRAMDB.datastores[datastore.identity] = global._globalWaterlineRAMDB.datastores[datastore.identity] || {};
-    global._globalWaterlineRAMDB.datastores[datastore.identity].meta = global._globalWaterlineRAMDB.datastores[datastore.identity].meta || {};
-    global._globalWaterlineRAMDB.datastores[datastore.identity].collections = global._globalWaterlineRAMDB.datastores[datastore.identity].collections || {};
-    global._globalWaterlineRAMDB.datastores[datastore.identity].collections[cid] = global._globalWaterlineRAMDB.datastores[datastore.identity].collections[cid] || {};
-    global._globalWaterlineRAMDB.datastores[datastore.identity].collections[cid].records = global._globalWaterlineRAMDB.datastores[datastore.identity].collections[cid].records || [];
-    global._globalWaterlineRAMDB.datastores[datastore.identity].collections[cid].fields = global._globalWaterlineRAMDB.datastores[datastore.identity].collections[cid].fields || [];
-    global._globalWaterlineRAMDB.datastores[datastore.identity].collections[cid].meta = global._globalWaterlineRAMDB.datastores[datastore.identity].collections[cid].meta || {};
+    var allRecords = GlobalRAMStore.getCollection(datastore.identity, cid).records;
 
     var indices;
     try {
-      indices = WLTransform(global._globalWaterlineRAMDB.datastores[datastore.identity].collections[cid].records, criteria).indices;
+      indices = WLTransform(allRecords, criteria).indices;
     }
     catch(e) { return cb(e); }
 
     var updated = [];
     _.each(indices, function (i){
-      var updatedRecord = _.extend(global._globalWaterlineRAMDB.datastores[datastore.identity].collections[cid].records[i], values);
-      updated.push(updatedRecord);
+      allRecords[i] = _.extend(allRecords[i], values);
+      updated.push(allRecords[i]);
     });
     return cb(null, updated);
   },
 
 
   destroy: function (datastore, cid, criteria, cb){
-    global._globalWaterlineRAMDB = global._globalWaterlineRAMDB || {};
-    global._globalWaterlineRAMDB.meta = global._globalWaterlineRAMDB.meta || {};
-    global._globalWaterlineRAMDB.datastores = global._globalWaterlineRAMDB.datastores || {};
-    global._globalWaterlineRAMDB.datastores[datastore.identity] = global._globalWaterlineRAMDB.datastores[datastore.identity] || {};
-    global._globalWaterlineRAMDB.datastores[datastore.identity].meta = global._globalWaterlineRAMDB.datastores[datastore.identity].meta || {};
-    global._globalWaterlineRAMDB.datastores[datastore.identity].collections = global._globalWaterlineRAMDB.datastores[datastore.identity].collections || {};
-    global._globalWaterlineRAMDB.datastores[datastore.identity].collections[cid] = global._globalWaterlineRAMDB.datastores[datastore.identity].collections[cid] || {};
-    global._globalWaterlineRAMDB.datastores[datastore.identity].collections[cid].records = global._globalWaterlineRAMDB.datastores[datastore.identity].collections[cid].records || [];
-    global._globalWaterlineRAMDB.datastores[datastore.identity].collections[cid].fields = global._globalWaterlineRAMDB.datastores[datastore.identity].collections[cid].fields || [];
-    global._globalWaterlineRAMDB.datastores[datastore.identity].collections[cid].meta = global._globalWaterlineRAMDB.datastores[datastore.identity].collections[cid].meta || {};
+    var allRecords = GlobalRAMStore.getCollection(datastore.identity, cid).records;
 
     var indices;
     try {
-      indices = WLTransform(global._globalWaterlineRAMDB.datastores[datastore.identity].collections[cid].records, criteria).indices;
+      indices = WLTransform(allRecords, criteria).indices;
     }
     catch(e) { return cb(e); }
 
     var destroyed = [];
     _.each(indices, function (record, i) {
-      var destroyedRecord = global._globalWaterlineRAMDB.datastores[datastore.identity].collections[cid].records.splice(i, 1);
+      var destroyedRecord = allRecords.splice(i, 1);
       destroyed.push(destroyedRecord);
     });
     return cb(null, destroyed);
   }
 };
+
+
+
+
+
+
+// Here's an example of the data structure implemented by the global RAM
+// database contained in this module:
+// ====================================================================
+// global._globalWaterlineRAMDB = {
+//   meta: {},
+//   datastores: {
+//     '*': {
+//       meta: {},
+//       collections: {
+//         '*': {
+//           meta: {},
+//           fields: {},
+//           records: [{...}, {...}]
+//         }
+//       }
+//     }
+//   }
+// };
+// ====================================================================
+
+var GlobalRAMStore = {};
+GlobalRAMStore.getDatabase = function(datastoreIdentity) {
+  global._globalWaterlineRAMDB = global._globalWaterlineRAMDB || {};
+  global._globalWaterlineRAMDB.meta = global._globalWaterlineRAMDB.meta || {};
+  global._globalWaterlineRAMDB.datastores = global._globalWaterlineRAMDB.datastores || {};
+  global._globalWaterlineRAMDB.datastores[datastoreIdentity] = global._globalWaterlineRAMDB.datastores[datastoreIdentity] || {};
+  global._globalWaterlineRAMDB.datastores[datastoreIdentity].meta = global._globalWaterlineRAMDB.datastores[datastoreIdentity].meta || {};
+  global._globalWaterlineRAMDB.datastores[datastoreIdentity].collections = global._globalWaterlineRAMDB.datastores[datastoreIdentity].collections || {};
+  return global._globalWaterlineRAMDB.datastores[datastoreIdentity];
+};
+GlobalRAMStore.getCollection = function(datastoreIdentity, cid) {
+  GlobalRAMStore.getDatabase(datastoreIdentity);
+  global._globalWaterlineRAMDB.datastores[datastoreIdentity].collections[cid] = global._globalWaterlineRAMDB.datastores[datastoreIdentity].collections[cid] || {};
+  global._globalWaterlineRAMDB.datastores[datastoreIdentity].collections[cid].records = global._globalWaterlineRAMDB.datastores[datastoreIdentity].collections[cid].records || [];
+  global._globalWaterlineRAMDB.datastores[datastoreIdentity].collections[cid].fields = global._globalWaterlineRAMDB.datastores[datastoreIdentity].collections[cid].fields || [];
+  global._globalWaterlineRAMDB.datastores[datastoreIdentity].collections[cid].meta = global._globalWaterlineRAMDB.datastores[datastoreIdentity].collections[cid].meta || {};
+  return global._globalWaterlineRAMDB.datastores[datastoreIdentity].collections[cid];
+};
+
