@@ -45,7 +45,7 @@ D(estroy)
 
 ### Map/Reduce
 
-[FLWOR's power](http://www.nonstopibiza.com/news_images/1252682465.jpg) is that it allows for map/reduce operations, where FUCD doesn't.  
+[FLWOR's power](http://www.nonstopibiza.com/news_images/1252682465.jpg) is that it allows for map/reduce operations, where FUCD doesn't.
 
 **Tuple Templating (Map)**
 
@@ -56,4 +56,4 @@ This allows a query author to perscribe the output format of the query and avoid
 **Custom Aggregates and Aggregate Clauses (Reduce)**
 FLWOR makes aggregations more flexible and simplifies the implementation of intermediately complex aggregation functions.  However, while FUCD is perhaps more pedestrian, it is concise and simple for non-technical folks to understand.
 
-With `FOR`, `LET`, and `RETURN`, FLWOR gives us pretty much everything we need to build pretty much any referentially transparent function.
+With `FOR`, `LET`, and `RETURN`, FLWOR gives us everything we need to build pretty much any referentially transparent function.
