@@ -50,24 +50,52 @@ module.exports = {
     return cb();
   },
 
-  addIndex: function (datastore, indexName, indexDef, cb){
-    cb('todo');
+  addIndex: function (datastore, cid, iid, indexDef, cb){
+    var collection = GlobalRAMStore.getCollection(datastore.identity, cid);
+    collection.meta.indices = collection.meta.indices || [];
+    collection.meta.indices.push({
+      id: iid,
+      // example `fields`:  ['firstName', 'lastName']
+      fields: indexDef.fields,
+      unique: _.isUndefined(indexDef.unique) ? false : indexDef.unique
+    });
+    return cb();
   },
 
-  removeIndex: function (datastore, indexName, cb){
-    cb('todo');
+  removeIndex: function (datastore, cid, iid, cb){
+    var collection = GlobalRAMStore.getCollection(datastore.identity, cid);
+    collection.meta.indices = collection.meta.indices || [];
+    _.remove(collection.meta.indices, {
+      id: iid
+    });
+    return cb();
+  },
+
+  // listIndexes: function (datastore, cb){
+  //   TODO: in WL core, make an alias for listIndexes which automatically fwds
+  // },
+  listIndices: function (datastore, cb){
+    var collection = GlobalRAMStore.getCollection(datastore.identity, cid);
+    collection.meta.indices = collection.meta.indices || [];
+    return cb(null, collection.meta.indices);
   },
 
   addField: function (datastore, cid, fieldName, fieldDef, cb){
-    cb('todo');
+    var db = GlobalRAMStore.getDatabase(datastore.identity);
+    db.collections[cid].fields[fieldName] = fieldDef;
+    return cb();
   },
 
   removeField: function (datastore, cid, fieldName, cb){
-    cb('todo');
+    var db = GlobalRAMStore.getDatabase(datastore.identity);
+    delete db.collections[cid].fields[fieldName];
+    return cb();
   },
 
   drop: function (datastore, cid, cb){
-    cb('todo');
+    var db = GlobalRAMStore.getDatabase(datastore.identity);
+    delete db.collections[cid];
+    return cb();
   },
 
 
@@ -168,7 +196,7 @@ GlobalRAMStore.getCollection = function(datastoreIdentity, cid) {
   GlobalRAMStore.getDatabase(datastoreIdentity);
   global._globalWaterlineRAMDB.datastores[datastoreIdentity].collections[cid] = global._globalWaterlineRAMDB.datastores[datastoreIdentity].collections[cid] || {};
   global._globalWaterlineRAMDB.datastores[datastoreIdentity].collections[cid].records = global._globalWaterlineRAMDB.datastores[datastoreIdentity].collections[cid].records || [];
-  global._globalWaterlineRAMDB.datastores[datastoreIdentity].collections[cid].fields = global._globalWaterlineRAMDB.datastores[datastoreIdentity].collections[cid].fields || [];
+  global._globalWaterlineRAMDB.datastores[datastoreIdentity].collections[cid].fields = global._globalWaterlineRAMDB.datastores[datastoreIdentity].collections[cid].fields || {};
   global._globalWaterlineRAMDB.datastores[datastoreIdentity].collections[cid].meta = global._globalWaterlineRAMDB.datastores[datastoreIdentity].collections[cid].meta || {};
   return global._globalWaterlineRAMDB.datastores[datastoreIdentity].collections[cid];
 };
