@@ -71,7 +71,7 @@ See the source code.  Play around with it, have a good time you know
 
 ## Contributing
 
-See [ROADMAP.md](./ROADMAP.md). (it's slightly out of date)
+See [ROADMAP.md](./ROADMAP.md).
 
 
 ## License
