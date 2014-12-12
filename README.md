@@ -1,10 +1,8 @@
 # Waterline 2.0 Draft
 
-> **Please do not use this module in production.**
+> Waterline2 is not currently ready for production use yet, but it _is_ where all new feature development in Waterline will occur, to allow us to get the current [stable v0.x Waterline code base](https://github.com/balderdashy/waterline) to v1.0 status.
 >
-> Waterline2 is not currently ready for production use and is not actively maintained.  _It is only a proposal_ at this point.
->
-> **Instead, check out the [current stable version of Waterline](https://github.com/balderdashy/waterline).  It is actively developed and is the core team's main focus.**
+> This repo is where all development of recursive joins (aka "populate deep"), projections, WHERE subqueries, and all other new features is taking place.
 
 
 
