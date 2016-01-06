@@ -1,10 +1,8 @@
 # Waterline 2.0 Draft
 
-> Waterline2 is not currently ready for production use yet, but it _is_ where all new feature development in Waterline will occur, to allow us to get the current [stable v0.x Waterline code base](https://github.com/balderdashy/waterline) to v1.0 status.
+> Waterline2 is not currently ready for production use yet; this repo is a draft and proposal.  If you're using Waterline today, you should definitely visit the [stable v0.x Waterline code base here](https://github.com/balderdashy/waterline).
 >
-> This repo is where all development of recursive joins (aka "populate deep"), projections, WHERE subqueries, and all other new features is taking place.
-
-
+> That said if you are interested in contributing to features like recursive joins (aka "populate deep"), advanced aggregations, and WHERE subqueries, the many months of research and toil in this repo is the place to start.
 
 Still curious?  Okay.  First, see [Introduction to Waterline2](./Introduction to Waterline2.pdf) for background on what this even is.  Then see see ROADMAP.md for what's planned and the contribution guidelines.  Feel free to send suggestions, etc. as PRs.  If you've caught the bug and are interested in becoming a bigger part of the project, please reach out to @mikermcneil, @particlebanana, or @sgress454 on Twitter.
 
