@@ -1,7 +1,4 @@
-## Waterline2 is ON HOLD
-#### This means that all effort on new Waterline development should be directed to the current project: https://github.com/balderdashy/waterline. If you'd like to see WL2 ideas incorporated into Waterline, please file an issue, or even better, a Pull Request. Waterline 2 is not currently scheduled for development.
-
-### Waterline 2.0 Draft
+# Waterline 2.0 Draft
 
 > Waterline2 is not currently ready for production use yet, but it _is_ where all new feature development in Waterline will occur, to allow us to get the current [stable v0.x Waterline code base](https://github.com/balderdashy/waterline) to v1.0 status.
 >
