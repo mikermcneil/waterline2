@@ -2,7 +2,7 @@
 
 > If you're using Waterline today, you should definitely visit the [stable v0.x Waterline code base here](https://github.com/balderdashy/waterline) if you haven't already.
 >
-> That said if you are interested in contributing to features like recursive joins (aka "populate deep"), advanced aggregations, and WHERE subqueries, the many months of research and toil in this repo is the place to start.
+> That said if you are interested in contributing to features like recursive, cross-adapter joins (aka "populate deep"), advanced aggregations, and WHERE ("whose") subqueries, then the many months of research and toil in this repo is the place to start.
 
 Still curious?  You should read [this GitHub issue](https://github.com/balderdashy/waterline/pull/1052#issuecomment-195144878).
 
